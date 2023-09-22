@@ -3,14 +3,14 @@
 import unittest
 import numpy as np
 import pprint
-from .resize import Resize
-from .centergrid import centergrid
-from .translate_image import translate_image
-from .normgrad import normgrad
-from .npreg import NPreg
-from .transform import TransformLinear
-from .cells import ctransposecell, innerprodcell
-from .multilevel import *
+from NPreg.resize import Resize
+from NPreg.centergrid import centergrid
+from NPreg.translate_image import translate_image
+from NPreg.normgrad import normgrad
+from NPreg.npreg import NPreg
+from NPreg.transform import TransformLinear
+from NPreg.cells import ctransposecell, innerprodcell
+from NPreg.multilevel import *
 # import dicomlib.headers as headers
 
 import cProfile
@@ -44,7 +44,7 @@ class TestResizeFunctions(unittest.TestCase):
 
 class TestGrid(unittest.TestCase):
     def test_centergrid(self):
-        dim = np.array([3, 4, 4], dtype=np.int)
+        dim = np.array([3, 4, 4], dtype=int)
         h = np.array([1., 1., 1.])
         x, minx, maxx = centergrid(dim, h)
         np.testing.assert_array_equal(x[0], np.array(
@@ -70,7 +70,7 @@ def create_linear_3d_matrix(shape):
 
 class TestTransform(unittest.TestCase):
     def test_linear_simple(self):
-        dim = np.array([2, 3, 4], dtype=np.int)
+        dim = np.array([2, 3, 4], dtype=int)
         h = np.array([1., 1., 1.])
         ext = LevelExt()
         x, ext.minx, ext.maxx = centergrid(dim, h)
@@ -275,7 +275,7 @@ class TestMultilevel(unittest.TestCase):
 
     def test_solve_nonlinearfp(self):
         print("\ntest_solve_nonlinearfp:\n\n")
-        dim = np.array([4, 4, 4], dtype=np.int)
+        dim = np.array([4, 4, 4], dtype=int)
         h = np.array([1., 1., 1.])
         ext = LevelExt()
         x, ext.minx, ext.maxx = centergrid(dim, h)
@@ -333,7 +333,7 @@ class TestMultilevel(unittest.TestCase):
 
     def test_register_volume(self):
         print("\ntest_register_volume:\n\n")
-        dim = np.array([4, 4, 4], dtype=np.int)
+        dim = np.array([4, 4, 4], dtype=int)
         h = np.array([1., 1., 1.])
         ext = LevelExt()
         x, ext.minx, ext.maxx = centergrid(dim, h)

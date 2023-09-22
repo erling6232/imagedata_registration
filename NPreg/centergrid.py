@@ -15,7 +15,7 @@ def centergrid(dim, h):
     # x = cell(ndim,1)
     x = {}
     for i in range(ndim):
-        x[i] = np.arange(-mid[i] + 1, mid[i], h[i], dtype=np.float)
+        x[i] = np.arange(-mid[i] + 1, mid[i], h[i], dtype=float)
 
     if ndim == 2:
         x['row'] = x[0]

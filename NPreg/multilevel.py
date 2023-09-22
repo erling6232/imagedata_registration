@@ -131,10 +131,10 @@ class Multilevel(object):
             # self.level[m].u = np.zeros([self.ndim, nt,nz,ny,nx], dtype=np.float32)
             for i in range(self.ndim):
                 if u is None:
-                    self.level[m].u[i] = np.zeros(self.level[m].dim, dtype=np.float)
+                    self.level[m].u[i] = np.zeros(self.level[m].dim, dtype=float)
                 else:
                     rsu = Resize(u[i])
-                    self.level[m].u[i] = rsu.resizeBilinear(self.level[m].dim).astype(np.float)
+                    self.level[m].u[i] = rsu.resizeBilinear(self.level[m].dim).astype(float)
                     # float32: to save memory
         # print("set_deformation_field: self.level[0].u"); pprint.pprint(self.level[0].u)
 
@@ -145,7 +145,7 @@ class Multilevel(object):
             self.level[m].dgn, self.level[m].dg, temp = normgrad(self.level[m].fixed, self.eta, self.level[m].h)
             # for i in self.level[m].dgn.keys():
             self.level[m].absdgn2 = innerprodcell(self.level[m].dgn, self.level[m].dgn)
-            absgradg = np.zeros(self.level[m].dim3, dtype=np.float)
+            absgradg = np.zeros(self.level[m].dim3, dtype=float)
 
             for j in range(nudim):
                 absgradg = absgradg + self.level[m].dg[j] ** 2
