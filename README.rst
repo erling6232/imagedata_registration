@@ -1,6 +1,6 @@
-######################
-imagedata-registration
-######################
+#################################
+Image registration with imagedata
+#################################
 
 |Docs Badge| |buildstatus|  |coverage| |pypi|
 
