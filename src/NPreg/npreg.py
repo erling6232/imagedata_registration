@@ -6,7 +6,7 @@ This is the where the real registration work is done.
 import numpy as np
 from math import sqrt
 from .resize import Resize
-from .multilevel import CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3
+from .multilevel import Multilevel, CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3
 from .centergrid import centergrid
 from .transform import TransformLinear
 from .gradientreg import gradientreg
@@ -165,7 +165,7 @@ class NPreg(object):
             # Solve equation by a linear system, also fixed point iterations
             elif self.multigridsolver == MULTIGRID_SOLVER_LINEARFP:
                 raise ValueError("MULTIGRID_SOLVER_LINEARFP is not implemented.")
-                solve_linearfp(self.multi.level)
+                # solve_linearfp(self.multi.level)
             else:
                 raise ValueError('Value "%s" of self.multigridsolver is unknown.' % self.multigridsolver)
 
