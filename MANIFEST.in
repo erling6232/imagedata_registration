@@ -1,14 +1,8 @@
 # Include the README
 include *.rst
 
-# Include the license file
-include LICENSE.txt
-
-# Include version file
-include VERSION.txt
-
 # Do not distribute test data
-include data
+# include data
 prune .idea
 include docs
 prune docs/_build
@@ -18,7 +12,8 @@ recursive-include src *.pyx
 recursive-include src Makefile
 
 # include *.py
-include *.yaml
+include *.toml
+# include *.yaml
 include Makefile
 include tox.ini
 exclude .coveragerc

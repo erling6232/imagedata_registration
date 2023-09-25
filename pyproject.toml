@@ -53,3 +53,7 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 # packages = ["NPreg"]
 
 # [tool.setuptools.dynamic]
+
+[build-system]
+requires = ["flit"]
+build-backend = "flit.api:main"
