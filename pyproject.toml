@@ -4,7 +4,8 @@ requires = [
     "wheel",
     # "importlib",
     "cython",
-    "imagedata>=3.0.0"
+    "imagedata>=3.0.0",
+    "cupy"
 ]
 build-backend = "setuptools.build_meta"
 
