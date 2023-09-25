@@ -505,10 +505,10 @@ def navlam_nonlinear(forceu, u_in, prm):
     iterating). See page 100 in 'A multigrid tutorial'
     """
 
-    # u = u_in.copy() # Do not modify input
-    # u = {}
-    # for key in u_in.keys():
-    #    u[key] = cp.asarray(u_in[key])
+    u = u_in.copy() # Do not modify input
+    u = {}
+    for key in u_in.keys():
+       u[key] = cp.asarray(u_in[key])
 
     # prm must contain
     if type(prm['maxniter']) is tuple:
