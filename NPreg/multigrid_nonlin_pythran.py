@@ -4,6 +4,7 @@ import numpy as np
 # from .cells import print_cell
 from .resize import Resize
 from .navlam_nonlinear_3 import navlam_nonlinear_3
+cimport cython
 
 
 DTYPE = np.float64
