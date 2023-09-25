@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
+import numpy as np
 from src.NPreg.resize import Resize
 from src.NPreg.centergrid import centergrid
 from src.NPreg.translate_image import translate_image
