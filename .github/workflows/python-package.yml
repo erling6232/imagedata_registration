@@ -27,8 +27,9 @@ jobs:
     - name: Install cuda-toolkit
       id: cuda-toolkit
       uses: Jimver/cuda-toolkit@v0.2.11
-      #with:
+      with:
       #  cuda: '12.1.0'
+        linux-local-args: '["--toolkit"]'
     - name: Verify cuda-toolkit
       run: |
         echo "Installed cuda version is: ${{steps.cuda-toolkit.output.cuda}}"
