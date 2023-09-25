@@ -2,6 +2,9 @@
 
 import unittest
 import numpy as np
+import pprint
+from imagedata.series import Series
+
 from src.NPreg.resize import Resize
 from src.NPreg.centergrid import centergrid
 from src.NPreg.translate_image import translate_image
@@ -9,9 +12,8 @@ from src.NPreg.normgrad import normgrad
 from src.NPreg.npreg import NPreg
 from src.NPreg.transform import TransformLinear
 from src.NPreg.cells import ctransposecell, innerprodcell
-# import dicomlib.headers as headers
+from src.NPreg.multilevel import Level, LevelExt, Multilevel
 
-from imagedata.series import Series
 
 
 class TestResizeFunctions(unittest.TestCase):
