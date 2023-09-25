@@ -41,7 +41,8 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps."
 ]
 dependencies = [
-    "imagedata>=3.0.0"
+    "imagedata>=3.0.0",
+    "cupy"
 ]
 
 [project.urls]
