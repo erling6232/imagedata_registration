@@ -4,9 +4,11 @@ import time
 import numpy as np
 try:
     import cupy as cp
-except Exception:
-    pass
-from .cells import print_cell
+    loaded_cupy = True
+except Exception as e:
+    print('Could not load cupy:\n{}'.format(e))
+    loaded_cupy = False
+# from .cells import print_cell
 from .resize import Resize
 
 
@@ -507,6 +509,9 @@ def navlam_nonlinear(forceu, u_in, prm):
     Fix point iterations (isolating the unknown on left hand side and
     iterating). See page 100 in 'A multigrid tutorial'
     """
+
+    if not loaded_cupy:
+        raise Exception('No CUDA available.')
 
     u = u_in.copy() # Do not modify input
     u = {}
