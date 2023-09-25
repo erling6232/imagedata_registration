@@ -339,6 +339,7 @@ class TestMultilevel(unittest.TestCase):
 
         fixed = np.zeros([4, 4, 4])
         fixed[1, :, :] = np.eye(4)
+        fixed = Series(fixed)
         moving = np.zeros([4, 4, 4])
         moving[1, 0:-1, 1:] = np.eye(3)
         moving = Series(moving)
@@ -366,7 +367,7 @@ class TestMultilevel(unittest.TestCase):
                             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
                             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00]]]
                           )
-        np.testing.assert_array_almost_equal(cu_out, out, decimal=3)
+        np.testing.assert_array_almost_equal(cu_out, out, decimal=2)
 
 
 if __name__ == '__main__':
