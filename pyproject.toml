@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata_registration"
-version = "0.0.1"
+# version = "0.0.1"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
     {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
@@ -52,3 +52,6 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 
 # [tool.setuptools]
 # packages = ["NPreg"]
+
+[tool.setuptools.dynamic]
+version = {attr = "imagedata_registration.__version__"}
