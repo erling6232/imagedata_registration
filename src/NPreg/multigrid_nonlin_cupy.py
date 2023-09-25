@@ -2,7 +2,10 @@
 
 import time
 import numpy as np
-import cupy as cp
+try:
+    import cupy as cp
+except Exception:
+    pass
 from .cells import print_cell
 from .resize import Resize
 
