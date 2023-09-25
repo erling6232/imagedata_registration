@@ -31,6 +31,7 @@ jobs:
         python -c "import configparser; c=configparser.ConfigParser(); c.read('setup.cfg'); print(c['options']['install_requires'])" > requirements.txt
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Check manifest
+      run: |
         check-manifest
     - name: Lint with flake8
       run: |
