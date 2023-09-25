@@ -62,7 +62,7 @@ def multigrid_nonlin(forceu, u_in, prm):
             if prm['nudim'] == 2:
                 u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_3(
+                u[l] = navlam_nonlinear_highlevel(
                     forceu[l][0], forceu[l][1], forceu[l][2],
                     v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
@@ -104,7 +104,7 @@ def multigrid_nonlin(forceu, u_in, prm):
             if prm['nudim'] == 2:
                 u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_3(
+                u[l] = navlam_nonlinear_highlevel(
                     forceu[l][0], forceu[l][1], forceu[l][2],
                     v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
@@ -134,7 +134,7 @@ def multigrid_nonlin(forceu, u_in, prm):
             if prm['nudim'] == 2:
                 u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_3(
+                u[l] = navlam_nonlinear_highlevel(
                     forceu[l][0], forceu[l][1], forceu[l][2],
                     v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
