@@ -7,3 +7,48 @@ requires = [
     "imagedata>=3.0.0"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "imagedata_registration"
+version = "file: VERSION.txt"
+authors = [
+    {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
+    {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
+]
+maintainers = [
+    {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"}
+]
+description = "Image registration routines for Imagedata"
+readme = "README.rst"
+requires-python = ">=3.8,<3.12"
+keywords = [
+    "python",
+    "medical",
+    "imaging",
+    "image registration"
+]
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
+    "Environment :: Other Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Medical Science Apps."
+]
+dependencies = [
+    "imagedata>=3.0.0"
+]
+# dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://imagedata_registration.readthedocs.io"
+SourceCode = "https://github.com/erling6232/imagedata_registration"
+Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
+
+# [tool.setuptools]
+# packages = ["NPreg"]
