@@ -43,7 +43,7 @@ classifiers = [
 dependencies = [
     "imagedata>=3.0.0"
 ]
-optional_dependencies = [
+optional-dependencies = [
     "cupy"
 ]
 
