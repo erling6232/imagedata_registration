@@ -21,7 +21,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     mu = prm['mu']
     dt = prm['dt']
 
-    interpmethod = 'bilinear';
+    interpmethod = 'bilinear'
 
     nmultilevel = np.unique(level).size
     dim3 = {}

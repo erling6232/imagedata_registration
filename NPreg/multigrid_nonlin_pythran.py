@@ -1,7 +1,7 @@
 """multigrid_nonlin_pythran"""
 
 import numpy as np
-from .cells import print_cell
+# from .cells import print_cell
 from .resize import Resize
 from .navlam_nonlinear_3 import navlam_nonlinear_3
 
@@ -24,7 +24,7 @@ def multigrid_nonlin_3(forceu, u_in, prm):
     mu = prm['mu']
     dt = prm['dt']
 
-    interpmethod = 'bilinear';
+    interpmethod = 'bilinear'
 
     nmultilevel = np.unique(level).size
     dim3 = {}
@@ -541,6 +541,7 @@ def navlam_nonlinear_2(forceu, u_in, prm):
     assert prm['nudim'] == 2
     # cdef DTYPE_t Harr[2][2]
     # cdef DTYPE_t [:, :] H = Harr
+    H = np.zeros((prm['nudim'], prm['nudim']))
     for j in range(prm['nudim']):
         for k in range(prm['nudim']):
             H[j, k] = h[j] * h[k]
@@ -558,6 +559,8 @@ def navlam_nonlinear_2(forceu, u_in, prm):
 
     ny, nx = u[0].shape
 
+    llambda = prm['lambda']
+    mu = prm['mu']
     for i in range(maxniter):
         dy1 = u[0][:, np.r_[1:ny, -1], :] * ((llambda + 2 * mu) / H[0, 0])
         dy2 = u[0][:, np.r_[0, :ny - 1], :] * ((llambda + 2 * mu) / H[0, 0])
@@ -707,6 +710,7 @@ def navlam_nonlinear_3(forceu, u_in, prm):
     assert prm['nudim'] == 3
     # cdef double Harr[3][3]
     # cdef double [:, :] H = Harr
+    H = np.zeros((prm['nudim'], prm['nudim']))
     for j in range(prm['nudim']):
         for k in range(prm['nudim']):
             H[j, k] = h[j] * h[k]
@@ -723,8 +727,8 @@ def navlam_nonlinear_3(forceu, u_in, prm):
     assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
 
     nz, ny, nx = u[0].shape
-    nzend = nz - 1;
-    nyend = ny - 1;
+    nzend = nz - 1
+    nyend = ny - 1
     nxend = nx - 1
 
     # cdef DTYPE_t [:, :, :] u0 = u[0]
@@ -767,6 +771,8 @@ def navlam_nonlinear_3(forceu, u_in, prm):
     # cdef double diag1 = -2*mu*(1/H[0,0] + 1/H[1,1] + 1/H[2,2])-2*(llambda+mu)/H[1,1]
     # cdef double diag2 = -2*mu*(1/H[0,0] + 1/H[1,1] + 1/H[2,2])-2*(llambda+mu)/H[2,2]
 
+    llambda = prm['lambda']
+    mu = prm['mu']
     mu00 = mu / H[0, 0]
     mu11 = mu / H[1, 1]
     mu22 = mu / H[2, 2]
