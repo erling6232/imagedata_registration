@@ -3,10 +3,12 @@ requires = [
     "setuptools>=42",
     "wheel",
     "importlib",
+    "flit",
     "cython",
     "imagedata>=3.0.0"
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "flit_core.buildapi"
+# build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata_registration"
@@ -53,7 +55,3 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 # packages = ["NPreg"]
 
 # [tool.setuptools.dynamic]
-
-[build-system]
-requires = ["flit"]
-build-backend = "flit.api:main"
