@@ -58,7 +58,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     #
     # Find the normalized gradients
     #
-    # ini = np.zeros(dim, dtype=np.float);
+    # ini = np.zeros(dim, dtype=float);
 
     #
     # Normalized gradients
@@ -70,9 +70,9 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     dfun = {}
     dfu = {}
     for i in range(nudim):
-        dfun[i] = np.zeros(dim, dtype=np.float)
-        dfu[i] = np.zeros(dim, dtype=np.float)
-    absfureg = np.zeros(dim, dtype=np.float)
+        dfun[i] = np.zeros(dim, dtype=float)
+        dfu[i] = np.zeros(dim, dtype=float)
+    absfureg = np.zeros(dim, dtype=float)
 
     for i in range(ntime):
         # do this in 3D since we dont want temporal changes; i.e. we dont want
@@ -101,7 +101,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     # grad = cell(nudim,1);
     grad = {}
     for i in range(nudim):
-        grad[i] = np.zeros(dim, dtype=np.float)
+        grad[i] = np.zeros(dim, dtype=float)
 
     #
     # SSD
@@ -110,7 +110,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         # kssd = cell(nudim,1);
         kssd = {}
         for i in range(nudim):
-            kssd[i] = np.zeros(dim, dtype=np.float)
+            kssd[i] = np.zeros(dim, dtype=float)
             for j in range(ntime):
                 kssd[i][j, :, :, :] = (fu[j, :, :, :] - g) * dfu[i][j, :, :, :]
             # add up
@@ -125,7 +125,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         # kngf = cell(nudim,1);
         kngf = {}
         for i in range(3):
-            kngf[i] = np.zeros(dim, dtype=np.float)
+            kngf[i] = np.zeros(dim, dtype=float)
 
         for i in range(ntime):
             # dfunhere = cell(nudim,1);
@@ -153,7 +153,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         # initialize
         k = {}
         for i in range(3):
-            k{i} = np.zeros(dim, dtype=np.float)
+            k{i} = np.zeros(dim, dtype=float)
         for i = range(ntime):
             # 3D gradient, not 4D on purpose since we dont want to travel information over time points!         
             gradhere = gradngfheavi(fu[i,:,:,:],dfun,dfu,dgn,dg,absfureg,h[-3:])
@@ -173,7 +173,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         % intialize
         k = cell(nudim,1);
         for i = 1 : nudim
-            k{i} = np.zeros(dim, dtype=np.float)
+            k{i} = np.zeros(dim, dtype=float)
         end;        
         for i = 1 : ntime        
                 
@@ -197,7 +197,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         % intialize
         k = cell(nudim,1);
         for i = 1 : 3
-            k{i} = np.zeros(dim, dtype=np.float)
+            k{i} = np.zeros(dim, dtype=float)
         end;        
         for i = 1 : ntime        
                     
@@ -221,7 +221,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         % intialize
         k = cell(nudim,1);
         for i = 1 : nudim
-            k{i} = np.zeros(dim, dtype=np.float)
+            k{i} = np.zeros(dim, dtype=float)
         end;        
         for i = 1 : ntime        
             dfunhere = cell(nudim,1);        
@@ -273,7 +273,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         % intialize
         kngfparal = cell(nudim,1);
         for i = 1 : nudim
-            kngfparal{i} = np.zeros(dim, dtype=np.float)
+            kngfparal{i} = np.zeros(dim, dtype=float)
         end;
     
         for i = 1 : ntime        
@@ -303,7 +303,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         % intialize
         k = cell(nudim,1);
         for i = 1 : nudim
-            k{i} = np.zeros(dim, dtype=np.float)
+            k{i} = np.zeros(dim, dtype=float)
         end;        
         for i = 1 : ntime        
                 

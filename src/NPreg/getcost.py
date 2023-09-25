@@ -9,10 +9,10 @@ def getcost(grid, Eall, prm):
     # ndim = min(3,prm.ndim);
     # .reg.data = zeros(grid.dim);
     E = {}
-    E['reg_data'] = np.zeros(grid.dim, dtype=np.float)
-    E['reg_reg'] = np.zeros(grid.dim, dtype=np.float)
-    E['segm_data'] = np.zeros(grid.dim, dtype=np.float)
-    E['segm_reg'] = np.zeros(grid.dim, dtype=np.float)
+    E['reg_data'] = np.zeros(grid.dim, dtype=float)
+    E['reg_reg'] = np.zeros(grid.dim, dtype=float)
+    E['segm_data'] = np.zeros(grid.dim, dtype=float)
+    E['segm_reg'] = np.zeros(grid.dim, dtype=float)
 
     #
     # Data term registration
@@ -56,7 +56,7 @@ def getcost(grid, Eall, prm):
     # physically based model" by Zhao Yi, page 17
 
     # divergence (div u)^2
-    a = np.zeros(grid.dim, dtype=np.float)
+    a = np.zeros(grid.dim, dtype=float)
     for i in range(prm['nudim']):
         a = a + du[i][i]
     a = a ** 2
@@ -64,7 +64,7 @@ def getcost(grid, Eall, prm):
     E['reg_reg'] = E['reg_reg'] + (prm['lambda'] / 2) * a
 
     # (<grade,grade>)^2
-    a = np.zeros(grid.dim, dtype=np.float)
+    a = np.zeros(grid.dim, dtype=float)
     for i in range(prm['nudim']):
         for j in range(prm['nudim']):
             a = a + (du[i][j] + du[j][i]) ** 2
