@@ -43,7 +43,6 @@ classifiers = [
 dependencies = [
     "imagedata>=3.0.0"
 ]
-dynamic = ["version"]
 
 [project.urls]
 Documentation = "https://imagedata_registration.readthedocs.io"
@@ -53,4 +52,4 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 # [tool.setuptools]
 # packages = ["NPreg"]
 
-[tool.setuptools.dynamic]
+# [tool.setuptools.dynamic]
