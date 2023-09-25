@@ -6,7 +6,7 @@ This is the where the real registration work is done.
 import numpy as np
 from math import sqrt
 from .resize import Resize
-from .multilevel import *
+from .multilevel import CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3
 from .centergrid import centergrid
 from .transform import TransformLinear
 from .gradientreg import gradientreg

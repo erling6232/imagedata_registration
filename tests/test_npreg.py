@@ -12,7 +12,7 @@ from src.NPreg.normgrad import normgrad
 from src.NPreg.npreg import NPreg
 from src.NPreg.transform import TransformLinear
 from src.NPreg.cells import ctransposecell, innerprodcell
-from src.NPreg.multilevel import Level, LevelExt, Multilevel
+from src.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V2
 
 
 
@@ -297,7 +297,7 @@ class TestMultilevel(unittest.TestCase):
         nudim = 3
         eta = 0.03
 
-        npreg = NPreg(None, fixed)
+        npreg = NPreg(fixed)
         npreg.cycle = CYCLE_NONE
         # npreg.multi = Multilevel(CYCLE_V2, moving.shape, h, 0.5)
         npreg.multi = Multilevel(CYCLE_NONE, moving.shape, h, 0.5)
@@ -343,7 +343,7 @@ class TestMultilevel(unittest.TestCase):
         moving[1, 0:-1, 1:] = np.eye(3)
         moving = Series(moving)
 
-        npreg = NPreg(None, fixed)
+        npreg = NPreg(fixed)
         npreg.cycle = CYCLE_NONE
         print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
         out = npreg.register_volume(moving)
