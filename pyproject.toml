@@ -43,9 +43,6 @@ classifiers = [
 dependencies = [
     "imagedata>=3.0.0"
 ]
-optional-dependencies = [
-    "cupy"
-]
 
 [project.urls]
 Documentation = "https://imagedata_registration.readthedocs.io"
