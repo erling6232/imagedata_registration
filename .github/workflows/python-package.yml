@@ -26,9 +26,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install cuda-toolkit
       id: cuda-toolkit
-      uses: Jimver/cuda-toolkit@v.02.11
-      with:
-        cuda: '12.1.0'
+      uses: Jimver/cuda-toolkit@v0.2.11
+      #with:
+      #  cuda: '12.1.0'
     - name: Verify cuda-toolkit
       run: |
         echo "Installed cuda version is: ${{steps.cuda-toolkit.output.cuda}}"
