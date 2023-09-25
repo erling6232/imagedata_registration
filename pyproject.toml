@@ -2,13 +2,11 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    "importlib",
-    "flit",
+    # "importlib",
     "cython",
     "imagedata>=3.0.0"
 ]
-build-backend = "flit_core.buildapi"
-# build-backend = "setuptools.build_meta"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata_registration"
