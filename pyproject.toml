@@ -4,8 +4,7 @@ requires = [
     "wheel",
     # "importlib",
     "cython",
-    "imagedata>=3.0.0",
-    "cupy"
+    "imagedata>=3.0.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -43,6 +42,9 @@ classifiers = [
 ]
 dependencies = [
     "imagedata>=3.0.0"
+]
+optional_dependencies = [
+    "cupy"
 ]
 
 [project.urls]
