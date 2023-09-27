@@ -28,7 +28,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel build
+        python -m pip install --upgrade pip setuptools wheel build cython
         python -m pip install check-manifest flake8 coverage
         # python -c "import configparser; c=configparser.ConfigParser(); c.read('setup.cfg'); print(c['options']['install_requires'])" > requirements.txt
         python -m pip install ./
