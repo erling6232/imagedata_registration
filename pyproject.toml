@@ -3,7 +3,7 @@ requires = [
     "setuptools>=42",
     "wheel",
     "cython",
-    "imagedata>=3.0.0"
+    "imagedata>=3.1.0"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -40,7 +40,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps."
 ]
 dependencies = [
-    "imagedata>=3.0.0"
+    "imagedata>=3.1.0"
 ]
 
 [project.urls]
