@@ -52,3 +52,7 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 # packages = ["NPreg"]
 
 # [tool.setuptools.dynamic]
+
+[tool.cibuildwheel]
+test-requires = "unittest"
+test-command = "unittest {project}/tests"
