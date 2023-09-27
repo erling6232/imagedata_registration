@@ -19,7 +19,8 @@ jobs:
         env:
           # Skip 32-bit builds
           # Disable building PyPy wheels on all platforms
-          CIBW_SKIP: "*-win32 *-manylinux_i686 pp*"
+          # Skip all musllinux (manylinux only supported by itk-io)
+          CIBW_SKIP: "*-win32 *-manylinux_i686 pp* *-musllinux*"
           
         # with:
         #   package-dir: .
