@@ -54,5 +54,5 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 # [tool.setuptools.dynamic]
 
 [tool.cibuildwheel]
-test-requires = "unittest"
-test-command = "unittest {project}/tests"
+test-requires = "coverage"
+test-command = "coverage run -m unittest discover {project}/tests"
