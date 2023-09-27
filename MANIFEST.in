@@ -10,6 +10,7 @@ recursive-include docs *
 recursive-include tests *.py
 recursive-include src *.pyx
 recursive-include src *.so
+recursive-include src *.c
 recursive-include src Makefile
 
 # include *.py

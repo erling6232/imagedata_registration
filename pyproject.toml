@@ -2,7 +2,6 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    # "importlib",
     "cython",
     "imagedata>=3.0.0"
 ]
