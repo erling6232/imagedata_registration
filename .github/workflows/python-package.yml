@@ -33,6 +33,9 @@ jobs:
         # python -c "import configparser; c=configparser.ConfigParser(); c.read('setup.cfg'); print(c['options']['install_requires'])" > requirements.txt
         python -m pip install ./
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Clean-up
+      run: |
+        rm src/NPreg/multigrid_nonlin_cy.c
     - name: File list
       run: |
         ls -lR
