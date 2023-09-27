@@ -19,8 +19,6 @@ try:
 
     loaded_npreg = True
 except Exception as e:
-    pass
-if not loaded_npreg:
     try:
         from .multigrid_nonlin_cy import navlam_nonlinear, multigrid_nonlin
         print('Loaded multigrid_nonlin_cy.')
