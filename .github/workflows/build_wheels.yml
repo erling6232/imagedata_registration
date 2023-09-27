@@ -16,7 +16,9 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.1
-        # env:
+        env:
+          # Disable building PyPy wheels on all platforms
+          CIBW_SKIP: pp*
         #   CIBW_SOME_OPTION: value
         #    ...
         # with:
