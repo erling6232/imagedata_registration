@@ -13,7 +13,7 @@ Image registration routines for Imagedata.
     :scale: 100%
     :target: https://imagedata_registration.readthedocs.io
 
-.. |buildstatus| image:: https://github.com/erling6232/imagedata_registration/actions/workflows/ci.yml/badge.svg
+.. |buildstatus| image:: https://github.com/erling6232/imagedata_registration/actions/workflows/build_wheels.yml/badge.svg
     :target: https://github.com/erling6232/imagedata_registration/actions?query=branch%3Amain
     :alt: Build Status
 
