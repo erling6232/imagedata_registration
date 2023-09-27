@@ -3,19 +3,15 @@
 # cython: language_level=3
 ## cython: language_level=3, boundscheck=False
 
-cimport
-cython
-cimport
-numpy as np
+cimport cython
+cimport numpy as np
 import numpy as np
 import pyximport
 from .cells import print_cell
 from .resize import Resize
 
 DTYPE = np.float64
-ctypedef
-np.float64_t
-DTYPE_t
+ctypedef np.float64_t DTYPE_t
 
 # pyximport.install(setup_args={"script_args":["--compiler=mingw32"],
 pyximport.install(setup_args={
@@ -542,15 +538,9 @@ def navlam_nonlinear2(forceu, u_in, prm):
     u = u_in.copy()  # Do not modify input
 
     # Py_ssize_t is the proper C type for Python array indices.
-    cdef
-    Py_ssize_t
-    ny, nx
-    cdef
-    int
-    maxniter, i
-    cdef
-    size_t
-    j, k
+    cdef Py_ssize_t ny, nx
+    cdef int maxniter, i
+    cdef size_t j, k
 
     # prm must contain
     if type(prm['maxniter']) is tuple:
@@ -558,18 +548,10 @@ def navlam_nonlinear2(forceu, u_in, prm):
     else:
         maxniter = prm['maxniter']
     h = prm['h']
-    cdef
-    int
-    llambda = prm['lambda']
-    cdef
-    int
-    mu = prm['mu']
-    cdef
-    int
-    dt = prm['dt']
-    cdef
-    int
-    nudim = prm['nudim']
+    cdef int llambda = prm['lambda']
+    cdef int mu = prm['mu']
+    cdef int dt = prm['dt']
+    cdef int nudim = prm['nudim']
 
     # F = cell(prm['nudim'],1)
     F = {}
@@ -577,12 +559,8 @@ def navlam_nonlinear2(forceu, u_in, prm):
     # cdef DTYPE_t[:, :] H = np.zeros((prm['nudim'],prm['nudim']))
     # cdef DTYPE_t [:, :] H = np.zeros([prm['nudim'],prm['nudim']], dtype=DTYPE)
     assert prm['nudim'] == 2
-    cdef
-    DTYPE_t
-    Harr[2][2]
-    cdef
-    DTYPE_t[:, :]
-    H = Harr
+    cdef DTYPE_t Harr[2][2]
+    cdef DTYPE_t[:, :] H = Harr
     for j in range(prm['nudim']):
         for k in range(prm['nudim']):
             H[j, k] = h[j] * h[k]
@@ -730,16 +708,10 @@ def navlam_nonlinear3(forceu, u_in, prm):
 
     # Py_ssize_t
     # cdef size_t nz, ny, nx, nzend, nyend, nxenc
-    cdef
-    Py_ssize_t
-    nz, ny, nx, nzend, nyend, nxend
-    cdef
-    int
-    maxniter, i
+    cdef Py_ssize_t nz, ny, nx, nzend, nyend, nxend
+    cdef int maxniter, i
     # cdef size_t j, k
-    cdef
-    Py_ssize_t
-    j, k, iz, iy, ix
+    cdef Py_ssize_t j, k, iz, iy, ix
 
     # prm must contain
     if type(prm['maxniter']) is tuple:
@@ -747,25 +719,15 @@ def navlam_nonlinear3(forceu, u_in, prm):
     else:
         maxniter = prm['maxniter']
     h = prm['h']
-    cdef
-    int
-    llambda = prm['lambda']
-    cdef
-    int
-    mu = prm['mu']
-    cdef
-    int
-    dt = prm['dt']
+    cdef int llambda = prm['lambda']
+    cdef int mu = prm['mu']
+    cdef int dt = prm['dt']
 
     # F = cell(prm['nudim'],1)
     # F = {}
     assert prm['nudim'] == 3
-    cdef
-    double
-    Harr[3][3]
-    cdef
-    double[:, :]
-    H = Harr
+    cdef double Harr[3][3]
+    cdef double[:, :] H = Harr
     for j in range(prm['nudim']):
         for k in range(prm['nudim']):
             H[j, k] = h[j] * h[k]
@@ -786,83 +748,33 @@ def navlam_nonlinear3(forceu, u_in, prm):
     nyend = ny - 1;
     nxend = nx - 1
 
-    cdef
-    DTYPE_t[:, :, :]
-    u0 = (u_in[0])
-    cdef
-    DTYPE_t[:, :, :]
-    u1 = (u_in[1])
-    cdef
-    DTYPE_t[:, :, :]
-    u2 = (u_in[2])
-    cdef
-    DTYPE_t[:, :, :]
-    forceu0 = (forceu[0])
-    cdef
-    DTYPE_t[:, :, :]
-    forceu1 = (forceu[1])
-    cdef
-    DTYPE_t[:, :, :]
-    forceu2 = (forceu[2])
+    cdef DTYPE_t[:, :, :] u0 = (u_in[0])
+    cdef DTYPE_t[:, :, :] u1 = (u_in[1])
+    cdef DTYPE_t[:, :, :] u2 = (u_in[2])
+    cdef DTYPE_t[:, :, :] forceu0 = (forceu[0])
+    cdef DTYPE_t[:, :, :] forceu1 = (forceu[1])
+    cdef DTYPE_t[:, :, :] forceu2 = (forceu[2])
 
-    cdef
-    DTYPE_t[:, :, :]
-    F0 = np.zeros_like(u_in[0], dtype=DTYPE)
-    cdef
-    DTYPE_t[:, :, :]
-    F1 = np.zeros_like(u_in[1], dtype=DTYPE)
-    cdef
-    DTYPE_t[:, :, :]
-    F2 = np.zeros_like(u_in[2], dtype=DTYPE)
-    cdef
-    DTYPE_t[:, :, :]
-    temp = np.zeros_like(u_in[0], dtype=DTYPE)
+    cdef DTYPE_t[:, :, :] F0 = np.zeros_like(u_in[0], dtype=DTYPE)
+    cdef DTYPE_t[:, :, :] F1 = np.zeros_like(u_in[1], dtype=DTYPE)
+    cdef DTYPE_t[:, :, :] F2 = np.zeros_like(u_in[2], dtype=DTYPE)
+    cdef DTYPE_t[:, :, :] temp = np.zeros_like(u_in[0], dtype=DTYPE)
 
-    cdef
-    double
-    mu00 = mu / H[0, 0]
-    cdef
-    double
-    mu11 = mu / H[1, 1]
-    cdef
-    double
-    mu22 = mu / H[2, 2]
-    cdef
-    double
-    l2mu00 = (llambda + 2 * mu) / H[0, 0]
-    cdef
-    double
-    l2mu11 = (llambda + 2 * mu) / H[1, 1]
-    cdef
-    double
-    l2mu22 = (llambda + 2 * mu) / H[2, 2]
-    cdef
-    double
-    lm401 = (llambda + mu) / (4 * H[0, 1])
-    cdef
-    double
-    nlm401 = -(llambda + mu) / (4 * H[0, 1])
-    cdef
-    double
-    lm402 = (llambda + mu) / (4 * H[0, 2])
-    cdef
-    double
-    nlm402 = -(llambda + mu) / (4 * H[0, 2])
-    cdef
-    double
-    lm412 = (llambda + mu) / (4 * H[1, 2])
-    cdef
-    double
-    nlm412 = -(llambda + mu) / (4 * H[1, 2])
-    cdef
-    double
-    diag0 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[0, 0]
-    cdef
-    double
-    diag1 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[1, 1]
-    cdef
-    double
-    diag2 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[2, 2]
+    cdef double mu00 = mu / H[0, 0]
+    cdef double mu11 = mu / H[1, 1]
+    cdef double mu22 = mu / H[2, 2]
+    cdef double l2mu00 = (llambda + 2 * mu) / H[0, 0]
+    cdef double l2mu11 = (llambda + 2 * mu) / H[1, 1]
+    cdef double l2mu22 = (llambda + 2 * mu) / H[2, 2]
+    cdef double lm401 = (llambda + mu) / (4 * H[0, 1])
+    cdef double nlm401 = -(llambda + mu) / (4 * H[0, 1])
+    cdef double lm402 = (llambda + mu) / (4 * H[0, 2])
+    cdef double nlm402 = -(llambda + mu) / (4 * H[0, 2])
+    cdef double lm412 = (llambda + mu) / (4 * H[1, 2])
+    cdef double nlm412 = -(llambda + mu) / (4 * H[1, 2])
+    cdef double diag0 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[0, 0]
+    cdef double diag1 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[1, 1]
+    cdef double diag2 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[2, 2]
 
     for i in range(maxniter):
 

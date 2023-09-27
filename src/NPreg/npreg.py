@@ -12,12 +12,9 @@ from .transform import TransformLinear
 from .gradientreg import gradientreg
 from .getcost import getcost
 
-loaded_npreg = False
 try:
     from .multigrid_nonlin_cupy import navlam_nonlinear, multigrid_nonlin
     print('Loaded multigrid_nonlin_cupy.')
-
-    loaded_npreg = True
 except Exception as e:
     try:
         from .multigrid_nonlin_cy import navlam_nonlinear, multigrid_nonlin
