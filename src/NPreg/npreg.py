@@ -14,19 +14,19 @@ from .getcost import getcost
 
 loaded_npreg = False
 try:
-    print('Load multigrid_nonlin_cupy:')
     from .multigrid_nonlin_cupy import navlam_nonlinear, multigrid_nonlin
+    print('Loaded multigrid_nonlin_cupy.')
 
     loaded_npreg = True
 except Exception as e:
-    print('Could not load multigrid_nonlin_cupy:\n{}'.format(e))
+    pass
 if not loaded_npreg:
     try:
-        print('Load multigrid_nonlin_cy:')
         from .multigrid_nonlin_cy import navlam_nonlinear, multigrid_nonlin
+        print('Loaded multigrid_nonlin_cy.')
     except Exception as e:
-        print('Could not load multigrid_nonlin_cy, defaulting to pure python\n{}'.format(e))
         from .multigrid_nonlin import navlam_nonlinear, multigrid_nonlin
+        print('Loaded pure python multigrid_nonlin.py.')
 from imagedata.series import Series
 import pprint
 import time
