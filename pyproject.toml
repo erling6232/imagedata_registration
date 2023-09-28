@@ -55,4 +55,4 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 
 [tool.cibuildwheel]
 test-requires = "coverage"
-test-command = "coverage run -m unittest discover {project}/tests"
+test-command = "coverage run -m unittest discover {project}/tests -t {project}"
