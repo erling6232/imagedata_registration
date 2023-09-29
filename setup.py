@@ -15,7 +15,7 @@ extensions = [
     # ),
     Extension(
         "NPreg.multigrid_nonlin_cy",
-        ["src/NPreg/multigrid_nonlin_cy.pyx"], include_dirs=[numpy.get_include()],
+        ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"], include_dirs=[numpy.get_include()],
     ),
 ]
 
