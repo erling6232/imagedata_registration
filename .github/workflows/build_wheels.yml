@@ -29,6 +29,7 @@ jobs:
         #   config-file: "{package}/pyproject.toml"
         run: |
           pip install cython numpy
+          mkdir -p imagedata_registration/NPreg
           python setup.py build_ext -i
           bash build_tools/wheels/build_wheels.sh
 
