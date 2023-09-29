@@ -2,6 +2,7 @@
 
 set -e
 set -x
+echo "build_wheels.sh: running"
 
 # OpenMP is not present on macOS by default
 if [[ $(uname) == "Darwin" ]]; then
