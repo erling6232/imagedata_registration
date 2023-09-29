@@ -28,7 +28,7 @@ jobs:
         #   output-dir: wheelhouse
         #   config-file: "{package}/pyproject.toml"
         run: |
-          pip install cython
+          pip install cython numpy
           python setup.py build_ext -i
           bash build_tools/wheels/build_wheels.sh
 
