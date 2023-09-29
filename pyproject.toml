@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=61.0",
     "wheel",
     "cython",
     "imagedata>=3.1.0"
@@ -48,8 +48,13 @@ Documentation = "https://imagedata_registration.readthedocs.io"
 SourceCode = "https://github.com/erling6232/imagedata_registration"
 Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 
-# [tool.setuptools]
+[tool.setuptools]
+package-dir = {"" = "src"}
 # packages = ["NPreg"]
+# py-modules = ["_custom_build"]
+
+# [tool.setuptools.cmdclass]
+# build_py = "_custom_build.build_py"
 
 # [tool.setuptools.dynamic]
 
