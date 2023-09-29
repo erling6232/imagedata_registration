@@ -5,14 +5,14 @@ import numpy as np
 import pprint
 from imagedata.series import Series
 
-from src.NPreg.resize import Resize
-from src.NPreg.centergrid import centergrid
-from src.NPreg.translate_image import translate_image
-from src.NPreg.normgrad import normgrad
-from src.NPreg.npreg import NPreg
-from src.NPreg.transform import TransformLinear
-from src.NPreg.cells import ctransposecell, innerprodcell
-from src.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V2
+from src.imagedata_registration.NPreg.resize import Resize
+from src.imagedata_registration.NPreg.centergrid import centergrid
+from src.imagedata_registration.NPreg.translate_image import translate_image
+from src.imagedata_registration.NPreg.normgrad import normgrad
+from src.imagedata_registration.NPreg.npreg import NPreg
+from src.imagedata_registration.NPreg.transform import TransformLinear
+from src.imagedata_registration.NPreg.cells import ctransposecell, innerprodcell
+from src.imagedata_registration.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V2
 
 
 
