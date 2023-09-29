@@ -34,4 +34,5 @@ jobs:
           path: ./wheelhouse/*.whl
       - name: File list
         run: |
+          pwd
           ls -lR
