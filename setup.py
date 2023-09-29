@@ -14,7 +14,7 @@ extensions = [
     #     ["src/pyctmctree/inpyranoid_c.pyx"],
     # ),
     Extension(
-        "NPreg.multigrid_nonlin_cy",
+        "imagedata_registration.NPreg.multigrid_nonlin_cy",
         ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"], include_dirs=[numpy.get_include()],
     ),
 ]
