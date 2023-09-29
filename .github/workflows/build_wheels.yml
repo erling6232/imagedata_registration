@@ -27,7 +27,9 @@ jobs:
         #   package-dir: .
         #   output-dir: wheelhouse
         #   config-file: "{package}/pyproject.toml"
-        run: bash build_tools/wheels/build_wheels.sh
+        run: |
+          python setup.py build_ext -i
+          bash build_tools/wheels/build_wheels.sh
 
       - uses: actions/upload-artifact@v3
         with:
