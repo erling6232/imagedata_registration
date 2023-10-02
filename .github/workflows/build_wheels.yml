@@ -35,6 +35,12 @@ jobs:
           mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
           bash build_tools/wheels/build_wheels.sh
 
+      - name: Show wheels
+        run: |
+          auditwheel show ./wheelhouse/*.whl
+      - name: Testing
+        run: |
+          coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
