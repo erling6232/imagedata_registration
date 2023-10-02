@@ -38,7 +38,9 @@ jobs:
       - name: Show wheels
         run: |
           pip install auditwheel
-          auditwheel show ./wheelhouse/*.whl
+          for w in ./wheelhouse/*.whl; do
+            auditwheel show $w
+          done
       - name: Testing
         run: |
           coverage run -m unittest discover tests -t .
