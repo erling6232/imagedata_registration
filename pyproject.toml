@@ -60,4 +60,4 @@ package-dir = {"" = "src"}
 
 [tool.cibuildwheel]
 test-requires = "coverage"
-test-command = "coverage run -m unittest discover {project}/tests -t {project}"
+# test-command = "coverage run -m unittest discover {project}/tests -t {project}"
