@@ -37,6 +37,7 @@ jobs:
 
       - name: Show wheels
         run: |
+          pip install auditwheel
           auditwheel show ./wheelhouse/*.whl
       - name: Testing
         run: |
