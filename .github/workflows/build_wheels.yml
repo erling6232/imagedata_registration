@@ -43,7 +43,7 @@ jobs:
           done
       - name: Testing
         run: |
-          pip install coverage
+          pip install coverage imagedata
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
         with:
