@@ -8,7 +8,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "imagedata_registration"
+name = "imagedata-registration"
 version = "0.0.1"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
