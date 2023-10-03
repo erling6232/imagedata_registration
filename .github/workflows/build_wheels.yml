@@ -41,14 +41,14 @@ jobs:
           for w in ./wheelhouse/*.whl; do
             auditwheel show $w
           done
-      - name: Testing with Cython
+      - name: Testing - prepare with coverage
         run: |
           pip install coverage imagedata
+      - name: Testing with Cython
+        run: |
           coverage run -m unittest discover tests -t .
       - name: Testing without Cython
         run: |
-          pip install coverage imagedata
-          find . -name '*.so'
           find . -name '*.so' | xargs rm
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
