@@ -48,6 +48,7 @@ jobs:
       - name: Testing without Cython
         run: |
           pip install coverage imagedata
+          find . -name '*.so'
           find . -name '*.so' | xargs rm
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
