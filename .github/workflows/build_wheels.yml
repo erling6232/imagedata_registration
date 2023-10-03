@@ -49,12 +49,14 @@ jobs:
         run: |
           pip install imagedata
           pwd
-          ls -l /usr/lib/python3/dist-packages/
-          ls -lR /usr/lib/python3/dist-packages/imagedata_registration
+          # /home/runner
+          ls -l $HOME/.local/lib/python3.10/site-packages
+          # ls -l /usr/lib/python3/dist-packages/
+          # ls -lR /usr/lib/python3/dist-packages/imagedata_registration
       - name: Testing without Cython
         run: |
           pip install coverage imagedata
-          rm imagedata_registration/NPreg/*.so
+          rm $HOME/.local/lib/python*/site-packages/imagedata_registration/NPreg/*.so
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
         with:
