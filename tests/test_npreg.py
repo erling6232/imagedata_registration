@@ -9,7 +9,7 @@ from src.imagedata_registration.NPreg.resize import Resize
 from src.imagedata_registration.NPreg.centergrid import centergrid
 from src.imagedata_registration.NPreg.translate_image import translate_image
 from src.imagedata_registration.NPreg.normgrad import normgrad
-from src.imagedata_registration.NPreg.npreg import NPreg
+from src.imagedata_registration.NPreg import NPreg
 from src.imagedata_registration.NPreg.transform import TransformLinear
 from src.imagedata_registration.NPreg.cells import ctransposecell, innerprodcell
 from src.imagedata_registration.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V2
