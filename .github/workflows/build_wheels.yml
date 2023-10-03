@@ -65,7 +65,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish Python distribution to TestPyPi
-    # if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     environment:
@@ -100,7 +100,7 @@ jobs:
       url: https://test.pypi.org/legacy
     permissions:
       id-token: write
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    if: github.event_name == 'release' && github.event.action == 'published'
     # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
     # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     steps:
