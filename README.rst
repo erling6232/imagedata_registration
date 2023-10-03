@@ -7,6 +7,16 @@ Image registration with imagedata
 
 Image registration routines for Imagedata.
 
+Example
+-------
+
+.. code-block:: python
+
+    from imagedata_registration.NPreg import NPreg
+    npreg = NPreg(fixed)
+    npreg.cycle = CYCLE_NONE
+    out = npreg.register_volume(moving)
+
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/
     :alt: Documentation Status
