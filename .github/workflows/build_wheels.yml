@@ -49,6 +49,7 @@ jobs:
         run: |
           pip install imagedata
           pwd
+          ls -l /usr/lib/python3/dist-packages/
           ls -lR /usr/lib/python3/dist-packages/imagedata_registration
       - name: Testing without Cython
         run: |
