@@ -7,8 +7,20 @@ Image registration with imagedata
 
 Image registration routines for Imagedata.
 
+Available modules:
+   * NPreg
+
+Installation
+------------
+
+.. code-block::
+
+    pip install imagedata-registration
+
 Example
 -------
+
+Using NPreg module:
 
 .. code-block:: python
 
@@ -18,7 +30,6 @@ Example
     # moving can be a 3D or 4D Series instance
     out = register_series(fixed, moving)
     out.seriesDescription += " (NPreg)"
-
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/
     :alt: Documentation Status
