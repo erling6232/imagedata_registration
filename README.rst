@@ -12,10 +12,9 @@ Example
 
 .. code-block:: python
 
-    from imagedata_registration.NPreg import NPreg
-    npreg = NPreg(fixed)
-    npreg.cycle = CYCLE_NONE
-    out = npreg.register_volume(moving)
+    from imagedata_registration.NPreg import register_series
+    out = register_series(fixed, moving)
+    out.seriesDescription += " (NPreg)"
 
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/

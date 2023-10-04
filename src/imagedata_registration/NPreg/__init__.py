@@ -3,6 +3,7 @@ NPreg image registration.
 This is the where the real registration work is done.
 """
 
+from typing import Union
 import importlib.metadata
 import numpy as np
 from math import sqrt
@@ -81,9 +82,10 @@ class NPreg(object):
         # Voxel size
         # self.h = rowvect(self.fixed_si.spacing)
         # self.h = self.fixed_si.spacing
-        print("NPreg: Remember to restore self.h = self.fixed_si.spacing()")
-        self.h = np.array([1., 1., 1.])
-        print("h", self.h)
+        # print("NPreg: Remember to restore self.h = self.fixed_si.spacing()")
+        # self.h = np.array([1., 1., 1.])
+        # print("h", self.h)
+        self.h = fixed.spacing
 
         # Cycle
         # self.cycle = CYCLE_NONE
@@ -155,7 +157,6 @@ class NPreg(object):
         # Loop over maximum number of iterations
         self.niter = 0
 
-        nz = 13
         print("%35s%14s%13s%13s%13s%13s" % (
         "Multigrid, Iteration # number of %d" % self.maxniter, "Total cost", "Reg,data", "Reg,reg", "Segm,data",
         "Segm,reg"))
@@ -381,3 +382,45 @@ class NPreg(object):
         # GRID = GRID[0]
 
         # return GRID
+
+
+def register_series(
+        fixed: Union[int, Series],
+        moving: Series,
+        cycle: int = multilevel.CYCLE_NONE) -> Series:
+
+    if issubclass(fixed, int):
+        fixed = moving[fixed]
+    dim = np.array(fixed.shape)
+    h = fixed.spacing
+    ext = multilevel.LevelExt()
+    x, ext.minx, ext.maxx = centergrid(dim, h)
+
+    if moving.ndim > fixed.ndim:
+        shape = (moving.shape[0],) + fixed.shape
+        tags = moving.tags[0]
+    else:
+        shape = fixed.shape
+        tags = [None]
+    out = np.zeros(shape, dtype=moving.dtype)
+
+    for t, tag in enumerate(tags):
+        print('-------------------------------------------------')
+        print('NPreg register {} of {}'.format(t + 1, len(tags)))
+        npreg = NPreg(fixed)
+        npreg.cycle = cycle
+        # print("test_register_volume: moving", type(si_moving), si_moving.dtype, si_moving.shape)
+        # print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
+        if tag is None:
+            out = npreg.register_volume(moving)
+        else:
+            out[t] = npreg.register_volume(moving[t])
+        # print('------DONE-{}-------------------------------------'.format(time.clock()-t0))
+        print('------DONE----------------------------------------')
+
+    super_threshold_indices = out > 65500
+    out[super_threshold_indices] = 0
+
+    return Series(out, input_order=moving.input_order, template=moving, geometry=fixed)
+
+
