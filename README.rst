@@ -13,6 +13,9 @@ Example
 .. code-block:: python
 
     from imagedata_registration.NPreg import register_series
+    # fixed can be either a Series volume,
+    # or an index (int) into moving Series
+    # moving can be a 3D or 4D Series instance
     out = register_series(fixed, moving)
     out.seriesDescription += " (NPreg)"
 

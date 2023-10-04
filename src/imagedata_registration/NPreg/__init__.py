@@ -434,5 +434,3 @@ def register_series(
     out[super_threshold_indices] = 0
 
     return Series(out, input_order=moving.input_order, template=moving, geometry=fixed)
-
-
