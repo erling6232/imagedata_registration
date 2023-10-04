@@ -8,7 +8,8 @@ import importlib.metadata
 import numpy as np
 from math import sqrt
 from .resize import Resize
-from .multilevel import Multilevel, CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3
+from .multilevel import (Multilevel, LevelExt,
+                         CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3)
 from .centergrid import centergrid
 from .transform import TransformLinear
 from .gradientreg import gradientreg
@@ -405,7 +406,7 @@ def register_series(
         fixed = moving[fixed]
     dim = np.array(fixed.shape)
     h = fixed.spacing
-    ext = multilevel.LevelExt()
+    ext = LevelExt()
     x, ext.minx, ext.maxx = centergrid(dim, h)
 
     if moving.ndim > fixed.ndim:
