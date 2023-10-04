@@ -391,7 +391,7 @@ class NPreg(object):
 def register_series(
         fixed: Union[int, Series],
         moving: Series,
-        cycle: int = multilevel.CYCLE_NONE) -> Series:
+        cycle: int = CYCLE_NONE) -> Series:
     """Register a series using NPreg.
 
     Args:
