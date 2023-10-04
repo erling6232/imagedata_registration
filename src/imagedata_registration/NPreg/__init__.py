@@ -388,6 +388,15 @@ def register_series(
         fixed: Union[int, Series],
         moving: Series,
         cycle: int = multilevel.CYCLE_NONE) -> Series:
+    """Register a series using NPreg.
+
+    Args:
+        fixed (int or Series): Fixed volume, or index into moving
+        moving (Series): Moving volume(s)
+        cycle (int): Cycle
+    Returns:
+        Registered series (Series)
+    """
 
     if issubclass(fixed, int):
         fixed = moving[fixed]
