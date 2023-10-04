@@ -43,7 +43,9 @@ jobs:
         run: |
           mkdir -p imagedata_registration/NPreg
           python setup.py build_ext -i
-          mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
+          if [[ -f imagedata_registration/NPreg/multigrid_nonlin_cy*.so ]]; then
+            mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
+          fi
           bash build_tools/wheels/build_wheels.sh
 
       - name: Testing - prepare with coverage
