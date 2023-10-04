@@ -85,7 +85,7 @@ class NPreg(object):
         # print("NPreg: Remember to restore self.h = self.fixed_si.spacing()")
         # self.h = np.array([1., 1., 1.])
         # print("h", self.h)
-        if issubclass(fixed, Series):
+        if issubclass(type(fixed), Series):
             self.h = fixed.spacing
         else:
             self.h = np.array([1., 1., 1.])
@@ -401,7 +401,7 @@ def register_series(
         Registered series (Series)
     """
 
-    if issubclass(fixed, int):
+    if issubclass(type(fixed), int):
         fixed = moving[fixed]
     dim = np.array(fixed.shape)
     h = fixed.spacing
