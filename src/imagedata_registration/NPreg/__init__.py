@@ -22,11 +22,11 @@ except importlib.metadata.PackageNotFoundError:
 
 try:
     from .multigrid_nonlin_cupy import navlam_nonlinear, multigrid_nonlin
-    print('Loaded multigrid_nonlin_cupy.')
+    print('Loaded CUDA multigrid_nonlin_cupy.')
 except Exception as e:
     try:
         from .multigrid_nonlin_cy import navlam_nonlinear, multigrid_nonlin
-        print('Loaded multigrid_nonlin_cy.')
+        print('Loaded compiled multigrid_nonlin_cy.')
     except Exception as e:
         from .multigrid_nonlin import navlam_nonlinear, multigrid_nonlin
         print('Loaded pure python multigrid_nonlin.py.')
