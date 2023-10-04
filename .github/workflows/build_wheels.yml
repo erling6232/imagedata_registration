@@ -97,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://test.pypi.org/legacy
+      # url: https://test.pypi.org/legacy
     permissions:
       id-token: write
     if: github.event_name == 'release' && github.event.action == 'published'
