@@ -85,7 +85,10 @@ class NPreg(object):
         # print("NPreg: Remember to restore self.h = self.fixed_si.spacing()")
         # self.h = np.array([1., 1., 1.])
         # print("h", self.h)
-        self.h = fixed.spacing
+        if issubclass(fixed, Series):
+            self.h = fixed.spacing
+        else:
+            self.h = np.array([1., 1., 1.])
 
         # Cycle
         # self.cycle = CYCLE_NONE
