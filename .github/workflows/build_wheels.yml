@@ -57,7 +57,7 @@ jobs:
 
       - name: Testing - prepare with coverage
         run: |
-          pip install coverage imagedata
+          python -m pip install coverage imagedata
       - name: Testing - with Cython
         run: |
           coverage run -m unittest discover tests -t .
