@@ -7,19 +7,38 @@ Image registration with imagedata
 
 Image registration routines for Imagedata.
 
-Available modules:
+Available modules
+#################
 
-   * NPreg
+NPreg
+-----
+
+There are three implementations of NPreg:
+
+* Pure Python/NumPy code. Source code will run on any Python platform.
+* Cython code. Binary code compiled for supported platforms.
+* CuPy/CUDA code. Source code which will run on platforms with a working `CuPy`and CUDA Toolkit.
+
+Prerequisites
+#############
+
+imagedata-registration will benefit from a CUDA GPU. If this is available,
+install `CuPy` (https://docs.cupy.dev):
+
+Install CUDA Toolkit: see https://developer.nvidia.com/cuda-toolkit.
+
+There are different options for installing `CuPy`:
+https://docs.cupy.dev/en/stable/install.html
 
 Installation
-------------
+############
 
 .. code-block::
 
     pip install imagedata-registration
 
 Example
--------
+#######
 
 Using NPreg module:
 
