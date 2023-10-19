@@ -168,9 +168,7 @@ class NPreg(object):
         while True:
             # Solve equation by true, nonlinear fixed point iterations
             if self.multigridsolver == MULTIGRID_SOLVER_NONLINEARFP:
-                print('register_volume: solve_nonlinearfp')
                 self.solve_nonlinearfp()
-                print('register_volume: solve_nonlinearfp done')
             # Solve equation by a linear system, also fixed point iterations
             elif self.multigridsolver == MULTIGRID_SOLVER_LINEARFP:
                 raise ValueError("MULTIGRID_SOLVER_LINEARFP is not implemented.")
@@ -383,9 +381,7 @@ class NPreg(object):
         # 3# self.multi.level[0].u = multigrid_nonlin_3(forceu,u,prmin)
         # 3# print('navlam_nonlinear_3: clock {}'.format(time.clock()-t))
         # 3# t = time.clock()
-        print('solve_nonlinearfp: multigrid_nonlin')
         self.multi.level[0].u = multigrid_nonlin(forceu, u, prmin)
-        print('solve_nonlinearfp: multigrid_nonlin done')
         # 3# print('navlam_nonlinear: clock {}'.format(time.clock()-t))
         # GRID = GRID[0]
 
