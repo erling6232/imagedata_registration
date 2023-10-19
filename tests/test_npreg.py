@@ -372,7 +372,7 @@ class TestMultilevel(unittest.TestCase):
 
     def test_register_series(self):
         a = Series('data/time.zip', 'time')
-        out = register_npreg(0, a)
+        out = register_npreg(0, a, cycle=CYCLE_NONE)
 
 
 if __name__ == '__main__':
