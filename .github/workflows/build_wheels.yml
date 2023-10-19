@@ -87,31 +87,31 @@ jobs:
           path: dist/*.tar.gz
 
 
-  publish-to-testpypi:
-    name: Test Publish Python distribution to TestPyPi
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://test.pypi.org/legacy
-    permissions:
-      id-token: write
-    # if: github.event_name == 'release' && github.event.action == 'published'
-    # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
-    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          # unpacks default artifact into dist/
-          # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact
-          path: dist
-
-      - name: Upload
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
+#  publish-to-testpypi:
+#    name: Test Publish Python distribution to TestPyPi
+#    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+#    needs: [build_wheels, build_sdist]
+#    runs-on: ubuntu-latest
+#    environment:
+#      name: pypi
+#      url: https://test.pypi.org/legacy
+#    permissions:
+#      id-token: write
+#    # if: github.event_name == 'release' && github.event.action == 'published'
+#    # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
+#    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+#    steps:
+#      - uses: actions/download-artifact@v3
+#        with:
+#          # unpacks default artifact into dist/
+#          # if `name: artifact` is omitted, the action will create extra parent dir
+#          name: artifact
+#          path: dist
+#
+#      - name: Upload
+#        uses: pypa/gh-action-pypi-publish@release/v1
+#        with:
+#          repository-url: https://test.pypi.org/legacy/
 
           
   publish-to-pypi:
