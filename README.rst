@@ -44,7 +44,7 @@ Using NPreg module:
 
 .. code-block:: python
 
-    from imagedata_registration.NPreg import register_series
+    from imagedata_registration.NPreg import register_npreg
 
     # fixed can be either a Series volume,
     # or an index (int) into moving Series
