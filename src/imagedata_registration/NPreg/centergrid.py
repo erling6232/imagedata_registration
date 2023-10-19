@@ -1,21 +1,26 @@
 """CENTERGRID Find a centered grid of dimension DIM and voxelsize H."""
 
 import numpy as np
+from typing import Tuple
 
 
-def centergrid(dim, h):
-    # Return x as dict(np.float32)
+def centergrid(dim: np.ndarray, h: np.ndarray) -> Tuple[dict, np.ndarray, np.ndarray]:
+    """Find a centered grid of dimension dim and voxel size h
+    """
 
-    assert issubclass(type(dim), np.ndarray), 'dim must be ndarray'
     ndim = len(dim)
     # center of image in matrix coordinates
     mid = (dim + 1) / 2.
 
-    # natural coordinates
-    # x = cell(ndim,1)
     x = {}
     for i in range(ndim):
-        x[i] = np.arange(-mid[i] + 1, mid[i], h[i], dtype=float)
+        # x[i] = np.arange(-mid[i] + 1, mid[i], h[i], dtype=float)
+        # make grid
+        x[i] = np.arange(0, dim[i], 1, dtype=float)
+        # transfer to origo
+        x[i] = x[i] - mid[i]
+        # natural coordinates
+        x[i] = x[i] * h[i]
 
     if ndim == 2:
         x['row'] = x[0]

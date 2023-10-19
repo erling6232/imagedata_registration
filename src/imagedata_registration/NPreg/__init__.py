@@ -196,7 +196,7 @@ class NPreg(object):
                     rsi = Resize(self.multi.level[0].u[0])
                     self.multi.level[0].u[j] = rsi.resizeBilinear(self.multi.level[i].dim3)
 
-            self.time = min(self.ntime, 1);
+            self.time = min(self.ntime, 1)
 
             """
             msg = [makestr(['Multigrid, Iteration ' num2str(prm.niter) ' of ' num2str(prm.maxniter)],3*nz) ...
@@ -392,7 +392,7 @@ class NPreg(object):
         # return GRID
 
 
-def register_series(
+def register_npreg(
         fixed: Union[int, Series],
         moving: Series,
         cycle: int = CYCLE_NONE) -> Series:
@@ -408,10 +408,10 @@ def register_series(
 
     if issubclass(type(fixed), int):
         fixed = moving[fixed]
-    dim = np.array(fixed.shape)
-    h = fixed.spacing
-    ext = LevelExt()
-    x, ext.minx, ext.maxx = centergrid(dim, h)
+    # dim = np.array(fixed.shape)
+    # h = fixed.spacing
+    # ext = LevelExt()
+    # x, ext.minx, ext.maxx = centergrid(dim, h)
 
     if moving.ndim > fixed.ndim:
         shape = (moving.shape[0],) + fixed.shape

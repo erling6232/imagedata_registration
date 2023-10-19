@@ -5,6 +5,7 @@ import numpy as np
 import pprint
 from imagedata.series import Series
 
+from src.imagedata_registration.NPreg import register_npreg
 from src.imagedata_registration.NPreg.resize import Resize
 from src.imagedata_registration.NPreg.centergrid import centergrid
 from src.imagedata_registration.NPreg.translate_image import translate_image
@@ -47,11 +48,11 @@ class TestGrid(unittest.TestCase):
         h = np.array([1., 1., 1.])
         x, minx, maxx = centergrid(dim, h)
         np.testing.assert_array_equal(x[0], np.array(
-            [[[-1., -1., -1., -1.], [-1., -1., -1., -1.], [-1., -1., -1., -1.], [-1., -1., -1., -1.]],
-             [[0., 0., 0., 0.], [0., 0., 0., 0.], [0., 0., 0., 0.], [0., 0., 0., 0.]],
-             [[1., 1., 1., 1.], [1., 1., 1., 1.], [1., 1., 1., 1.], [1., 1., 1., 1.]]]))
-        np.testing.assert_array_equal(maxx, np.array([1., 1.5, 1.5]))
-        np.testing.assert_array_equal(minx, np.array([-1., -1.5, -1.5]))
+            [[[-2., -2., -2., -2.], [-2., -2., -2., -2.], [-2., -2., -2., -2.], [-2., -2., -2., -2.]],
+             [[-1., -1., -1., -1.], [-1., -1., -1., -1.], [-1., -1., -1., -1.], [-1., -1., -1., -1.]],
+             [[0., 0., 0., 0.], [0., 0., 0., 0.], [0., 0., 0., 0.], [0., 0., 0., 0.]]]))
+        np.testing.assert_array_equal(maxx, np.array([0., 0.5, 0.5]))
+        np.testing.assert_array_equal(minx, np.array([-2., -2.5, -2.5]))
 
 
 def create_linear_3d_matrix(shape):
@@ -274,10 +275,10 @@ class TestMultilevel(unittest.TestCase):
 
     def test_solve_nonlinearfp(self):
         print("\ntest_solve_nonlinearfp:\n\n")
-        dim = np.array([4, 4, 4], dtype=int)
+        # dim = np.array([4, 4, 4], dtype=int)
         h = np.array([1., 1., 1.])
-        ext = LevelExt()
-        x, ext.minx, ext.maxx = centergrid(dim, h)
+        # ext = LevelExt()
+        # x, ext.minx, ext.maxx = centergrid(dim, h)
         """
         transform = TransformLinear(ext)
         fixed = create_linear_3d_matrix([4,4,4])
@@ -332,10 +333,10 @@ class TestMultilevel(unittest.TestCase):
 
     def test_register_volume(self):
         print("\ntest_register_volume:\n\n")
-        dim = np.array([4, 4, 4], dtype=int)
-        h = np.array([1., 1., 1.])
-        ext = LevelExt()
-        x, ext.minx, ext.maxx = centergrid(dim, h)
+        # dim = np.array([4, 4, 4], dtype=int)
+        # h = np.array([1., 1., 1.])
+        # ext = LevelExt()
+        # x, ext.minx, ext.maxx = centergrid(dim, h)
 
         fixed = np.zeros([4, 4, 4])
         fixed[1, :, :] = np.eye(4)
@@ -368,6 +369,10 @@ class TestMultilevel(unittest.TestCase):
                             [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00]]]
                           )
         np.testing.assert_array_almost_equal(cu_out, out, decimal=2)
+
+    def test_register_series(self):
+        a = Series('../data/time.zip', 'time')
+        out = register_npreg(0, a)
 
 
 if __name__ == '__main__':

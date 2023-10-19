@@ -17,7 +17,7 @@ There are three implementations of NPreg:
 
 * Pure Python/NumPy code. Source code will run on any Python platform.
 * Cython code. Binary code compiled for supported platforms.
-* CuPy/CUDA code. Source code which will run on platforms with a working `CuPy`and CUDA Toolkit.
+* CuPy/CUDA code. Source code which will run on platforms with a working `CuPy` and CUDA Toolkit.
 
 Prerequisites
 #############
@@ -49,7 +49,7 @@ Using NPreg module:
     # fixed can be either a Series volume,
     # or an index (int) into moving Series
     # moving can be a 3D or 4D Series instance
-    out = register_series(fixed, moving)
+    out = register_npreg(fixed, moving)
     out.seriesDescription += " (NPreg)"
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/
