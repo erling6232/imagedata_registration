@@ -371,7 +371,7 @@ class TestMultilevel(unittest.TestCase):
         np.testing.assert_array_almost_equal(cu_out, out, decimal=2)
 
     def test_register_series(self):
-        a = Series('../data/time.zip', 'time')
+        a = Series('data/time.zip', 'time')
         out = register_npreg(0, a)
 
 
