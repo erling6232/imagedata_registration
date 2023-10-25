@@ -86,6 +86,7 @@ See [NPreg examples](docs/NPreg.rst).
 See
 :doc:`docs/NPreg.rst`
 :doc:`parrot`
+`NPreg examples <docs/NPreg.rst>`
 
 Using NPreg module:
 
