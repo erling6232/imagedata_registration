@@ -415,7 +415,7 @@ def register_npreg(
     else:
         shape = fixed.shape
         tags = [None]
-    out = np.zeros(shape, dtype=moving.dtype)
+    si = np.zeros(shape, dtype=moving.dtype)
 
     for t, tag in enumerate(tags):
         print('-------------------------------------------------')
@@ -425,13 +425,22 @@ def register_npreg(
         # print("test_register_volume: moving", type(si_moving), si_moving.dtype, si_moving.shape)
         # print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
         if tag is None:
-            out = npreg.register_volume(moving)
+            si = npreg.register_volume(moving)
         else:
-            out[t] = npreg.register_volume(moving[t])
+            si[t] = npreg.register_volume(moving[t])
         # print('------DONE-{}-------------------------------------'.format(time.clock()-t0))
         print('------DONE----------------------------------------')
 
-    super_threshold_indices = out > 65500
-    out[super_threshold_indices] = 0
+    super_threshold_indices = si > 65500
+    si[super_threshold_indices] = 0
 
-    return Series(out, input_order=moving.input_order, template=moving, geometry=fixed)
+    out = Series(si, input_order=moving.input_order, template=moving, geometry=fixed)
+    if out.ndim > fixed.ndim:
+        out.tags = moving.tags
+        out.axes[0] = moving.axes[0]
+    try:
+        out.seriesDescription += " NPreg"
+    except ValueError:
+        out.seriesDescription = "NPreg"
+
+    return out

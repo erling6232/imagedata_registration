@@ -40,7 +40,7 @@ def register_fsl(
         tags = [None]
 
     with tempfile.TemporaryDirectory() as tmp:
-        print('\nPreparing for MCFLIRT ...')
+        print('\nPreparing for FSL ...')
         p = Path(tmp)
         fixed_path = None
         if not issubclass(type(fixed), int):
@@ -51,7 +51,7 @@ def register_fsl(
         moving.write(tmp_moving, formats=['nifti'])
         moving_path = list(tmp_moving.glob('*'))[0]
 
-        print('MCFLIRT running ...')
+        print('FSL running ...')
         tmp_out = p / 'out.nii.gz'
 
         reg_method = method()
@@ -72,13 +72,20 @@ def register_fsl(
         out = Series(tmp_out, input_order=moving.input_order, template=moving, geometry=fixed_volume)
         out.tags = moving.tags
         # out.axes = moving.axes
-        out.seriesDescription = 'MCFLIRT {}'.format(reg_method.inputs.cost)
         super_threshold_indices = out > 65500
         out[super_threshold_indices] = 0
         if out.ndim > fixed_volume.ndim:
             out.tags = moving.tags
             out.axes[0] = moving.axes[0]
+        try:
+            out.seriesDescription += ' {} {}'.format(
+                reg_method.cmd,
+                reg_method.inputs.cost)
+        except ValueError:
+            out.seriesDescription = '{} {}'.format(
+                reg_method.cmd,
+                reg_method.inputs.cost)
 
-        print('MCFLIRT ended.\n')
+        print('FSL ended.\n')
         return out
 
