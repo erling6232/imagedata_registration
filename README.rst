@@ -83,8 +83,12 @@ NPreg
 -----
 
 See [NPreg examples](docs/NPreg.rst).
-See :doc:`docs/NPreg.rst`
+See
+:doc:`docs/NPreg.rst`
+:doc:`parrot`
+
 Using NPreg module:
+
 
 .. code-block:: python
 

@@ -3,13 +3,15 @@ requires = [
     "setuptools>=61.0",
     "wheel",
     "cython",
+    "nipype",
+    "simpleitk-simpleelastix",
     "imagedata>=3.1.0"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata-registration"
-version = "0.1.0"
+version = "0.2.0dev1"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
     {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
