@@ -84,9 +84,9 @@ NPreg
 
 See [NPreg examples](docs/NPreg.rst).
 See
-:doc:`docs/NPreg.rst`
-:doc:`parrot`
-`NPreg examples <docs/NPreg.rst>`
+:doc:`docs/NPreg.rst`_
+:doc:`parrot`_
+`NPreg examples <docs/NPreg.rst>`_
 
 Using NPreg module:
 
