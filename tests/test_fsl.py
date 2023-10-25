@@ -12,6 +12,7 @@ class TestFSLRegistration(unittest.TestCase):
     def test_register_fsl(self):
         a = Series('data/time.zip', 'time')
         out = register_fsl(0, a, options={"cost": "corratio"})
+        print(out.shape)
 
 
 if __name__ == '__main__':

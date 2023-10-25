@@ -33,6 +33,11 @@ nipype, as well as a the `FSL` executables.
 Each `FSL` may have different requirements.
 The common factor is that `FSL` will read and write NIfTI image files.
 
+A function `register_fsl` is provided here.
+This function will register a moving Series to a fixed Series.
+The default registration method is fsl.MCFLIRT.
+The function will accept other registration methods.
+
 Rather than providing an interface between `Imagedata`and `FSL`,
 a skeleton for a program is suggested.
 

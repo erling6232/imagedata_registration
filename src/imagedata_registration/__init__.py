@@ -66,7 +66,8 @@ def register_elastix(
     out[super_threshold_indices] = 0
 
     res = Series(out, input_order=moving.input_order, template=moving, geometry=fixed_volume)
-    res.tags = moving.tags
-    # res.axes = moving.axes
+    if res.ndim > fixed_volume.ndim:
+        res.tags = moving.tags
+        res.axes[0] = moving.axes[0]
     res.seriesDescription = 'ITK Elastix {}'.format(0)
     return res

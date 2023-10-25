@@ -3,7 +3,12 @@
 FSL Examples
 ============
 
-Using MCFLIRT module:
+A function `register_fsl` is provided here.
+This function will register a moving Series to a fixed Series.
+The default registration method is **fsl.MCFLIRT**.
+The function will accept other registration methods.
+
+Using **MCFLIRT** module:
 
 .. code-block:: python
 
@@ -13,6 +18,12 @@ Using MCFLIRT module:
     # fixed can be either a Series volume,
     # or an index (int) into moving Series
     # moving can be a 3D or 4D Series instance
-    out = register_fsl(fixed, moving, method=fsl.MCFLIRT)
+    out = register_fsl(
+        fixed,
+        moving,
+        method=fsl.MCFLIRT,
+        options={
+            'cost': 'corratio'
+        })
     out.seriesDescription += " (MCFLIRT)"
 

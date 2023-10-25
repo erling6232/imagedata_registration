@@ -14,7 +14,7 @@ def register_fsl(
         fixed: Union[int, Series],
         moving: Series,
         method: Callable[[], fsl.FSLCommand] = fsl.MCFLIRT,
-        options: Dict = {}) -> Series:
+        options: Dict = {'cost': 'corratio'}) -> Series:
     """Register a series using FSL methods.
 
     Args:
@@ -75,6 +75,9 @@ def register_fsl(
         out.seriesDescription = 'MCFLIRT {}'.format(reg_method.inputs.cost)
         super_threshold_indices = out > 65500
         out[super_threshold_indices] = 0
+        if out.ndim > fixed_volume.ndim:
+            out.tags = moving.tags
+            out.axes[0] = moving.axes[0]
 
         print('MCFLIRT ended.\n')
         return out
