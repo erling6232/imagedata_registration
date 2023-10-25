@@ -49,6 +49,7 @@ jobs:
         #   config-file: "{package}/pyproject.toml"
         run: |
           mkdir -p imagedata_registration/NPreg
+          rm imagedata_registration/NPreg/*.so
           python setup.py build_ext -i
           if [[ -f imagedata_registration/NPreg/multigrid_nonlin_cy*.so ]]; then
             mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
