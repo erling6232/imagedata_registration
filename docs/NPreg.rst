@@ -1,0 +1,4 @@
+.. _NPreg:
+
+NPreg Examples
+==============
