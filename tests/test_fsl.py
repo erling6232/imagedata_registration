@@ -12,7 +12,8 @@ class TestFSLRegistration(unittest.TestCase):
     def test_register_fsl(self):
         a = Series('data/time.zip', 'time')
         out = register_fsl(0, a, options={"cost": "corratio"})
-        print(out.shape)
+        np.testing.assert_array_equal(out.tags[0], a.tags[0])
+        self.assertEqual(out.axes[0], a.axes[0])
 
 
 if __name__ == '__main__':
