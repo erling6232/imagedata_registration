@@ -49,7 +49,7 @@ jobs:
         #   config-file: "{package}/pyproject.toml"
         run: |
           mkdir -p imagedata_registration/NPreg
-          find . -name '*.so' -o -name '*.c' -print0 | xargs -0i /bin/rm '{}'
+          find . -name '*.so' -o -name '*.c' -print0 \| xargs -0 /bin/rm -f
           python setup.py build_ext -i
           if [[ -f imagedata_registration/NPreg/multigrid_nonlin_cy*.so ]]; then
             mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
