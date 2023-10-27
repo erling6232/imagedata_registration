@@ -66,12 +66,12 @@ jobs:
           ls -lR
       - name: Testing - with Cython
         run: |
-          pip install SimpleITK-SimpleElastix
+          pip install SimpleITK-SimpleElastix nipype
           coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
         run: |
           find . -name '*.so' | xargs rm
-          pip install SimpleITK-SimpleElastix
+          pip install SimpleITK-SimpleElastix nipype
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
         with:
