@@ -8,5 +8,7 @@ echo "build_wheels.sh: running"
 # in the pyproject.toml file, while the tests are run
 # against the most recent version of the dependencies
 
+python --version
+env
 python -m pip install cibuildwheel
 python -m cibuildwheel --output-dir wheelhouse
