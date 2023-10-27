@@ -85,8 +85,9 @@ jobs:
         run: |
           pip install --upgrade pip wheel
           echo python ${{ matrix }}
-          if [[ "${{ matrix.python-version }}" == "python3.8" ]]; then
+          if [[ "${{ matrix.os }}" == "python3.8" ]]; then
             pip install SimpleITK-SimpleElastix==2.0.0rc2.dev909
+          fi
 
       - name: Build sdist
         run: pipx run build --sdist
