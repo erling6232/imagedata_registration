@@ -60,21 +60,18 @@ jobs:
       - name: Testing - prepare with coverage
         run: |
           python3 -m pip install coverage imagedata
-      - name: Env
-        run: |
-          env
-      - name: File list
-        run: |
-          pwd
-          ls -lR
+      #- name: File list
+      #  run: |
+      #    pwd
+      #    ls -lR
       - name: Testing - with Cython
         run: |
-          pip install SimpleITK-SimpleElastix nipype
+          python3 -m pip install SimpleITK-SimpleElastix nipype
           coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
         run: |
           find . -name '*.so' | xargs rm
-          pip install SimpleITK-SimpleElastix nipype
+          python3 -m pip install SimpleITK-SimpleElastix nipype
           coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v3
         with:
