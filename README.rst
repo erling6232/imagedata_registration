@@ -71,6 +71,15 @@ FSL
 The imagedata-registration FSL module is a wrapper around the official FSL tools.
 A native FSL installation is required on the host computer.
 
+SimpleElastix
+-------------
+
+SimpleElastix must be installed separately:
+
+.. code-block::
+
+    pip install SimpleITK-SimpleElastix
+
 Installation
 ############
 
