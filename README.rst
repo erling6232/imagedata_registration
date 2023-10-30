@@ -60,10 +60,10 @@ NPreg on CUDA GPU
 imagedata-registration will benefit from a CUDA GPU. If this is available,
 install `CuPy` (https://docs.cupy.dev).
 
-First, install the `CUDA Toolkit`: see https://developer.nvidia.com/cuda-toolkit.
+* First, install the `CUDA Toolkit`: see https://developer.nvidia.com/cuda-toolkit.
 
-There are different options for installing `CuPy`. See:
-https://docs.cupy.dev/en/stable/install.html
+* There are different options for installing `CuPy`. See:
+  https://docs.cupy.dev/en/stable/install.html
 
 FSL
 ---
