@@ -25,5 +25,4 @@ Using **MCFLIRT** module:
         options={
             'cost': 'corratio'
         })
-    out.seriesDescription += " (MCFLIRT)"
 

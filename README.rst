@@ -30,29 +30,26 @@ FSL
 has several methods for image registration.
 Using `FSL` image registration from Python requires the `FSL` interface from
 nipype, as well as a the `FSL` executables.
-Each `FSL` may have different requirements.
-The common factor is that `FSL` will read and write NIfTI image files.
+Each `FSL` method may have different requirements.
+The common factor is that `FSL` methods will read and write NIfTI image files.
 
 A function `register_fsl` is provided here.
 This function will register a moving Series to a fixed Series.
 The default registration method is fsl.MCFLIRT.
 The function will accept other registration methods.
 
-Rather than providing an interface between `Imagedata`and `FSL`,
-a skeleton for a program is suggested.
-
 ITK Elastix
 -----------
 
 The popular `Elastix` GUI is based on the C++ `ITK` image registration routines.
-Like the `FSL` methods, there are numerous `ITK` methods available, all with
+Like the `FSL` methods, there are numerous `Elastix` methods available, all with
 different requirements.
 The `SimpleElastix`
 (https://simpleelastix.readthedocs.io/index.html)
 Python library is one particular interface to the `Elastix/ITK` routines.
 
-Rather than providing an interface between `Imagedata`and `SimpleElastix`,
-a skeleton for a program is suggested.
+Rather than providing an interface between `Imagedata` and `SimpleElastix`,
+a skeleton program is suggested.
 
 Prerequisites
 #############
