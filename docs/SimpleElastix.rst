@@ -13,15 +13,15 @@ and can serve as an example for using `ITK/Elastix` methods.
 
 .. code-block:: python
 
+    from imagedata import Series
     from imagedata_registration.Elastix import register_elastix
 
     # fixed can be either a Series volume,
     # or an index (int) into moving Series
     # moving can be a 3D or 4D Series instance
-    out = register_fsl(
-        fixed,
-        moving
-        )
+    moving = Series("data/", "time")
+    fixed = 10
+    out = register_fsl(fixed, moving)
 
 
 Documentation on ITK / Elastix
