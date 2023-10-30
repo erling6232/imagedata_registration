@@ -21,7 +21,7 @@ and can serve as an example for using `ITK/Elastix` methods.
     # moving can be a 3D or 4D Series instance
     moving = Series("data/", "time")
     fixed = 10
-    out = register_fsl(fixed, moving)
+    out = register_elastix(fixed, moving)
 
 
 Documentation on ITK / Elastix
