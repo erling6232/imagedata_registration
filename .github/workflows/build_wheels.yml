@@ -60,6 +60,9 @@ jobs:
       - name: Testing - prepare with coverage
         run: |
           python3 -m pip install coverage imagedata
+      - name: Env
+        run: |
+          env
       - name: File list
         run: |
           pwd
