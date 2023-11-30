@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel
+          pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
       - name: Lint with flake8
         run: |
