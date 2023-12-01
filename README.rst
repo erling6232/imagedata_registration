@@ -48,9 +48,6 @@ The `SimpleElastix`
 (https://simpleelastix.readthedocs.io/index.html)
 Python library is one particular interface to the `Elastix/ITK` routines.
 
-Rather than providing an interface between `Imagedata` and `SimpleElastix`,
-a skeleton program is suggested.
-
 Prerequisites
 #############
 
