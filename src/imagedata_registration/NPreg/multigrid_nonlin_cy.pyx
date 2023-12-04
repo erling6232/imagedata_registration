@@ -39,7 +39,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     nmultilevel = np.unique(level).size
     dim3 = {}
     for i in range(nmultilevel):
-        dim3[i] = dim[i][-3]
+        dim3[i] = dim[i][-3:]
 
     # initialize u by v
     v = u
