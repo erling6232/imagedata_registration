@@ -572,9 +572,9 @@ def navlam_nonlinear(forceu, u_in, prm):
     elif prm['nudim'] == 3:
 
         # cells.print_cell("navlam_nonlinear: u", u)
-        assert len(u[0].shape) >= 3, "Shape of u[0] is not 3+ dim"
-        assert len(u[1].shape) >= 3, "Shape of u[1] is not 3+ dim"
-        assert len(u[2].shape) >= 3, "Shape of u[2] is not 3+ dim"
+        assert u[0].ndim >= 3, "Shape of u[0] is not 3+ dim"
+        assert u[1].ndim >= 3, "Shape of u[1] is not 3+ dim"
+        assert u[2].ndim >= 3, "Shape of u[2] is not 3+ dim"
         u0_shape = u[0].shape
         u1_shape = u[1].shape
         u2_shape = u[2].shape
