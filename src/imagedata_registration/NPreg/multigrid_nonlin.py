@@ -514,8 +514,8 @@ def navlam_nonlinear(forceu, u_in, prm):
 
     if prm['nudim'] == 2:
 
-        assert len(u[0].shape) >= 2, "Shape of u[0] is not 2+ dim"
-        assert len(u[1].shape) >= 2, "Shape of u[1] is not 2+ dim"
+        assert u[0].ndim >= 2, "Shape of u[0] is not 2+ dim"
+        assert u[1].ndim >= 2, "Shape of u[1] is not 2+ dim"
         u0_shape = u[0].shape
         u1_shape = u[1].shape
         if len(u0_shape) == 2:

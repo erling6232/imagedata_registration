@@ -765,6 +765,9 @@ def navlam_nonlinear3(forceu, u_in, prm):
     u0_shape = u_in[0].shape
     u1_shape = u_in[1].shape
     u2_shape = u_in[2].shape
+    for i in range(3):
+        if forceu[i].ndim == 4 and forceu[i].shape[0] == 1:
+            forceu[i].shape = forceu[i].shape[1:]
     assert forceu[0].ndim == 3, "Shape of forceu[0] is not 3 dim, is {} {}".format(forceu[0].ndim, forceu[0].shape)
     assert forceu[1].ndim == 3, "Shape of forceu[1] is not 3 dim, is {} {}".format(forceu[1].ndim, forceu[1].shape)
     assert forceu[2].ndim == 3, "Shape of forceu[2] is not 3 dim, is {} {}".format(forceu[2].ndim, forceu[2].shape)
