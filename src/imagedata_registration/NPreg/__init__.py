@@ -45,7 +45,7 @@ class NPreg(object):
     """Perform non-parametric image registration of moving to fixed.
     """
 
-    def __init__(self, fixed):
+    def __init__(self, fixed: Series, prm: dict = {}):
         self.fixed_si = fixed
 
         # Deformation field
@@ -55,26 +55,26 @@ class NPreg(object):
         self.p = None  # np.zeros()
 
         # Cost functional to use
-        self.ssd = 0
-        self.ngf = 1
-        self.ncp = 0
-        self.ssdngf = 0
-        self.ngfparal = 0
-        self.mi = 0
-        self.hess = 0
+        self.ssd = 0 if 'ssd' not in prm else prm['ssd']
+        self.ngf = 1 if 'ngf' not in prm else prm['ngf']
+        self.ncp = 0 if 'ncp' not in prm else prm['ncp']
+        self.ssdngf = 0 if 'ssdngf' not in prm else prm['ssdngf']
+        self.ngfparal = 0 if 'ngfparal' not in prm else prm['ngfparal']
+        self.mi = 0 if 'mi' not in prm else prm['mi']
+        self.hess = 0 if 'hess' not in prm else prm['hess']
 
         # Edge parameter
-        self.eta = 0.03
+        self.eta = 0.03 if 'eta' not in prm else prm['eta']
 
         # Maximum number of iterations
-        self.maxniter = 30
+        self.maxniter = 30 if 'maxniter' not in prm else prm['maxniter']
 
         # Default solver
         self.multigridsolver = MULTIGRID_SOLVER_NONLINEARFP
 
         # Regularization
-        self.mu = 5
-        self.llambda = 5
+        self.mu = 5 if 'mu' not in prm else prm['mu']
+        self.llambda = 5 if 'llambda' not in prm else prm['llambda']
 
         # Multi-level scaling
         # Note: Always keep at 0.50, otherwise it becomes unstable!!!
@@ -97,16 +97,16 @@ class NPreg(object):
         self.cycle = CYCLE_V3
 
         # Regularization segmentation
-        self.eps = 0.1
+        self.eps = 0.1 if 'eps' not in prm else prm['eps']
 
         # Time step
-        self.dt = 10
+        self.dt = 10 if 'dt' not in prm else prm['dt']
 
         # Regularization term
-        self.alpha = 1
+        self.alpha = 1 if 'alpha' not in prm else prm['alpha']
 
         # Pushing phi to -1,1
-        self.gamma = 1
+        self.gamma = 1 if 'gamma' not in prm else prm['gamma']
 
         # phi
         self.phi = None
@@ -114,7 +114,7 @@ class NPreg(object):
         # The masks
         self.mask = None
 
-        self.weight = 0.1
+        self.weight = 0.1 if 'weight' not in prm else prm['weight']
 
         self.E = {}
         self.E['reg_data'] = []
@@ -192,7 +192,7 @@ class NPreg(object):
                 for j in range(self.ndim):
                     # self.multi.level[0].u[j] = resize(self.multi.level[0].u[0],self.multi.level[i].dim3,'bilinear')
                     rsi = Resize(self.multi.level[0].u[0])
-                    self.multi.level[0].u[j] = rsi.resizeBilinear(self.multi.level[i].dim3)
+                    self.multi.level[i].u[j] = rsi.resizeBilinear(self.multi.level[i].dim3)
 
             self.time = min(self.ntime, 1)
 
@@ -277,7 +277,7 @@ class NPreg(object):
         for i in range(1, self.multi.nmultilevel):
             for j in range(self.nudim):
                 rsi = Resize(self.multi.level[0].forceu[b[j]])
-                a = rsi.resizeBilinear(self.multi.level[0].dim3)
+                a = rsi.resizeBilinear(self.multi.level[i].dim3)
                 try:
                     self.multi.level[i].forceu[b[j]] = a
                 except AttributeError:
@@ -391,7 +391,8 @@ class NPreg(object):
 def register_npreg(
         fixed: Union[int, Series],
         moving: Series,
-        cycle: int = CYCLE_NONE) -> Series:
+        cycle: int = CYCLE_NONE,
+        prm: dict = {}) -> Series:
     """Register a series using NPreg.
 
     Args:
@@ -420,7 +421,7 @@ def register_npreg(
     for t, tag in enumerate(tags):
         print('-------------------------------------------------')
         print('NPreg register {} of {}'.format(t + 1, len(tags)))
-        npreg = NPreg(fixed)
+        npreg = NPreg(fixed, prm=prm)
         npreg.cycle = cycle
         # print("test_register_volume: moving", type(si_moving), si_moving.dtype, si_moving.shape)
         # print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)

@@ -37,7 +37,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     nmultilevel = np.unique(level).size
     dim3 = {}
     for i in range(nmultilevel):
-        dim3[i] = dim[i][-3]
+        dim3[i] = dim[i][-3:]
 
     # initialize u by v
     v = u
@@ -78,17 +78,23 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find residual r
             for j in range(noptdim):
+                if l not in r:
+                    r[l] = {}
                 r[l][a[j]] = forceu[l][a[j]] - av[a[j]]
 
             # restrict
             for j in range(noptdim):
                 # r[ln][a[j]] = resize(r[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(r[l][a[j]])
+                if ln not in r:
+                    r[ln] = {}
                 r[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
 
             for j in range(noptdim):
                 # v[ln][a[j]] = resize(v[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(v[l][a[j]])
+                if ln not in v:
+                    v[ln] = {}
                 v[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
             continue
 
@@ -109,6 +115,8 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find error e
             for j in range(prm['nudim']):
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = u[l][a[j]] - v[l][a[j]]
             continue
 
@@ -120,6 +128,8 @@ def multigrid_nonlin(forceu, u_in, prm):
             for j in range(prm['nudim']):
                 # e[l][a[j]] = resize(e[lp][a[j]], dim3[l], interpmethod)
                 rsi = Resize(e[lp][a[j]])
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = rsi.resize(dim3[l], interpmethod)
 
             # correct v by e
@@ -213,6 +223,10 @@ def Au(u, h, prm):
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
 
+        for i in range(3):
+            assert u[i].shape[-3:] == forceu[i].shape[-3:],(
+                "Shape of u[{}] and forceu[{}] differ.".format(i, i))
+
         nt, nz, ny, nx = u[0].shape
 
         d0 = u[0] * (-2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (mu + llambda) / H[0, 0])
@@ -298,179 +312,6 @@ def Au(u, h, prm):
 
 
 # ----------------------------------------------------------------
-
-"""
-def navlam_nonlinear(forceu, u_in, prm):
-
-    # THIS IMPLEMENTATION DOES NOT WORK IN PYTHON
-
-    # Fix point iterations (isolating the unknown on left hand side and
-    # iterating). See page 100 in 'A multigrid tutorial'
-
-
-    u = u_in.copy() # Do not modify input
-
-    # prm must contain
-    if type(prm['maxniter']) is tuple:
-        maxniter = prm['maxniter'][0]
-    else:
-        maxniter = prm['maxniter']
-    h = prm['h']
-    llambda = prm['lambda']
-    mu = prm['mu']
-    dt = prm['dt']
-
-    # F = cell(prm['nudim'],1)
-    F = {}
-    H = np.zeros((prm['nudim'],prm['nudim']))
-    for j in range(prm['nudim']):
-        for k in range(prm['nudim']):
-            H[j,k] = h[j]*h[k]
-
-    if prm['nudim'] == 2:
-
-        assert len(u[0].shape) >= 2, "Shape of u[0] is not 2+ dim"
-        assert len(u[1].shape) >= 2, "Shape of u[1] is not 2+ dim"
-        u0_shape = u[0].shape
-        u1_shape = u[1].shape
-        if len(u0_shape) == 2:
-            u[0].shape = (1, u0_shape[0], u0_shape[1])
-        if len(u1_shape) == 2:
-            u[1].shape = (1, u1_shape[0], u1_shape[1])
-
-        assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
-
-        nz,ny,nx=u[0].shape
-
-        for i in range(maxniter):
-
-            F[0] = u[0][:,np.r_[1:ny,-1],:]*((llambda+2*mu)/H[0,0]) + \
-            u[0][:,np.r_[0,:ny-1],:]*((llambda+2*mu)/H[0,0]) + \
-            u[0][:,:,np.r_[1:nx,-1]]*(mu/H[1,1]) + \
-            u[0][:,:,np.r_[0,:nx-1]]*(mu/H[1,1]) + \
-            u[1][:,np.r_[1:ny,-1],np.r_[1:nx,-1]]*((llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[1:ny,-1],np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[0,:ny-1],np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[0,:ny-1],np.r_[0,:nx-1]]*((llambda+mu)/(4*H[0,1])) - \
-            forceu[0]
-        
-            # put on right hand side and divide by the term in front of u_ijk
-            F[0] = -F[0]/(-2*mu*(1/H[0,0] + 1/H[1,1])-2*(llambda+mu)/H[0,0])
-        
-            F[1] =  u[1][:,np.r_[1:ny,-1],:]*(mu/H[0,0]) + \
-            u[1][:,np.r_[0,:ny-1],:]*(mu/H[0,0]) + \
-            u[1][:,:,np.r_[1:nx,-1]]*((llambda+2*mu)/H[1,1]) + \
-            u[1][:,:,np.r_[0,:nx-1]]*((llambda+2*mu)/H[1,1]) + \
-            u[0][:,np.r_[1:ny,-1],np.r_[1:nx,-1]]*((llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[1:ny,-1],np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[0,:ny-1],np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[0,:ny-1],np.r_[0,:nx-1]]*((llambda+mu)/(4*H[0,1])) - \
-            forceu[1]
-        
-            # put on right hand side and divide by the term in front of u_ijk
-            F[1] = -F[1]/(-2*mu*(1/H[0,0] + 1/H[1,1])-2*(llambda+mu)/H[1,1])
-
-            # pix point iterations
-            u[0] = F[0]        
-            u[1] = F[1]
-
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
-        
-    elif prm['nudim'] == 3:
-
-        #cells.print_cell("navlam_nonlinear: u", u)
-        assert len(u[0].shape) >= 3, "Shape of u[0] is not 3+ dim"
-        assert len(u[1].shape) >= 3, "Shape of u[1] is not 3+ dim"
-        assert len(u[2].shape) >= 3, "Shape of u[2] is not 3+ dim"
-        u0_shape = u[0].shape
-        u1_shape = u[1].shape
-        u2_shape = u[2].shape
-        if len(u0_shape) == 3:
-            u[0].shape = (1, u0_shape[0], u0_shape[1], u0_shape[2])
-        #print("navlam_nonlinear: u1_shape", u1_shape)
-        if len(u1_shape) == 3:
-            #print("navlam_nonlinear: new u1_shape", (1, u1_shape[0], u1_shape[1], u1_shape[2]))
-            u[1].shape = (1, u1_shape[0], u1_shape[1], u1_shape[2])
-        #print("navlam_nonlinear: u2_shape", u2_shape)
-        if len(u2_shape) == 3:
-            #print("navlam_nonlinear: new u2_shape", (1, u2_shape[0], u2_shape[1], u2_shape[2]))
-            u[2].shape = (1, u2_shape[0], u2_shape[1], u2_shape[2])
-        #cells.print_cell("navlam_nonlinear: H", H)
-
-        assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
-        assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
-
-        nt,nz,ny,nx=u[0].shape
-
-        for i in range(maxniter):
-
-            F[0] = u[0][:,np.r_[1:nz,-1],:,:]*((llambda+2*mu)/H[0,0]) + \
-            u[0][:,np.r_[0,:nz-1],:,:]*((llambda+2*mu)/H[0,0]) + \
-            u[0][:,:,np.r_[1:ny,-1],:]*(mu/H[1,1]) + \
-            u[0][:,:,np.r_[0,:ny-1],:]*(mu/H[1,1]) + \
-            u[0][:,:,:,np.r_[1:nx,-1]]*(mu/H[2,2]) + \
-            u[0][:,:,:,np.r_[0,:nx-1]]*(mu/H[2,2]) + \
-            u[1][:,np.r_[1:nz,-1],np.r_[1:ny,-1],:]*((llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[1:nz,-1],np.r_[0,:ny-1],:]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[0,:nz-1],np.r_[1:ny,-1],:]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[1][:,np.r_[0,:nz-1],np.r_[0,:ny-1],:]*((llambda+mu)/(4*H[0,1])) + \
-            u[2][:,np.r_[1:nz,-1],:,np.r_[1:nx,-1]]*((llambda+mu)/(4*H[0,2])) + \
-            u[2][:,np.r_[1:nz,-1],:,np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[0,2])) + \
-            u[2][:,np.r_[0,:nz-1],:,np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[0,2])) + \
-            u[2][:,np.r_[0,:nz-1],:,np.r_[0,:nx-1]]*((llambda+mu)/(4*H[0,2])) - \
-            forceu[0]
-            F[0] = -F[0]/(-2*mu*(1/H[0,0] + 1/H[1,1] + 1/H[2,2])-2*(llambda+mu)/H[0,0])
-        
-            F[1] =  u[1][:,np.r_[1:nz,-1],:,:]*(mu/H[0,0]) + \
-            u[1][:,np.r_[0,:nz-1],:,:]*(mu/H[0,0]) + \
-            u[1][:,:,np.r_[1:ny,-1],:]*((llambda+2*mu)/H[1,1]) + \
-            u[1][:,:,np.r_[0,:ny-1],:]*((llambda+2*mu)/H[1,1]) + \
-            u[1][:,:,:,np.r_[1:nx,-1]]*(mu/H[2,2]) + \
-            u[1][:,:,:,np.r_[0,:nx-1]]*(mu/H[2,2]) + \
-            u[0][:,np.r_[1:nz,-1],np.r_[1:ny,-1],:]*((llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[1:nz,-1],np.r_[0,:ny-1],:]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[0,:nz-1],np.r_[1:ny,-1],:]*(-(llambda+mu)/(4*H[0,1])) + \
-            u[0][:,np.r_[0,:nz-1],np.r_[0,:ny-1],:]*((llambda+mu)/(4*H[0,1])) + \
-            u[2][:,:,np.r_[1:ny,-1],np.r_[1:nx,-1]]*((llambda+mu)/(4*H[1,2])) + \
-            u[2][:,:,np.r_[1:ny,-1],np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[1,2])) + \
-            u[2][:,:,np.r_[0,:ny-1],np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[1,2])) + \
-            u[2][:,:,np.r_[0,:ny-1],np.r_[0,:nx-1]]*((llambda+mu)/(4*H[1,2])) - \
-            forceu[1]
-            F[1] = -F[1]/(-2*mu*(1/H[0,0] + 1/H[1,1] + 1/H[2,2])-2*(llambda+mu)/H[1,1])
-
-            F[2] = u[2][:,np.r_[1:nz,-1],:,:]*(mu/H[0,0]) + \
-            u[2][:,np.r_[0,:nz-1],:,:]*(mu/H[0,0]) + \
-            u[2][:,:,np.r_[1:ny,-1],:]*(mu/H[1,1]) + \
-            u[2][:,:,np.r_[0,:ny-1],:]*(mu/H[1,1]) + \
-            u[2][:,:,:,np.r_[1:nx,-1]]*((llambda+2*mu)/H[2,2]) + \
-            u[2][:,:,:,np.r_[0,:nx-1]]*((llambda+2*mu)/H[2,2]) + \
-            u[0][:,np.r_[1:nz,-1],:,np.r_[1:nx,-1]]*((llambda+mu)/(4*H[0,2])) + \
-            u[0][:,np.r_[1:nz,-1],:,np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[0,2])) + \
-            u[0][:,np.r_[0,:nz-1],:,np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[0,2])) + \
-            u[0][:,np.r_[0,:nz-1],:,np.r_[0,:nx-1]]*((llambda+mu)/(4*H[0,2])) + \
-            u[1][:,:,np.r_[1:ny,-1],np.r_[1:nx,-1]]*((llambda+mu)/(4*H[1,2])) + \
-            u[1][:,:,np.r_[1:ny,-1],np.r_[0,:nx-1]]*(-(llambda+mu)/(4*H[1,2])) + \
-            u[1][:,:,np.r_[0,:ny-1],np.r_[1:nx,-1]]*(-(llambda+mu)/(4*H[1,2])) + \
-            u[1][:,:,np.r_[0,:ny-1],np.r_[0,:nx-1]]*((llambda+mu)/(4*H[1,2])) - \
-            forceu[2]
-            F[2] = -F[2]/(-2*mu*(1/H[0,0] + 1/H[1,1] + 1/H[2,2])-2*(llambda+mu)/H[2,2])
-        
-            # fix point iterations
-            u[0] = F[0]
-            u[1] = F[1]
-            u[2] = F[2]
-
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
-        u[2].shape = u2_shape
-    else:
-        raise ValueError("nudim out of range: %d" % prm['nudim'])
-
-    return u
-"""
-
-# ----------------
 
 # cdefine the signature of our c function
 cdef

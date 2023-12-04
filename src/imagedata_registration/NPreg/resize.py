@@ -1,9 +1,11 @@
 """
 resize using scipy.ndimage.zoom
 """
+import numbers
 
 from scipy.ndimage import zoom
 import numpy as np
+import numbers
 
 
 class Resize(object):
@@ -50,6 +52,14 @@ class Resize(object):
             pass
         else:
             raise ValueError("Resize dim must be 3 or 4 (%d given)." % len(dim))
+
+        if isinstance(method, str):
+            if method == 'bilinear':
+                method = 2
+            elif method == 'nearest':
+                method = 1
+            elif method == 'qubic':
+                method = 3
 
         ratio = np.ones(4)
         for i in range(1, 4):

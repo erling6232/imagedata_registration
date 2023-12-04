@@ -25,7 +25,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     nmultilevel = np.unique(level).size
     dim3 = {}
     for i in range(nmultilevel):
-        dim3[i] = dim[i][-3]
+        dim3[i] = dim[i][-3:]
 
     # initialize u by v
     v = u
@@ -66,17 +66,23 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find residual r
             for j in range(noptdim):
+                if l not in r:
+                    r[l] = {}
                 r[l][a[j]] = forceu[l][a[j]] - av[a[j]]
 
             # restrict
             for j in range(noptdim):
                 # r[ln][a[j]] = resize(r[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(r[l][a[j]])
+                if ln not in r:
+                    r[ln] = {}
                 r[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
 
             for j in range(noptdim):
                 # v[ln][a[j]] = resize(v[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(v[l][a[j]])
+                if ln not in v:
+                    v[ln] = {}
                 v[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
             continue
 
@@ -97,6 +103,8 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find error e
             for j in range(prm['nudim']):
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = u[l][a[j]] - v[l][a[j]]
             continue
 
@@ -108,6 +116,8 @@ def multigrid_nonlin(forceu, u_in, prm):
             for j in range(prm['nudim']):
                 # e[l][a[j]] = resize(e[lp][a[j]], dim3[l], interpmethod)
                 rsi = Resize(e[lp][a[j]])
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = rsi.resize(dim3[l], interpmethod)
 
             # correct v by e
@@ -260,14 +270,30 @@ def Au(u, h, prm):
         dy2 = u[2][:, :, np.r_[0, :ny - 1], :] * (mu / H[1, 1])
         dx1 = u[2][:, :, :, np.r_[1:nx, -1]] * (mu / H[2, 2] + (llambda + mu) / H[2, 2])
         dx2 = u[2][:, :, :, np.r_[0, :nx - 1]] * (mu / H[2, 2] + (llambda + mu) / H[2, 2])
-        dzx1 = u[0][:, np.r_[1:nz, -1], :, np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[0, 2]))
-        dzx2 = u[0][:, np.r_[1:nz, -1], :, np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[0, 2]))
-        dzx3 = u[0][:, np.r_[0, :nz - 1], :, np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[0, 2]))
-        dzx4 = u[0][:, np.r_[0, :nz - 1], :, np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[0, 2]))
-        dyx1 = u[1][:, :, np.r_[1:ny, -1], np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[1, 2]))
-        dyx2 = u[1][:, :, np.r_[1:ny, -1], np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[1, 2]))
-        dyx3 = u[1][:, :, np.r_[0, :ny - 1], np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[1, 2]))
-        dyx4 = u[1][:, :, np.r_[0, :ny - 1], np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[1, 2]))
+        # dzx1 = u[0][:, np.r_[1:nz, -1], :, np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[1:nx, -1]]
+        dzx1 = temp[:, np.r_[1:nz, -1], :, :] * ((llambda + mu) / (4 * H[0, 2]))
+        # dzx2 = u[0][:, np.r_[1:nz, -1], :, np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[0, :nx - 1]]
+        dzx2 = temp[:, np.r_[1:nz, -1], :, :] * (-(llambda + mu) / (4 * H[0, 2]))
+        # dzx3 = u[0][:, np.r_[0, :nz - 1], :, np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[1:nx, -1]]
+        dzx3 = temp[:, np.r_[0, :nz - 1], :, :] * (-(llambda + mu) / (4 * H[0, 2]))
+        # dzx4 = u[0][:, np.r_[0, :nz - 1], :, np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[0, :nx - 1]]
+        dzx4 = temp[:, np.r_[0, :nz - 1], :, :] * ((llambda + mu) / (4 * H[0, 2]))
+        # dyx1 = u[1][:, :, np.r_[1:ny, -1], np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[1:nx, -1]]
+        dyx1 = temp[:, :, np.r_[1:ny, -1], :] * ((llambda + mu) / (4 * H[1, 2]))
+        # dyx2 = u[1][:, :, np.r_[1:ny, -1], np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[0, :nx - 1]]
+        dyx2 = temp[:, :, np.r_[1:ny, -1], :] * (-(llambda + mu) / (4 * H[1, 2]))
+        # dyx3 = u[1][:, :, np.r_[0, :ny - 1], np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[1:nx, -1]]
+        dyx3 = temp[:, :, np.r_[0, :ny - 1], :] * (-(llambda + mu) / (4 * H[1, 2]))
+        # dyx4 = u[1][:, :, np.r_[0, :ny - 1], np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[0, :nx - 1]]
+        dyx4 = temp[:, :, np.r_[0, :ny - 1], :] * ((llambda + mu) / (4 * H[1, 2]))
         F[2] = d0 + dz1 + dz2 + dy1 + dy2 + dx1 + dx2 + dzx1 + dzx2 + dzx3 + dzx4 + dyx1 + dyx2 + dyx3 + dyx4
 
         u[0].shape = u0_shape
@@ -566,6 +592,10 @@ def navlam_nonlinear(forceu, u_in, prm):
 
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
+
+        for i in range(3):
+            assert u[i].shape[-3:] == forceu[i].shape[-3:],(
+                "Shape of u[{}] and forceu[{}] differ.".format(i, i))
 
         nt, nz, ny, nx = u[0].shape
 

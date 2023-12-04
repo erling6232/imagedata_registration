@@ -13,8 +13,7 @@ from src.imagedata_registration.NPreg.normgrad import normgrad
 from src.imagedata_registration.NPreg import NPreg
 from src.imagedata_registration.NPreg.transform import TransformLinear
 from src.imagedata_registration.NPreg.cells import ctransposecell, innerprodcell
-from src.imagedata_registration.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V2
-
+from src.imagedata_registration.NPreg.multilevel import Level, LevelExt, Multilevel, CYCLE_NONE, CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_W2, CYCLE_W3
 
 
 class TestResizeFunctions(unittest.TestCase):
@@ -298,7 +297,7 @@ class TestMultilevel(unittest.TestCase):
         nudim = 3
         eta = 0.03
 
-        npreg = NPreg(fixed)
+        npreg = NPreg(fixed, prm={'maxniter': 5})
         npreg.cycle = CYCLE_NONE
         # npreg.multi = Multilevel(CYCLE_V2, moving.shape, h, 0.5)
         npreg.multi = Multilevel(CYCLE_NONE, moving.shape, h, 0.5)
@@ -345,7 +344,7 @@ class TestMultilevel(unittest.TestCase):
         moving[1, 0:-1, 1:] = np.eye(3)
         moving = Series(moving)
 
-        npreg = NPreg(fixed)
+        npreg = NPreg(fixed, prm={'maxniter': 30})
         npreg.cycle = CYCLE_NONE
         print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
         out = npreg.register_volume(moving)
@@ -370,9 +369,29 @@ class TestMultilevel(unittest.TestCase):
                           )
         np.testing.assert_array_almost_equal(cu_out, out, decimal=2)
 
-    def test_register_series(self):
+    def test_register_series_NONE(self):
         a = Series('data/time.zip', 'time')
-        out = register_npreg(0, a, cycle=CYCLE_NONE)
+        out = register_npreg(0, a, cycle=CYCLE_NONE, prm={'maxniter': 5})
+
+    def test_register_series_V1(self):
+        a = Series('data/time.zip', 'time')
+        out = register_npreg(0, a, cycle=CYCLE_V1, prm={'maxniter': 5})
+
+    def test_register_series_V2(self):
+        a = Series('data/time.zip', 'time')
+        out = register_npreg(0, a, cycle=CYCLE_V2, prm={'maxniter': 5})
+
+    def test_register_series_V3(self):
+        a = Series('data/time.zip', 'time')
+        out = register_npreg(0, a, cycle=CYCLE_V3, prm={'maxniter': 5})
+
+    def test_register_series_W2(self):
+        a = Series('data/time.zip', 'time')
+        out = register_npreg(0, a, cycle=CYCLE_W2, prm={'maxniter': 5})
+
+    def test_register_series_W3(self):
+        a = Series('data/time.zip', 'time')
+        out = register_npreg(0, a, cycle=CYCLE_W3, prm={'maxniter': 5})
 
 
 if __name__ == '__main__':

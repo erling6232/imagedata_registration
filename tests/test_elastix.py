@@ -19,13 +19,23 @@ class TestElastixRegistration(unittest.TestCase):
         # a.seriesDescription="Stacked"
         out = register_elastix(0, a, options={"cost": "corratio"})
 
-    def test_register_elastix(self):
+    def test_register_elastix_defaultparameters(self):
         a = Series("data/time.zip", "time")
         a2 = np.zeros((a.shape[0], 2*a.shape[1], a.shape[2], a.shape[3]))
         a2[:, 0:3] = a[:]
         a2[:, 3:6] = a[:]
         a = Series(a2, "time")
         parametermap = sitk.GetDefaultParameterMap("translation")
+        out = register_elastix_parametermap(0, a, parametermap)
+
+
+    def test_register_elastix_read_parameters(self):
+        a = Series("data/time.zip", "time")
+        a2 = np.zeros((a.shape[0], 2 * a.shape[1], a.shape[2], a.shape[3]))
+        a2[:, 0:3] = a[:]
+        a2[:, 3:6] = a[:]
+        a = Series(a2, "time")
+        parametermap = sitk.ReadParameterFile("data/Elastix/Parameters_Rigid.txt")
         out = register_elastix_parametermap(0, a, parametermap)
 
 
