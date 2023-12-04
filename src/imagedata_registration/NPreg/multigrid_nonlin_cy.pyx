@@ -83,17 +83,23 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find residual r
             for j in range(noptdim):
+                if l not in r:
+                    r[l] = {}
                 r[l][a[j]] = forceu[l][a[j]] - av[a[j]]
 
             # restrict
             for j in range(noptdim):
                 # r[ln][a[j]] = resize(r[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(r[l][a[j]])
+                if ln not in r:
+                    r[ln] = {}
                 r[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
 
             for j in range(noptdim):
                 # v[ln][a[j]] = resize(v[l][a[j]], dim3[ln], interpmethod)
                 rsi = Resize(v[l][a[j]])
+                if ln not in v:
+                    v[ln] = {}
                 v[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
             continue
 
@@ -117,6 +123,8 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # find error e
             for j in range(prm['nudim']):
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = u[l][a[j]] - v[l][a[j]]
             continue
 
@@ -128,6 +136,8 @@ def multigrid_nonlin(forceu, u_in, prm):
             for j in range(prm['nudim']):
                 # e[l][a[j]] = resize(e[lp][a[j]], dim3[l], interpmethod)
                 rsi = Resize(e[lp][a[j]])
+                if l not in e:
+                    e[l] = {}
                 e[l][a[j]] = rsi.resize(dim3[l], interpmethod)
 
             # correct v by e
