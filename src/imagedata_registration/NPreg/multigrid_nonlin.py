@@ -1,7 +1,7 @@
 """multigrid_nonlin"""
 
 import numpy as np
-from .cells import print_cell
+# from .cells import print_cell
 from .resize import Resize
 
 
@@ -20,7 +20,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     mu = prm['mu']
     dt = prm['dt']
 
-    interpmethod = 'bilinear';
+    interpmethod = 'bilinear'
 
     nmultilevel = np.unique(level).size
     dim3 = {}
@@ -49,7 +49,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     prmin['mu'] = mu
     prmin['dt'] = dt
     for i in range(nlevel):
-        l = level[i]
+        li = level[i]
 
         # make coarser
         if i < nlevel - 1 and multigrid[i] > multigrid[i + 1]:
@@ -57,30 +57,30 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # solve equation
             # print("multigrid_nonlin: l", l)
-            prmin['h'] = h[l]
-            u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
-            v[l] = u[l]
+            prmin['h'] = h[li]
+            u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
+            v[li] = u[li]
 
             # find Av
-            av = Au(v[l], h[l], prmin)
+            av = Au(v[li], h[li], prmin)
 
             # find residual r
             for j in range(noptdim):
-                if l not in r:
-                    r[l] = {}
-                r[l][a[j]] = forceu[l][a[j]] - av[a[j]]
+                if li not in r:
+                    r[li] = {}
+                r[li][a[j]] = forceu[li][a[j]] - av[a[j]]
 
             # restrict
             for j in range(noptdim):
                 # r[ln][a[j]] = resize(r[l][a[j]], dim3[ln], interpmethod)
-                rsi = Resize(r[l][a[j]])
+                rsi = Resize(r[li][a[j]])
                 if ln not in r:
                     r[ln] = {}
                 r[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
 
             for j in range(noptdim):
                 # v[ln][a[j]] = resize(v[l][a[j]], dim3[ln], interpmethod)
-                rsi = Resize(v[l][a[j]])
+                rsi = Resize(v[li][a[j]])
                 if ln not in v:
                     v[ln] = {}
                 v[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
@@ -90,22 +90,22 @@ def multigrid_nonlin(forceu, u_in, prm):
         if multigrid[i] < multigrid[i - 1] and multigrid[i] < multigrid[i + 1]:
 
             # find Au
-            prmin['h'] = h[l]
-            av = Au(v[l], h[l], prmin)
+            prmin['h'] = h[li]
+            av = Au(v[li], h[li], prmin)
 
             # find new RHS
             for j in range(prm['nudim']):
-                forceu[l][a[j]] = av[a[j]] + r[l][a[j]]
+                forceu[li][a[j]] = av[a[j]] + r[li][a[j]]
 
             # solve equation
-            prmin['h'] = h[l]
-            u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
+            prmin['h'] = h[li]
+            u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
 
             # find error e
             for j in range(prm['nudim']):
-                if l not in e:
-                    e[l] = {}
-                e[l][a[j]] = u[l][a[j]] - v[l][a[j]]
+                if li not in e:
+                    e[li] = {}
+                e[li][a[j]] = u[li][a[j]] - v[li][a[j]]
             continue
 
         # refine and correct
@@ -116,17 +116,17 @@ def multigrid_nonlin(forceu, u_in, prm):
             for j in range(prm['nudim']):
                 # e[l][a[j]] = resize(e[lp][a[j]], dim3[l], interpmethod)
                 rsi = Resize(e[lp][a[j]])
-                if l not in e:
-                    e[l] = {}
-                e[l][a[j]] = rsi.resize(dim3[l], interpmethod)
+                if li not in e:
+                    e[li] = {}
+                e[li][a[j]] = rsi.resize(dim3[li], interpmethod)
 
             # correct v by e
             for j in range(prm['nudim']):
-                v[l][a[j]] = v[l][a[j]] + e[l][a[j]]
+                v[li][a[j]] = v[li][a[j]] + e[li][a[j]]
 
             # relax with initial guess v
-            prmin['h'] = h[l]
-            u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
+            prmin['h'] = h[li]
+            u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
     return u[0]
 
 
@@ -503,7 +503,7 @@ def navlam_nonlinear(forceu, u_in, prm):
     h = prm['h']
     llambda = prm['lambda']
     mu = prm['mu']
-    dt = prm['dt']
+    # dt = prm['dt']
 
     # F = cell(prm['nudim'],1)
     F = {}
@@ -594,7 +594,7 @@ def navlam_nonlinear(forceu, u_in, prm):
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
 
         for i in range(3):
-            assert u[i].shape[-3:] == forceu[i].shape[-3:],(
+            assert u[i].shape[-3:] == forceu[i].shape[-3:], (
                 "Shape of u[{}] and forceu[{}] differ.".format(i, i))
 
         nt, nz, ny, nx = u[0].shape

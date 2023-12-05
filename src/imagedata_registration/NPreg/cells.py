@@ -43,7 +43,8 @@ def innerprodcell(a, b):
 
 
 def innerprodmatr(a, b):
-    # matrix product: B'*A
+    """matrix product: B'*A
+    """
     # ab = matrixprodcell(b',a)
     ab = matrixprodcell(ctransposecell(b), a)
 
@@ -61,22 +62,22 @@ def innerprodmatr(a, b):
     return v
 
 
-def innerprodvect(a, b, l):
+def innerprodvect(a, b, li):
     # print_cell("innerprodvect: a", a)
     v = np.zeros_like(a[0])
-    for i in range(l):
+    for i in range(li):
         v = v + a[i] * b[i]
     # print_cell("innerprodvect: v", v)
     return v
 
 
 def hessiancell(f, h):
-    # HESSIANCELL Computes the Hessian matrix of an image. Returns the result
-    # as a cell array
-    #
-    # HESSIANCELL(F,H) computes the hessian matrix of image F and stepsize H.
-    # Returns the Hessian matrix as a cell array
-    #
+    """HESSIANCELL Computes the Hessian matrix of an image. Returns the result
+    as a cell array
+
+    HESSIANCELL(F,H) computes the hessian matrix of image F and stepsize H.
+    Returns the Hessian matrix as a cell array
+    """
 
     dim = f.shape
     ndim = len(dim)
@@ -100,8 +101,8 @@ def hessiancell(f, h):
         for j in range(ndim):
             v = np.array([0, 0, 0])
             v[j] = 1
-            H[i][j] = (translate_image(df[i], v[0], v[1], v[2]) - translate_image(df[i], -v[0], -v[1], -v[2])) / (
-                        2 * h[j])
+            H[i][j] = (translate_image(df[i], v[0], v[1], v[2]) -
+                       translate_image(df[i], -v[0], -v[1], -v[2])) / (2 * h[j])
 
     # print_cell("hessiancell: H", H)
     # pprint.pprint(H)
@@ -109,14 +110,14 @@ def hessiancell(f, h):
 
 
 def multconstcell(A, c):
-    # MULTCONSTCELL Multiplies a cell matrix with a constant
-    # B = MULTCONSTCELL(A,C) multiplies the cell matrix or cell vector A with a
-    # constant C. Returns the multiplied cell matrix A;
-    #
+    """MULTCONSTCELL Multiplies a cell matrix with a constant
+    B = MULTCONSTCELL(A,C) multiplies the cell matrix or cell vector A with a
+    constant C. Returns the multiplied cell matrix A;
+    """
     # print_cell("multconstcell: A", A)
     # print_cell("multconstcell: c", c)
     if type(A) is dict and type(A[0]) is dict:
-        m = len(A);
+        m = len(A)
         n = len(A[0])
         B = {}
         for i in range(m):
@@ -130,18 +131,14 @@ def multconstcell(A, c):
             B[i] = A[i] * c
     else:
         B = A * c
-    # except Exception as e:
-    #	print('multconstcell: {}'.format(e))
-    #	raise
-    # print_cell("multconstcell: B", B)
     return B
 
 
 def divideconstcell(A, c):
-    # DIVIDECELL(H,A) Divide a cell array by a constant (elementwise)
-    #
+    """DIVIDECELL(H,A) Divide a cell array by a constant (elementwise)
+    """
     if type(A) is dict and type(A[0]) is dict:
-        m = len(A);
+        m = len(A)
         n = len(A[0])
         B = {}
         for i in range(m):
@@ -160,11 +157,11 @@ def divideconstcell(A, c):
 
 
 def sumcell(a, b):
-    # SUMCELL Summing to cell arrays A and B
-    # C = SUMCELL(A,B) Summing the cell arrays A and B
-    #
-    assert type(a) == type(b), "Argument type differ"
-    assert type(a[0]) == type(b[0]), "Argument type differ"
+    """SUMCELL Summing to cell arrays A and B
+    C = SUMCELL(A,B) Summing the cell arrays A and B
+    """
+    assert isinstance(a, type(b)), "Argument type differ"
+    assert isinstance(a[0], type(b[0])), "Argument type differ"
     if type(a) is dict and type(a[0]) is dict:
         [rows1, cols1] = (len(a), len(a[0]))
         [rows2, cols2] = (len(b), len(b[0]))
@@ -194,16 +191,16 @@ def sumcell(a, b):
 
 
 def matrixprodcell(a, b):
-    # MATRIXPRODCELL computes matrixproduct A*B of cell arrays
-    #
-    # AB = MATRIXPRODCELL(A,B) computes matrix product of two cell arrays A and
-    # B
-    #
+    """MATRIXPRODCELL computes matrixproduct A*B of cell arrays
+
+    AB = MATRIXPRODCELL(A,B) computes matrix product of two cell arrays A and B
+    """
 
     # print_cell("matrixprodcell: a", a)
     # print_cell("matrixprodcell: b", b)
     # ab = a.dot(b)
-    assert type(a) == type(b), "Argument type differ"
+    # assert type(a) == type(b), "Argument type differ"
+    assert isinstance(a, type(b)), "Argument type differ"
     if type(a) is dict and type(a[0]) is dict:
         dima = (len(a), len(a[0]))
         if type(b[0]) is dict:
@@ -238,7 +235,8 @@ def matrixprodcell(a, b):
 
 
 def ctransposecell(a):
-    # Conjugate transpose cell array by replacing each element with its conjugate
+    """Conjugate transpose cell array by replacing each element with its conjugate
+    """
 
     # print_cell("ctransposecell: a", a)
     assert type(a) is dict and type(a[0]) is dict, "Argument is not a cell matrix"

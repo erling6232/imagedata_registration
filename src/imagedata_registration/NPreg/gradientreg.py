@@ -11,6 +11,7 @@ from .cells import (hessiancell, multconstcell, divideconstcell, sumcell, matrix
 function [grad,dfu,dfun,Hfun,prob] = gradientreg(fu,g,dgn,dg,absdgn2,eta,h,prmin,opts)
 """
 
+
 def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     """
     print("gradientreg: fu", fu.shape, fu.dtype)
@@ -51,7 +52,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         ntime = 1
     if len(dim) != 4:
         raise ValueError("Dimension %d out of bounds." % len(dim))
-    dim3 = dim[1:]
+    # dim3 = dim[1:]
     ntime = dim[0]
     fu.shape = dim
 
@@ -352,7 +353,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     fu.shape = shape  # Restore original shape of fu
     for i in range(nudim):
         grad[i].shape = shape
-    Hfun = None;
+    Hfun = None
     prob = None
     return grad, dfu, dfun, Hfun, prob
 
@@ -367,7 +368,7 @@ def gradngf(fu, dfun, dgn, absfureg, h):
 
     # Hessian matrix
     # H = hessiancell(fu,h,'ind',ind,'df',dfu);
-    H = hessiancell(fu, h);
+    H = hessiancell(fu, h)
     # print_cell("gradngf: H   ", H)
     # pprint.pprint(H)
 

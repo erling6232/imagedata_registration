@@ -12,7 +12,7 @@ Ex: dfn,df,absfreg = normgrad(f,eta^2,h)
 """
 
 import numpy as np
-from .translate_image import *
+from .translate_image import translate_image
 
 
 def normgrad(f, eta, h):

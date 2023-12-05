@@ -6,11 +6,10 @@ This is the where the real registration work is done.
 from typing import Union
 import importlib.metadata
 import numpy as np
-from math import sqrt
 from .resize import Resize
-from .multilevel import (Multilevel, LevelExt,
+from .multilevel import (Multilevel,
                          CYCLE_V1, CYCLE_V2, CYCLE_V3, CYCLE_NONE, CYCLE_W2, CYCLE_W3)
-from .centergrid import centergrid
+# from .centergrid import centergrid
 from .transform import TransformLinear
 from .gradientreg import gradientreg
 from .getcost import getcost
@@ -24,18 +23,14 @@ except importlib.metadata.PackageNotFoundError:
 try:
     from .multigrid_nonlin_cupy import navlam_nonlinear, multigrid_nonlin
     print('Loaded CUDA multigrid_nonlin_cupy.')
-except Exception as e:
+except Exception:
     try:
         from .multigrid_nonlin_cy import navlam_nonlinear, multigrid_nonlin
         print('Loaded compiled multigrid_nonlin_cy.')
-    except Exception as e:
+    except Exception:
         from .multigrid_nonlin import navlam_nonlinear, multigrid_nonlin
         print('Loaded pure python multigrid_nonlin.py.')
 from imagedata.series import Series
-import pprint
-import time
-
-import cProfile
 
 MULTIGRID_SOLVER_LINEARFP = 0
 MULTIGRID_SOLVER_NONLINEARFP = 1
@@ -162,8 +157,8 @@ class NPreg(object):
         self.niter = 0
 
         print("%35s%14s%13s%13s%13s%13s" % (
-        "Multigrid, Iteration # number of %d" % self.maxniter, "Total cost", "Reg,data", "Reg,reg", "Segm,data",
-        "Segm,reg"))
+            "Multigrid, Iteration # number of %d" % self.maxniter, "Total cost", "Reg,data", "Reg,reg", "Segm,data",
+            "Segm,reg"))
 
         while True:
             # Solve equation by true, nonlinear fixed point iterations
@@ -206,11 +201,12 @@ class NPreg(object):
             disp(msg);
             """
 
-            # print("%39s%13s%13s%13s%13s%13s" % ("Multigrid, # Iteration # number of %d" % self.maxniter, "Total # cost", "Reg,data", "Reg,reg", "Segm,data", # "Segm,reg"))
+            # print("%39s%13s%13s%13s%13s%13s" % ("Multigrid, # Iteration # number of %d" % self.maxniter,
+            #     "Total # cost", "Reg,data", "Reg,reg", "Segm,data", # "Segm,reg"))
 
             print("Multigrid, Iteration %5d of %5d %13f%13f%13f%13f%13f" % (
-            self.niter + 1, self.maxniter, self.E['total'][self.niter], self.E['reg_data'][self.niter],
-            self.E['reg_reg'][self.niter], self.E['segm_data'][self.niter], self.E['segm_reg'][self.niter]))
+                self.niter + 1, self.maxniter, self.E['total'][self.niter], self.E['reg_data'][self.niter],
+                self.E['reg_reg'][self.niter], self.E['segm_data'][self.niter], self.E['segm_reg'][self.niter]))
 
             self.niter += 1
             if self.niter == self.maxniter:
@@ -221,7 +217,8 @@ class NPreg(object):
         # reg = np.empty_like(moving)
         # self.u = self.multi.level[0].u
         # self.phi = self.multi.level[0].phi
-        # reg = applytransform(moving,self.multi.level[0].u[:self.ndim],self.multi.level[0].x[:self.ndim],self.multi.level[0].ext,'linear')
+        # reg = applytransform(moving,self.multi.level[0].u[:self.ndim],
+        #     self.multi.level[0].x[:self.ndim],self.multi.level[0].ext,'linear')
         transform = TransformLinear(self.multi.level[0].ext)
         out_si = transform.apply(moving, self.ndim, self.multi.level[0].u, self.multi.level[0].x)
 
@@ -272,7 +269,6 @@ class NPreg(object):
         # print("solve_nonlinearfp: self.multi.level[0].dfu "); pprint.pprint(self.multi.level[0].dfu)
 
         # resize the force on the levels
-        interpmethod = 'bilinear'
         b = np.arange(self.nudim)
         for i in range(1, self.multi.nmultilevel):
             for j in range(self.nudim):

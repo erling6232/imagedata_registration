@@ -8,7 +8,8 @@ import time
 DTYPE = np.float64
 
 
-# pythran export navlam_nonlinear_highlevel(float64[,,], float64[,,], float64[,,], float64[,,], float64[,,], float64[,,], int, float64[3], int, float64, float64, float64)
+# pythran export navlam_nonlinear_highlevel(float64[,,], float64[,,], float64[,,], float64[,,], float64[,,],
+#                                           float64[,,], int, float64[3], int, float64, float64, float64)
 def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u_in1, u_in2, maxniter, h, nudim,
                                     llambda, mu, dt):
     """
@@ -35,8 +36,8 @@ def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u
     assert u_in0.shape == u_in2.shape, "Shape of u[0] and u[2] differ."
 
     nz, ny, nx = u_in0.shape
-    nzend = nz - 1;
-    nyend = ny - 1;
+    nzend = nz - 1
+    nyend = ny - 1
     nxend = nx - 1
 
     u0 = cp.asarray(u_in0)

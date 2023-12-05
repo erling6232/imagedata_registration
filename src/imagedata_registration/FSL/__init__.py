@@ -3,7 +3,7 @@ FSL based image registration.
 This is the where FSL registration is called.
 """
 
-from typing import Callable, ClassVar, Dict, Union
+from typing import Callable, Dict, Union
 import nipype.interfaces.fsl as fsl
 import tempfile
 from pathlib import Path
@@ -32,12 +32,12 @@ def register_fsl(
         fixed_volume = fixed
     # cost = None if "cost" not in options else options["cost"]
 
-    if moving.ndim > fixed_volume.ndim:
-        shape = (moving.shape[0],) + fixed_volume.shape
-        tags = moving.tags[0]
-    else:
-        shape = fixed_volume.shape
-        tags = [None]
+    # if moving.ndim > fixed_volume.ndim:
+    #     shape = (moving.shape[0],) + fixed_volume.shape
+    #     tags = moving.tags[0]
+    # else:
+    #     shape = fixed_volume.shape
+    #     tags = [None]
 
     with tempfile.TemporaryDirectory() as tmp:
         print('\nPreparing for FSL ...')
@@ -67,7 +67,7 @@ def register_fsl(
         # mcflt.inputs.cost = "corratio"
         # mcflt.inputs.cost     = "normcorr"
         print('{}'.format(reg_method.cmdline))
-        result = reg_method.run()
+        _ = reg_method.run()
 
         out = Series(tmp_out, input_order=moving.input_order, template=moving, geometry=fixed_volume)
         out.tags = moving.tags

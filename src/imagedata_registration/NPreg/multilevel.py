@@ -1,12 +1,12 @@
 """multilevel"""
 
 import numpy as np
-import math
+# import math
 from .resize import Resize
 from .centergrid import centergrid
 from .normgrad import normgrad
-from .cells import *
-import pprint
+from .cells import innerprodcell
+# import pprint
 
 
 CYCLE_NONE = 0
@@ -93,7 +93,8 @@ class Multilevel(object):
 
             # Pixelsize
             self.level[m].h = self.h / self.multilevel[m]
-            if len(self.level[m].h) == 4: self.level[m].h[0] = 1
+            if len(self.level[m].h) == 4:
+                self.level[m].h[0] = 1
 
             # Image grid
             self.level[m].x, self.level[m].ext.minx, self.level[m].ext.maxx = \

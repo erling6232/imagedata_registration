@@ -30,7 +30,7 @@ setup(
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives
 
     # external to be compiled
-    ext_modules = cythonize(
+    ext_modules=cythonize(
         extensions,
         compiler_directives={"language_level": 3, "profile": False}
     ),

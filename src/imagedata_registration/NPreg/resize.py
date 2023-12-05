@@ -1,11 +1,9 @@
 """
 resize using scipy.ndimage.zoom
 """
-import numbers
 
 from scipy.ndimage import zoom
 import numpy as np
-import numbers
 
 
 class Resize(object):

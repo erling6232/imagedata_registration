@@ -8,7 +8,8 @@ import numpy as np
 DTYPE = np.float64
 
 
-# pythran export navlam_nonlinear_highlevel_opt(float64[,,], float64[,,], float64[,,], float64[,,], float64[,,], float64[,,], int, float64[3], int, float64, float64, float64)
+# pythran export navlam_nonlinear_highlevel_opt(float64[,,], float64[,,], float64[,,], float64[,,], float64[,,],
+#                                               float64[,,], int, float64[3], int, float64, float64, float64)
 def navlam_nonlinear_highlevel_opt(forceu0, forceu1, forceu2, u0, u1, u2, maxniter, h, nudim, llambda, mu, dt):
     """
     Fix point iterations (isolating the unknown on left hand side and
@@ -53,8 +54,8 @@ def navlam_nonlinear_highlevel_opt(forceu0, forceu1, forceu2, u0, u1, u2, maxnit
     assert u0.shape == u2.shape, "Shape of u[0] and u[2] differ."
 
     nz, ny, nx = u0.shape
-    nzend = nz - 1;
-    nyend = ny - 1;
+    nzend = nz - 1
+    nyend = ny - 1
     nxend = nx - 1
 
     # cdef DTYPE_t [:, :, :] F0 = np.zeros_like(u[0], dtype=DTYPE)
@@ -95,9 +96,9 @@ def navlam_nonlinear_highlevel_opt(forceu0, forceu1, forceu2, u0, u1, u2, maxnit
     nlm402 = -(llambda + mu) / (4 * H[0, 2])
     lm412 = (llambda + mu) / (4 * H[1, 2])
     nlm412 = -(llambda + mu) / (4 * H[1, 2])
-    diag0 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[0, 0]
-    diag1 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[1, 1]
-    diag2 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[2, 2]
+    # diag0 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[0, 0]
+    # diag1 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[1, 1]
+    # diag2 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[2, 2]
 
     for i in range(maxniter):
         # dz1 = u0[np.r_[1:nz,-1],:,:]*((llambda+2*mu)/H[0,0])

@@ -1,7 +1,7 @@
 """multigrid_nonlin_highlevel"""
 
 import numpy as np
-from .cells import print_cell
+# from .cells import print_cell
 from .resize import Resize
 from .navlam_nonlinear_highlevel import navlam_nonlinear_highlevel
 
@@ -50,7 +50,7 @@ def multigrid_nonlin(forceu, u_in, prm):
     prmin['mu'] = mu
     prmin['dt'] = dt
     for i in range(nlevel):
-        l = level[i]
+        li = level[i]
 
         # make coarser
         if i < nlevel - 1 and multigrid[i] > multigrid[i + 1]:
@@ -58,33 +58,33 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # solve equation
             # print("multigrid_nonlin: l", l)
-            prmin['h'] = h[l]
+            prmin['h'] = h[li]
             if prm['nudim'] == 2:
-                u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
+                u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_highlevel(
-                    forceu[l][0], forceu[l][1], forceu[l][2],
-                    v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
+                u[li] = navlam_nonlinear_highlevel(
+                    forceu[li][0], forceu[li][1], forceu[li][2],
+                    v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
                     prmin['lambda'], prmin['mu'], prmin['dt'])
-            v[l] = u[l]
+            v[li] = u[li]
 
             # find Av
-            av = Au(v[l], h[l], prmin)
+            av = Au(v[li], h[li], prmin)
 
             # find residual r
             for j in range(noptdim):
-                r[l][a[j]] = forceu[l][a[j]] - av[a[j]]
+                r[li][a[j]] = forceu[li][a[j]] - av[a[j]]
 
             # restrict
             for j in range(noptdim):
                 # r[ln][a[j]] = resize(r[l][a[j]], dim3[ln], interpmethod)
-                rsi = Resize(r[l][a[j]])
+                rsi = Resize(r[li][a[j]])
                 r[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
 
             for j in range(noptdim):
                 # v[ln][a[j]] = resize(v[l][a[j]], dim3[ln], interpmethod)
-                rsi = Resize(v[l][a[j]])
+                rsi = Resize(v[li][a[j]])
                 v[ln][a[j]] = rsi.resize(dim3[ln], interpmethod)
             continue
 
@@ -92,27 +92,27 @@ def multigrid_nonlin(forceu, u_in, prm):
         if multigrid[i] < multigrid[i - 1] and multigrid[i] < multigrid[i + 1]:
 
             # find Au
-            prmin['h'] = h[l]
-            av = Au(v[l], h[l], prmin)
+            prmin['h'] = h[li]
+            av = Au(v[li], h[li], prmin)
 
             # find new RHS
             for j in range(prm['nudim']):
-                forceu[l][a[j]] = av[a[j]] + r[l][a[j]]
+                forceu[li][a[j]] = av[a[j]] + r[li][a[j]]
 
             # solve equation
-            prmin['h'] = h[l]
+            prmin['h'] = h[li]
             if prm['nudim'] == 2:
-                u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
+                u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_highlevel(
-                    forceu[l][0], forceu[l][1], forceu[l][2],
-                    v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
+                u[li] = navlam_nonlinear_highlevel(
+                    forceu[li][0], forceu[li][1], forceu[li][2],
+                    v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
                     prmin['lambda'], prmin['mu'], prmin['dt'])
 
             # find error e
             for j in range(prm['nudim']):
-                e[l][a[j]] = u[l][a[j]] - v[l][a[j]]
+                e[li][a[j]] = u[li][a[j]] - v[li][a[j]]
             continue
 
         # refine and correct
@@ -123,20 +123,20 @@ def multigrid_nonlin(forceu, u_in, prm):
             for j in range(prm['nudim']):
                 # e[l][a[j]] = resize(e[lp][a[j]], dim3[l], interpmethod)
                 rsi = Resize(e[lp][a[j]])
-                e[l][a[j]] = rsi.resize(dim3[l], interpmethod)
+                e[li][a[j]] = rsi.resize(dim3[li], interpmethod)
 
             # correct v by e
             for j in range(prm['nudim']):
-                v[l][a[j]] = v[l][a[j]] + e[l][a[j]]
+                v[li][a[j]] = v[li][a[j]] + e[li][a[j]]
 
             # relax with initial guess v
-            prmin['h'] = h[l]
+            prmin['h'] = h[li]
             if prm['nudim'] == 2:
-                u[l] = navlam_nonlinear(forceu[l], v[l], prmin)
+                u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
             elif prm['nudim'] == 3:
-                u[l] = navlam_nonlinear_highlevel(
-                    forceu[l][0], forceu[l][1], forceu[l][2],
-                    v[l][0].copy(), v[l][1].copy(), v[l][2].copy(),
+                u[li] = navlam_nonlinear_highlevel(
+                    forceu[li][0], forceu[li][1], forceu[li][2],
+                    v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
                     prmin['lambda'], prmin['mu'], prmin['dt'])
     return u[0]
@@ -499,7 +499,7 @@ def navlam_nonlinear(forceu, u_in, prm):
     h = prm['h']
     llambda = prm['lambda']
     mu = prm['mu']
-    dt = prm['dt']
+    # dt = prm['dt']
 
     # F = cell(prm['nudim'],1)
     F = {}

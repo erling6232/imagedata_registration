@@ -8,7 +8,8 @@ import numpy as np
 DTYPE = np.float64
 
 
-# pythran export navlam_nonlinear_3(float64[]+, float64[]+, float64[]+, float64[]+, float64[]+, float64[]+, int, float64[3]+, int, float64, float64, float64)
+# pythran export navlam_nonlinear_3(float64[]+, float64[]+, float64[]+, float64[]+, float64[]+, float64[]+, int,
+#                                   float64[3]+, int, float64, float64, float64)
 def navlam_nonlinear_3(forceu0, forceu1, forceu2, u0, u1, u2, maxniter, h, nudim, llambda, mu, dt):
     """
     Fix point iterations (isolating the unknown on left hand side and
@@ -117,8 +118,8 @@ def navlam_nonlinear_3(forceu0, forceu1, forceu2, u0, u1, u2, maxniter, h, nudim
     assert u0.shape == u2.shape, "Shape of u[0] and u[2] differ."
 
     nz, ny, nx = u0.shape
-    nzend = nz - 1;
-    nyend = ny - 1;
+    nzend = nz - 1
+    nyend = ny - 1
     nxend = nx - 1
 
     # cdef DTYPE_t [:, :, :] F0 = np.zeros_like(u[0], dtype=DTYPE)
