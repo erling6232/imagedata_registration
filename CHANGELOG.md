@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.2.3rc0] - 2023-12-11
+### Fixed
+* Corrected handling of multigrid.
+
 ## [v0.2.2] - 2023-12-01
 ### Added
 * Added Elastix.register_elastix_parametermap() to take an Elastix parameter map

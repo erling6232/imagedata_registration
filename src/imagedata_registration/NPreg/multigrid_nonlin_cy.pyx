@@ -28,7 +28,9 @@ def multigrid_nonlin(forceu, u_in, prm):
     dim = prm['dim']
     multigrid = prm['multigrid']
     maxniter = prm['maxniter']
+    assert len(multigrid) == len(maxniter), "multigrid and maxniter differ in length"
     level = prm['level']
+    assert len(level) == len(maxniter), "level and maxniter differ in length"
     nudim = prm['nudim']
     llambda = prm['lambda']
     mu = prm['mu']
@@ -58,12 +60,12 @@ def multigrid_nonlin(forceu, u_in, prm):
     noptdim = prm['nudim']
     prmin = {}
     prmin['nudim'] = nudim
-    prmin['maxniter'] = maxniter
     prmin['lambda'] = llambda
     prmin['mu'] = mu
     prmin['dt'] = dt
     for i in range(nlevel):
         l = level[i]
+        prmin['maxniter'] = maxniter[i]
 
         # make coarser
         if i < nlevel - 1 and multigrid[i] > multigrid[i + 1]:

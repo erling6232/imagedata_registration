@@ -9,7 +9,7 @@ from .resize import Resize
 
 # from .navlam_nonlinear_highlevel_cupy import navlam_nonlinear_3
 # from .navlam_nonlinear_3 import navlam_nonlinear_3
-# from .navlam_nonlinear_highlevel_cupy import navlam_nonlinear_highlevel_cupy
+from .navlam_nonlinear_highlevel_cupy import navlam_nonlinear_highlevel_cupy
 
 
 DTYPE = np.float64
@@ -25,7 +25,9 @@ def multigrid_nonlin(forceu, u_in, prm):
     dim = prm['dim']
     multigrid = prm['multigrid']
     maxniter = prm['maxniter']
+    assert len(multigrid) == len(maxniter), "multigrid and maxniter differ in length"
     level = prm['level']
+    assert len(level) == len(maxniter), "level and maxniter differ in length"
     nudim = prm['nudim']
     llambda = prm['lambda']
     mu = prm['mu']
@@ -55,12 +57,12 @@ def multigrid_nonlin(forceu, u_in, prm):
     noptdim = prm['nudim']
     prmin = {}
     prmin['nudim'] = nudim
-    prmin['maxniter'] = maxniter
     prmin['lambda'] = llambda
     prmin['mu'] = mu
     prmin['dt'] = dt
     for i in range(nlevel):
         li = level[i]
+        prmin['maxniter'] = maxniter[i]
 
         # make coarser
         if i < nlevel - 1 and multigrid[i] > multigrid[i + 1]:
@@ -74,7 +76,7 @@ def multigrid_nonlin(forceu, u_in, prm):
             elif prm['nudim'] == 3:
                 # u[l] = navlam_nonlinear_3(
                 # u[l] = navlam_nonlinear_highlevel_cupy(
-                u[li] = navlam_nonlinear(
+                u[li] = navlam_nonlinear_highlevel_cupy(
                     forceu[li][0], forceu[li][1], forceu[li][2],
                     v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],

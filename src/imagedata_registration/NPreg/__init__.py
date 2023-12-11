@@ -286,11 +286,11 @@ class NPreg(object):
         elif self.cycle == CYCLE_V2:
             self.maxnitersolver = (5, 10, 30, 10, 5)
         elif self.cycle == CYCLE_V3:
-            self.maxnitersolver = (1, 2, 3, 4, 5, 4, 3, 2, 1)
+            self.maxnitersolver = (5, 10, 15, 30, 15, 10, 5)
         elif self.cycle == CYCLE_W2:
-            self.maxnitersolver = (1, 2, 3, 2, 3, 2, 1)
+            self.maxnitersolver = (10, 20, 500, 20, 500, 20, 10)
         elif self.cycle == CYCLE_W3:
-            self.maxnitersolver = (1, 2, 3, 4, 3, 4, 3, 2, 3, 4, 3, 4, 3, 2, 1)
+            self.maxnitersolver = (10, 20, 30, 500, 30, 500, 30, 20, 30, 500, 30, 500, 30, 20, 10)
         elif self.cycle == CYCLE_NONE:
             self.maxnitersolver = (100,)
             # solve linear system without multigrid

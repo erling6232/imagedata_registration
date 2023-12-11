@@ -2,7 +2,7 @@
 
 import numpy as np
 import cupy as cp
-import time
+# import time
 
 
 DTYPE = np.float64
@@ -18,6 +18,7 @@ def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u
     """
 
     print("navlam_nonlinear_highlevel_cupy:")
+    print('maxniter: {}'.format(maxniter))
 
     assert nudim == 3
     H = np.zeros((nudim, nudim))
@@ -68,7 +69,7 @@ def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u
     diag1 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[1, 1]
     diag2 = -2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (llambda + mu) / H[2, 2]
 
-    t = time.clock()
+    # t = time.clock()
 
     for i in range(maxniter):
         # dz1 = u0[np.r_[1:nz,-1],:,:]*((llambda+2*mu)/H[0,0])
@@ -319,7 +320,7 @@ def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u
         u1[:] = F1[:]
         u2[:] = F2[:]
 
-    print('navlam_nonlinear_highlevel_cupy: clock {}'.format(time.clock() - t))
+    # print('navlam_nonlinear_highlevel_cupy: clock {}'.format(time.clock() - t))
     # u[0].shape = u0_shape
     # u[1].shape = u1_shape
     # u[2].shape = u2_shape
