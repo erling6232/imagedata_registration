@@ -1,11 +1,11 @@
 repo_name: erling6232/imagedata_registration
-report_id: 431cd2a3745c8fe3c869d70cb4b52a4a
+report_id: 417cccd8dad85f026a391436bde45e0e
 repo_type: Public
-timestamp: '2023-11-10T07:58:29+00:00'
+timestamp: '2023-12-14T10:13:24+00:00'
 requested_by: erling6232
 provider: github
 branch: main
-detected_tools_count: 4
+detected_tools_count: 6
 tools:
 - name: Python
   description: A clear and powerful object-oriented programming language, comparable
@@ -17,6 +17,17 @@ tools:
   sub_category: Languages
   image_url: https://img.stackshare.io/service/993/pUBY5pVj.png
   detection_source: Repo Metadata
+- name: pgvector
+  description: Open-source vector similarity search for Postgres
+  website_url: https://github.com/pgvector/pgvector/
+  open_source: false
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Database Tools
+  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source: data/Elastix/Parameters_Rigid.txt
+  last_updated_by: Erling Andersen
+  last_updated_on: 2023-12-01 11:48:19.000000000 Z
 - name: Git
   description: Fast, scalable, distributed revision control system
   website_url: http://git-scm.com/
@@ -36,7 +47,18 @@ tools:
   image_url: https://img.stackshare.io/service/11563/actions.png
   detection_source: ".github/workflows/build_wheels.yml"
   last_updated_by: Erling Andersen
-  last_updated_on: 2023-10-27 06:08:51.000000000 Z
+  last_updated_on: 2023-11-15 10:09:16.000000000 Z
+- name: LangChain
+  description: Build AI apps with LLMs through composability
+  website_url: https://github.com/hwchase17/langchain
+  open_source: true
+  hosted_saas: false
+  category: Communications
+  sub_category: Large Language Model Tools
+  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source: data/Elastix/Parameters_Rigid.txt
+  last_updated_by: Erling Andersen
+  last_updated_on: 2023-12-01 11:48:19.000000000 Z
 - name: Shell
   description: A shell is a text-based terminal, used for manipulating programs and
     files. Shell scripts typically manage program execution.
