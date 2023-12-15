@@ -111,6 +111,8 @@ time-point by time-point.
                           input_order=movingSeries.input_order,
                           template=movingSeries,
                           geometry=fixedSeries)
+    resultSeries.tags = moving.tags
+    resultSeries.axes[0] = movingSeries.axes[0]
     resultSeries.write('result', formats=['dicom'])
 
 

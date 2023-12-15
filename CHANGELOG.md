@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
-## [v0.2.3rc1] - 2023-12-15
+## [v0.2.3] - 2023-12-15
 ### Fixed
 * Corrected handling of multigrid.
 
