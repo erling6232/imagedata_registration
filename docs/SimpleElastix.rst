@@ -26,6 +26,46 @@ for details on how to set up a ParameterMap in `SimpleElastix`.
     out = register_elastix_parametermap(fixed, moving, parametermap)
 
 
+Using SimpleElastix's Object-Oriented Interface
+-----------------------------------------------
+For complete control the SimpleElastix's object-orient interface can be used directly.
+The code here converts Series objects to SimpleElastix Image objects, then uses the SimpleElastix
+methods on these objects, and converts the final resultImage to Series again.
+This way all SimpleElastix methods are available.
+
+.. code-block:: python
+
+    from imagedata import Series
+    import SimpleITK as sitk
+
+    fixedSeries = Series('fixed')
+    movingSeries = Series('moving')
+    fixedImage = sitk.GetImageFromArray(np.array(fixedSeries, dtype=float))
+    fixedImage.SetSpacing(fixedSeries.spacing.astype(float))
+    movingImage = sitk.GetImageFromArray(np.array(movingSeries, dtype=float))
+    movingImage.SetSpacing(movingSeries.spacing.astype(float))
+    parameterMap = sitk.GetDefaultParameterMap('translation')
+    # parameterMap = sitk.ReadParameterFile("Parameters_Rigid.txt")
+
+    elastixImageFilter = sitk.ElastixImageFilter()
+    elastixImageFilter.SetFixedImage(fixedImage)
+    elastixImageFilter.SetMovingImage(movingImage)
+    elastixImageFilter.SetParameterMap(parameterMap)
+    elastixImageFilter.Execute()
+
+    resultImage = elastixImageFilter.GetResultImage()
+    transformParameterMap = elastixImageFilter.GetTransformParameterMap()
+
+    out = sitk.GetArrayFromImage(resultImage)
+    super_threshold_indices = out > 65500
+    out[super_threshold_indices] = 0
+
+    resultSeries = Series(out,
+                          template=movingSeries,
+                          geometry=fixedSeries)
+    resultSeries.write('result', formats=['dicom'])
+
+
 A skeleton
 ----------
 
