@@ -66,6 +66,54 @@ This way all SimpleElastix methods are available.
     resultSeries.write('result', formats=['dicom'])
 
 
+Using SimpleElastix's Object-Oriented Interface (time-dependent Series)
+-----------------------------------------------------------------------
+This example builds on the previous one, adding the code to register a time Series,
+time-point by time-point.
+
+.. code-block:: python
+
+    from imagedata import Series
+    import SimpleITK as sitk
+
+    fixedSeries = Series('fixed')
+    movingSeries = Series('moving', 'time')
+    fixedImage = sitk.GetImageFromArray(np.array(fixedSeries, dtype=float))
+    fixedImage.SetSpacing(fixedSeries.spacing.astype(float))
+
+    parameterMap = sitk.GetDefaultParameterMap('translation')
+    # parameterMap = sitk.ReadParameterFile("Parameters_Rigid.txt")
+
+    shape = (movingSeries.shape[0],) + fixedSeries.shape
+    tags = movingSeries.tags[0]
+
+    out = np.zeros(shape, dtype=movingSeries.dtype)
+    transformParameterMap = []
+
+    for t, tag in enumerate(tags):
+        movingImage = sitk.GetImageFromArray(np.array(movingSeries[t], dtype=float))
+        movingImage.SetSpacing(movingSeries.spacing.astype(float))
+
+        elastixImageFilter = sitk.ElastixImageFilter()
+        elastixImageFilter.SetFixedImage(fixedImage)
+        elastixImageFilter.SetMovingImage(movingImage)
+        elastixImageFilter.SetParameterMap(parameterMap)
+        elastixImageFilter.Execute()
+
+        resultImage = elastixImageFilter.GetResultImage()
+        transformParameterMap.append(elastixImageFilter.GetTransformParameterMap())
+
+        out[t] = sitk.GetArrayFromImage(resultImage)
+    super_threshold_indices = out > 65500
+    out[super_threshold_indices] = 0
+
+    resultSeries = Series(out,
+                          input_order=movingSeries.input_order,
+                          template=movingSeries,
+                          geometry=fixedSeries)
+    resultSeries.write('result', formats=['dicom'])
+
+
 A skeleton
 ----------
 
