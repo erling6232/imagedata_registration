@@ -122,6 +122,7 @@ def register_elastix_parametermap(
         elastixImageFilter.SetMovingImage(moving_itk)
         elastixImageFilter.Execute()
         out_itk = elastixImageFilter.GetResultImage()
+        transform = elastixImageFilter.GetTransformParameterMap()
 
         if tag is None:
             # out = sitk.GetArrayFromImage(elastixImageFilter.GetResultImage())

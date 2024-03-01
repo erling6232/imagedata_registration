@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
-## [v0.2.3rc0] - 2023-12-11
+## [v0.2.3] - 2023-12-15
 ### Fixed
 * Corrected handling of multigrid.
+
+### Added
+* Documented the use of Series objects with SimpleElastix methods.
 
 ## [v0.2.2] - 2023-12-01
 ### Added
