@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.2.4] - 2024-03-11
+### Fixed
+* Modified FSL behaviour to work with updated imagedata 3.5.0 saving NIfTI files
+  with explicit file names.
+* Accept python 3.12.
+
 ## [v0.2.3] - 2023-12-15
 ### Fixed
 * Corrected handling of multigrid.
