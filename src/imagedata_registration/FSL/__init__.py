@@ -44,22 +44,20 @@ def register_fsl(
         p = Path(tmp)
         fixed_path = None
         if not issubclass(type(fixed), int):
-            tmp_fixed = p / 'fixed'
+            tmp_fixed = p / 'fixed.nii.gz'
             fixed.write(tmp_fixed, formats=['nifti'])
-            fixed_path = list(tmp_fixed.glob('*'))[0]
-        tmp_moving = p / 'moving'
+        tmp_moving = p / 'moving.nii.gz'
         moving.write(tmp_moving, formats=['nifti'])
-        moving_path = list(tmp_moving.glob('*'))[0]
 
         print('FSL running ...')
         tmp_out = p / 'out.nii.gz'
 
         reg_method = method()
-        reg_method.inputs.in_file = str(moving_path)
+        reg_method.inputs.in_file = str(tmp_moving)
         if fixed_path is None:
             reg_method.inputs.ref_vol = fixed
         else:
-            reg_method.inputs.ref_file = str(fixed_path)
+            reg_method.inputs.ref_file = str(tmp_fixed)
         reg_method.inputs.out_file = str(tmp_out)
         for key in options.keys():
             print("{} -> {}".format(key, options[key]))
