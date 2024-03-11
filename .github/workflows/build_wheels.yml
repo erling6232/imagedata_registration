@@ -73,7 +73,7 @@ jobs:
           find . -name '*.so' | xargs rm
           python3 -m pip install SimpleITK-SimpleElastix nipype
           coverage run -m unittest discover tests -t .
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
       - name: Upload coverage reports to Codecov
@@ -96,7 +96,7 @@ jobs:
       - name: Build sdist
         run: pipx run build --sdist
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: dist/*.tar.gz
 
