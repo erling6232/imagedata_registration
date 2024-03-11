@@ -79,8 +79,11 @@ jobs:
           path: ./wheelhouse/*.whl
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          fail_ci_if_error: true
+          flags: unittests
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: erling6232/imagedata_registration
 
 
 #  build_sdist:
