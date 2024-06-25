@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.2.5-dev0] - 2024-06-25
+* Verify function with imagedata==3.6.0.
+
 ## [v0.2.4] - 2024-03-11
 ### Fixed
 * Modified FSL behaviour to work with updated imagedata 3.5.0 saving NIfTI files
