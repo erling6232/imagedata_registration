@@ -5,7 +5,8 @@ requires = [
     "cython",
     "nipype",
     # "SimpleITK-SimpleElastix==2.0.0rc2.dev909",
-    "imagedata>=3.5.0,<3.6.0"
+    # "imagedata>=3.5.0,<3.6.0"
+    "imagedata==3.6.0.rc4"
 ]
 build-backend = "setuptools.build_meta"
 
