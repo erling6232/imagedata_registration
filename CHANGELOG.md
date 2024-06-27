@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
-## [v0.2.5-dev0] - 2024-06-26
+## [v0.2.6] - 2024-06-27
 * Verify function with imagedata==3.6.0.
 * Drop support for python 3.8.
 
