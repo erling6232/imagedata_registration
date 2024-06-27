@@ -96,7 +96,6 @@ Examples
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/
     :alt: Documentation Status
-    :scale: 100%
     :target: https://imagedata_registration.readthedocs.io
 
 .. |buildstatus| image:: https://github.com/erling6232/imagedata_registration/actions/workflows/build_wheels.yml/badge.svg
