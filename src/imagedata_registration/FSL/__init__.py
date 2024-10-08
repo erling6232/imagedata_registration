@@ -74,7 +74,7 @@ def register_fsl(
         out[super_threshold_indices] = 0
         if out.ndim > fixed_volume.ndim:
             out.tags = moving.tags
-            out.axes[0] = moving.axes[0]
+            out.axes = out.axes._replace(**{out.input_order: moving.axes[0]})
         try:
             out.seriesDescription += ' {} {}'.format(
                 reg_method.cmd,

@@ -434,7 +434,7 @@ def register_npreg(
     out = Series(si, input_order=moving.input_order, template=moving, geometry=fixed)
     if out.ndim > fixed.ndim:
         out.tags = moving.tags
-        out.axes[0] = moving.axes[0]
+        out.axes = out.axes._replace(**{out.input_order: moving.axes[0]})
     try:
         out.seriesDescription += " NPreg"
     except ValueError:

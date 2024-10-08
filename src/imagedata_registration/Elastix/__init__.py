@@ -70,7 +70,7 @@ def register_elastix(
     res = Series(out, input_order=moving.input_order, template=moving, geometry=fixed_volume)
     if res.ndim > fixed_volume.ndim:
         res.tags = moving.tags
-        res.axes[0] = moving.axes[0]
+        res.axes = res.axes._replace(**{res.input_order: moving.axes[0]})
     try:
         res.seriesDescription += ' ITK Elastix'
     except ValueError:
@@ -138,7 +138,7 @@ def register_elastix_parametermap(
     res = Series(out, input_order=moving.input_order, template=moving, geometry=fixed_volume)
     if res.ndim > fixed_volume.ndim:
         res.tags = moving.tags
-        res.axes[0] = moving.axes[0]
+        res.axes = res.axes._replace(**{res.input_order: moving.axes[0]})
     try:
         res.seriesDescription += ' ITK Elastix'
     except ValueError:
