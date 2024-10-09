@@ -43,6 +43,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps."
 ]
 dependencies = [
+    "itk-elastix",
     "imagedata>=3.7.0,<3.8.0"
 ]
 
