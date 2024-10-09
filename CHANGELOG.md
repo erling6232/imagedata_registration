@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.3.0] - 2024-10-09
+* SimpleElastix has been discontinued.
+* Reworked the ITK Elastix part to work ITK-Elastix from the Insight Toolkit (ITK).
+
 ## [v0.2.7] - 2024-10-08
 * Require imagedata 3.7.
 

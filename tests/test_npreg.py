@@ -2,7 +2,7 @@
 
 import unittest
 import numpy as np
-import pprint
+# import pprint
 from imagedata.series import Series
 
 from src.imagedata_registration.NPreg import register_npreg
@@ -191,8 +191,8 @@ class TestMultilevel(unittest.TestCase):
         dfn, df, absdfreq = normgrad(f, eta, h)
         np.testing.assert_array_equal(origf, f)
         cdfn0 = np.zeros([1, 4, 4, 4])
-        print("test_normgrad: dfn[0]");
-        pprint.pprint(dfn[0])
+        # print("test_normgrad: dfn[0]");
+        # pprint.pprint(dfn[0])
         np.testing.assert_array_equal(dfn[0], cdfn0)
         cdfn1 = np.array([[[[-0.7065, 0.7065, 0, 0], [-0.7065, 0, 0.7065, 0], [0, -0.7065, 0, 0.7065],
                             [0, 0, -0.7065, 0.7065]],
@@ -273,7 +273,7 @@ class TestMultilevel(unittest.TestCase):
         np.testing.assert_array_almost_equal(multi.level[0].absgradg, cabsgradg, decimal=3)
 
     def test_solve_nonlinearfp(self):
-        print("\ntest_solve_nonlinearfp:\n\n")
+        # print("\ntest_solve_nonlinearfp:\n\n")
         # dim = np.array([4, 4, 4], dtype=int)
         h = np.array([1., 1., 1.])
         # ext = LevelExt()
@@ -331,7 +331,7 @@ class TestMultilevel(unittest.TestCase):
         # np.testing.assert_array_almost_equal(moving, fixed, decimal=3)
 
     def test_register_volume(self):
-        print("\ntest_register_volume:\n\n")
+        # print("\ntest_register_volume:\n\n")
         # dim = np.array([4, 4, 4], dtype=int)
         # h = np.array([1., 1., 1.])
         # ext = LevelExt()
@@ -346,7 +346,7 @@ class TestMultilevel(unittest.TestCase):
 
         npreg = NPreg(fixed, prm={'maxniter': 30})
         npreg.cycle = CYCLE_NONE
-        print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
+        # print("test_register_volume: moving", type(moving), moving.dtype, moving.shape)
         out = npreg.register_volume(moving)
         # cProfile.run('npreg.register_volume(moving)')
 

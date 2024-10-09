@@ -38,14 +38,14 @@ This function will register a moving Series to a fixed Series.
 The default registration method is fsl.MCFLIRT.
 The function will accept other registration methods.
 
-ITK Elastix
+ITK-Elastix
 -----------
 
 The popular `Elastix` GUI is based on the C++ `ITK` image registration routines.
 Like the `FSL` methods, there are numerous `Elastix` methods available, all with
 different requirements.
-The `SimpleElastix`
-(https://simpleelastix.readthedocs.io/index.html)
+The `itk-elastix`
+(https://github.com/InsightSoftwareConsortium/ITKElastix)
 Python library is one particular interface to the `Elastix/ITK` routines.
 
 Prerequisites
@@ -68,14 +68,10 @@ FSL
 The imagedata-registration FSL module is a wrapper around the official FSL tools.
 A native FSL installation is required on the host computer.
 
-SimpleElastix
+ITK-Elastix
 -------------
 
-SimpleElastix must be installed separately:
-
-.. code-block::
-
-    pip install SimpleITK-SimpleElastix
+`ITK-Elastix` is installed automatically as a dependency for this package.
 
 Installation
 ############
@@ -91,7 +87,7 @@ Examples
 
 `FSL examples <docs/FSL.rst>`_
 
-`SimpleElastix examples <docs/SimpleElastix.rst>`_
+`ITK-Elastix examples <docs/ITKElastix.rst>`_
 
 
 .. |Docs Badge| image:: https://readthedocs.org/projects/imagedata_registration/badge/

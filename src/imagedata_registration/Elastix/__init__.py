@@ -1,7 +1,7 @@
 from typing import Dict, Union
 import numpy as np
 from imagedata.series import Series
-import SimpleITK as sitk
+import itk
 
 
 def register_elastix(
@@ -22,7 +22,7 @@ def register_elastix(
         fixed_volume = moving[fixed]
     else:
         fixed_volume = fixed
-    fixed_itk = sitk.GetImageFromArray(np.array(fixed_volume, dtype=float))
+    fixed_itk = itk.GetImageFromArray(np.array(fixed_volume, dtype=float))
     fixed_itk.SetSpacing(fixed_volume.spacing.astype(float))
 
     if moving.ndim > fixed_volume.ndim:
@@ -37,31 +37,43 @@ def register_elastix(
     for t, tag in enumerate(tags):
         print('Elastix register {} of {}'.format(t + 1, len(tags)))
         if tag is None:
-            moving_itk = sitk.GetImageFromArray(np.array(moving, dtype=float))
+            moving_itk = itk.GetImageFromArray(np.array(moving, dtype=float))
         else:
-            moving_itk = sitk.GetImageFromArray(np.array(moving[t], dtype=float))
+            moving_itk = itk.GetImageFromArray(np.array(moving[t], dtype=float))
         moving_itk.SetSpacing(moving.spacing.astype(float))
 
-        R = sitk.ImageRegistrationMethod()
-        R.SetMetricAsMeanSquares()
-        R.SetOptimizerAsRegularStepGradientDescent(4.0, 0.01, 200)
-        R.SetInitialTransform(sitk.TranslationTransform(fixed_itk.GetDimension()))
-        R.SetInterpolator(sitk.sitkLinear)
-        outTx = R.Execute(fixed_itk, moving_itk)
+        # R = itk.ImageRegistrationMethod()
+        # R.SetMetricAsMeanSquares()
+        # R.SetOptimizerAsRegularStepGradientDescent(4.0, 0.01, 200)
+        # R.SetInitialTransform(itk.TranslationTransform(fixed_itk.GetDimension()))
+        # R.SetInterpolator(itk.sitkLinear)
+        # R.Update()
+        # # outTx = R.Execute(fixed_itk, moving_itk)
+        # outTx = R.GetOutput()
+        # # rtp = elastix_obj.GetTransformParameterObject()
+        #
+        # resampler = itk.ResampleImageFilter()
+        # resampler.SetReferenceImage(fixed_itk)
+        # resampler.SetInterpolator(itk.sitkLinear)
+        # resampler.SetDefaultPixelValue(100)
+        # resampler.SetTransform(outTx)
+        # out_itk = resampler.Execute(moving_itk)
+        parametermap = itk.ParameterObject.New()
+        default_rigid_parameter_map = parametermap.GetDefaultParameterMap('rigid')
+        parametermap.AddParameterMap(default_rigid_parameter_map)
 
-        resampler = sitk.ResampleImageFilter()
-        resampler.SetReferenceImage(fixed_itk)
-        resampler.SetInterpolator(sitk.sitkLinear)
-        resampler.SetDefaultPixelValue(100)
-        resampler.SetTransform(outTx)
-        out_itk = resampler.Execute(moving_itk)
+        elastixImageFilter = itk.ElastixRegistrationMethod.New(fixed_itk, moving_itk)
+        elastixImageFilter.SetParameterObject(parametermap)
+        elastixImageFilter.UpdateLargestPossibleRegion()
+        out_itk = elastixImageFilter.GetOutput()
+        transform = elastixImageFilter.GetTransformParameterObject()
 
         if tag is None:
-            # out = sitk.GetArrayFromImage(elastixImageFilter.GetResultImage())
-            out = sitk.GetArrayFromImage(out_itk)
+            # out = itk.GetArrayFromImage(elastixImageFilter.GetResultImage())
+            out = itk.GetArrayFromImage(out_itk)
         else:
-            # out[t] = sitk.GetArrayFromImage(elastixImageFilter.GetResultImage())
-            out[t] = sitk.GetArrayFromImage(out_itk)
+            # out[t] = itk.GetArrayFromImage(elastixImageFilter.GetResultImage())
+            out[t] = itk.GetArrayFromImage(out_itk)
     print('------DONE---------------------------------------')
 
     super_threshold_indices = out > 65500
@@ -81,13 +93,13 @@ def register_elastix(
 def register_elastix_parametermap(
         fixed: Union[int, Series],
         moving: Series,
-        parametermap: sitk.ParameterMap) -> Series:
+        parametermap) -> Series:
     """Register a series using ITK Elastix methods.
 
     Args:
         fixed (int or Series): Fixed volume, or index into moving
         moving (Series): Moving volume(s)
-        parametermap (SimpleITK.ParameterMap): Elastix ParameterMap
+        parametermap (ParameterMap): Elastix ParameterMap
     Returns:
         Registered series (Series)
     """
@@ -96,7 +108,7 @@ def register_elastix_parametermap(
         fixed_volume = moving[fixed]
     else:
         fixed_volume = fixed
-    fixed_itk = sitk.GetImageFromArray(np.array(fixed_volume, dtype=float))
+    fixed_itk = itk.GetImageFromArray(np.array(fixed_volume, dtype=float))
     fixed_itk.SetSpacing(fixed_volume.spacing.astype(float))
 
     if moving.ndim > fixed_volume.ndim:
@@ -111,25 +123,21 @@ def register_elastix_parametermap(
     for t, tag in enumerate(tags):
         print('Elastix register {} of {}'.format(t + 1, len(tags)))
         if tag is None:
-            moving_itk = sitk.GetImageFromArray(np.array(moving, dtype=float))
+            moving_itk = itk.GetImageFromArray(np.array(moving, dtype=float))
         else:
-            moving_itk = sitk.GetImageFromArray(np.array(moving[t], dtype=float))
+            moving_itk = itk.GetImageFromArray(np.array(moving[t], dtype=float))
         moving_itk.SetSpacing(moving.spacing.astype(float))
 
-        elastixImageFilter = sitk.ElastixImageFilter()
-        elastixImageFilter.SetParameterMap(parametermap)
-        elastixImageFilter.SetFixedImage(fixed_itk)
-        elastixImageFilter.SetMovingImage(moving_itk)
-        elastixImageFilter.Execute()
-        out_itk = elastixImageFilter.GetResultImage()
-        transform = elastixImageFilter.GetTransformParameterMap()
+        elastixImageFilter = itk.ElastixRegistrationMethod.New(fixed_itk, moving_itk)
+        elastixImageFilter.SetParameterObject(parametermap)
+        elastixImageFilter.UpdateLargestPossibleRegion()
+        out_itk = elastixImageFilter.GetOutput()
+        transform = elastixImageFilter.GetTransformParameterObject()
 
         if tag is None:
-            # out = sitk.GetArrayFromImage(elastixImageFilter.GetResultImage())
-            out = sitk.GetArrayFromImage(out_itk)
+            out = itk.GetArrayFromImage(out_itk)
         else:
-            # out[t] = sitk.GetArrayFromImage(elastixImageFilter.GetResultImage())
-            out[t] = sitk.GetArrayFromImage(out_itk)
+            out[t] = itk.GetArrayFromImage(out_itk)
     print('------DONE---------------------------------------')
 
     super_threshold_indices = out > 65500

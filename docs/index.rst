@@ -47,7 +47,7 @@ information matters.*
 
    NPreg
    FSL
-   SimpleElastix
+   ITKElastix
 
 
 

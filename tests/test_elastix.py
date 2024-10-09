@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 import pprint
 from imagedata.series import Series
-import SimpleITK as sitk
+import itk
 
 from src.imagedata_registration.Elastix import register_elastix, register_elastix_parametermap
 
@@ -25,7 +25,9 @@ class TestElastixRegistration(unittest.TestCase):
         a2[:, 0:3] = a[:]
         a2[:, 3:6] = a[:]
         a = Series(a2, "time")
-        parametermap = sitk.GetDefaultParameterMap("translation")
+        parametermap = itk.ParameterObject.New()
+        default_translation_map = parametermap.GetDefaultParameterMap('translation')
+        parametermap.AddParameterMap(default_translation_map)
         out = register_elastix_parametermap(0, a, parametermap)
 
 
@@ -35,7 +37,8 @@ class TestElastixRegistration(unittest.TestCase):
         a2[:, 0:3] = a[:]
         a2[:, 3:6] = a[:]
         a = Series(a2, "time")
-        parametermap = sitk.ReadParameterFile("data/Elastix/Parameters_Rigid.txt")
+        parametermap = itk.ParameterObject.New()
+        parametermap.AddParameterFile("data/Elastix/Parameters_Rigid.txt")
         out = register_elastix_parametermap(0, a, parametermap)
 
     def test_register_elastix_series(self):
@@ -45,22 +48,21 @@ class TestElastixRegistration(unittest.TestCase):
         a2[:, 3:6] = a[:]
         fixedSeries = Series(a2[0])
         movingSeries = Series(a2[1])
-        fixedImage = sitk.GetImageFromArray(np.array(fixedSeries, dtype=float))
+        fixedImage = itk.GetImageFromArray(np.array(fixedSeries, dtype=float))
         fixedImage.SetSpacing(fixedSeries.spacing.astype(float))
-        movingImage = sitk.GetImageFromArray(np.array(movingSeries, dtype=float))
+        movingImage = itk.GetImageFromArray(np.array(movingSeries, dtype=float))
         movingImage.SetSpacing(movingSeries.spacing.astype(float))
-        parameterMap = sitk.ReadParameterFile("data/Elastix/Parameters_Rigid.txt")
+        parameterMap = itk.ParameterObject.New()
+        parameterMap.AddParameterFile("data/Elastix/Parameters_Rigid.txt")
 
-        elastixImageFilter = sitk.ElastixImageFilter()
-        elastixImageFilter.SetFixedImage(fixedImage)
-        elastixImageFilter.SetMovingImage(movingImage)
-        elastixImageFilter.SetParameterMap(parameterMap)
-        elastixImageFilter.Execute()
+        elastixImageFilter = itk.ElastixRegistrationMethod.New(fixedImage, movingImage)
+        elastixImageFilter.SetParameterObject(parameterMap)
+        elastixImageFilter.Update()
 
-        resultImage = elastixImageFilter.GetResultImage()
-        transformParameterMap = elastixImageFilter.GetTransformParameterMap()
+        resultImage = elastixImageFilter.GetOutput()
+        transformParameterMap = elastixImageFilter.GetTransformParameterObject()
 
-        out = sitk.GetArrayFromImage(resultImage)
+        out = itk.GetArrayFromImage(resultImage)
         super_threshold_indices = out > 65500
         out[super_threshold_indices] = 0
 
