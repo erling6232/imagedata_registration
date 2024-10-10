@@ -5,14 +5,13 @@ requires = [
     "cython",
     "nipype",
     "itk-elastix",
-    # "SimpleITK-SimpleElastix==2.0.0rc2.dev909",
-    "imagedata>=3.7.0,<3.8.0"
+    "imagedata>=3.7.1,<3.8.0"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata-registration"
-version = "0.3.0"
+version = "0.3.1"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
     {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
@@ -22,7 +21,7 @@ maintainers = [
 ]
 description = "Image registration routines for Imagedata"
 readme = "README.rst"
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.9,<3.14"
 keywords = [
     "python",
     "medical",
@@ -44,7 +43,7 @@ classifiers = [
 ]
 dependencies = [
     "itk-elastix",
-    "imagedata>=3.7.0,<3.8.0"
+    "imagedata>=3.7.1,<3.8.0"
 ]
 
 [project.urls]
