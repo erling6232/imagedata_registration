@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.3.2] - 2024-12-11
 * Minor improvements.
+* Run build script on latest ubuntu and macos os versions.
 
 ## [v0.3.1] - 2024-10-10
 * Support python 3.13.
