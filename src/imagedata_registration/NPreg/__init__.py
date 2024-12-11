@@ -163,7 +163,11 @@ class NPreg(object):
         while True:
             # Solve equation by true, nonlinear fixed point iterations
             if self.multigridsolver == MULTIGRID_SOLVER_NONLINEARFP:
-                self.solve_nonlinearfp()
+                try:
+                    self.solve_nonlinearfp()
+                except Exception as e:
+                    print('solve_nonlinearfp failed: {}'.format(e))
+                    raise
             # Solve equation by a linear system, also fixed point iterations
             elif self.multigridsolver == MULTIGRID_SOLVER_LINEARFP:
                 raise ValueError("MULTIGRID_SOLVER_LINEARFP is not implemented.")
