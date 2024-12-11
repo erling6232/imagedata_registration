@@ -81,6 +81,7 @@ def multigrid_nonlin(forceu, u_in, prm):
                     v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
                     prmin['lambda'], prmin['mu'], prmin['dt'])
+                print('After navlam_nonlinear_highlevel_cupy')
             v[li] = u[li]
 
             # find Av
@@ -121,16 +122,17 @@ def multigrid_nonlin(forceu, u_in, prm):
 
             # solve equation
             prmin['h'] = h[li]
-            if prm['nudim'] == 2:
-                u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
-            elif prm['nudim'] == 3:
-                # u[l] = navlam_nonlinear_3(
-                # u[l] = navlam_nonlinear_highlevel_cupy(
-                u[li] = navlam_nonlinear(
-                    forceu[li][0], forceu[li][1], forceu[li][2],
-                    v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
-                    prmin['maxniter'], prmin['h'], prmin['nudim'],
-                    prmin['lambda'], prmin['mu'], prmin['dt'])
+            u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
+            # if prm['nudim'] == 2:
+            #     u[li] = navlam_nonlinear(forceu[li], v[li], prmin)
+            # elif prm['nudim'] == 3:
+            #     # u[l] = navlam_nonlinear_3(
+            #     # u[l] = navlam_nonlinear_highlevel_cupy(
+            #     u[li] = navlam_nonlinear(
+            #         forceu[li][0], forceu[li][1], forceu[li][2],
+            #         v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
+            #         prmin['maxniter'], prmin['h'], prmin['nudim'],
+            #         prmin['lambda'], prmin['mu'], prmin['dt'])
 
             # find error e
             for j in range(prm['nudim']):
@@ -310,14 +312,30 @@ def Au(u, h, prm):
         dy2 = u[2][:, :, np.r_[0, :ny - 1], :] * (mu / H[1, 1])
         dx1 = u[2][:, :, :, np.r_[1:nx, -1]] * (mu / H[2, 2] + (llambda + mu) / H[2, 2])
         dx2 = u[2][:, :, :, np.r_[0, :nx - 1]] * (mu / H[2, 2] + (llambda + mu) / H[2, 2])
-        dzx1 = u[0][:, np.r_[1:nz, -1], :, np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[0, 2]))
-        dzx2 = u[0][:, np.r_[1:nz, -1], :, np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[0, 2]))
-        dzx3 = u[0][:, np.r_[0, :nz - 1], :, np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[0, 2]))
-        dzx4 = u[0][:, np.r_[0, :nz - 1], :, np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[0, 2]))
-        dyx1 = u[1][:, :, np.r_[1:ny, -1], np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[1, 2]))
-        dyx2 = u[1][:, :, np.r_[1:ny, -1], np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[1, 2]))
-        dyx3 = u[1][:, :, np.r_[0, :ny - 1], np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[1, 2]))
-        dyx4 = u[1][:, :, np.r_[0, :ny - 1], np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[1, 2]))
+        # dzx1 = u[0][:, np.r_[1:nz, -1], :, np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[0, 2]))
+        # dzx2 = u[0][:, np.r_[1:nz, -1], :, np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[0, 2]))
+        # dzx3 = u[0][:, np.r_[0, :nz - 1], :, np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[0, 2]))
+        # dzx4 = u[0][:, np.r_[0, :nz - 1], :, np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[0, 2]))
+        # dyx1 = u[1][:, :, np.r_[1:ny, -1], np.r_[1:nx, -1]] * ((llambda + mu) / (4 * H[1, 2]))
+        # dyx2 = u[1][:, :, np.r_[1:ny, -1], np.r_[0, :nx - 1]] * (-(llambda + mu) / (4 * H[1, 2]))
+        # dyx3 = u[1][:, :, np.r_[0, :ny - 1], np.r_[1:nx, -1]] * (-(llambda + mu) / (4 * H[1, 2]))
+        # dyx4 = u[1][:, :, np.r_[0, :ny - 1], np.r_[0, :nx - 1]] * ((llambda + mu) / (4 * H[1, 2]))
+        temp = u[0][:, :, :, np.r_[1:nx, -1]]
+        dzx1 = temp[:, np.r_[1:nz, -1], :, :] * ((llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[0, :nx - 1]]
+        dzx2 = temp[:, np.r_[1:nz, -1], :, :] * (-(llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[1:nx, -1]]
+        dzx3 = temp[:, np.r_[0, :nz - 1], :, :] * (-(llambda + mu) / (4 * H[0, 2]))
+        temp = u[0][:, :, :, np.r_[0, :nx - 1]]
+        dzx4 = temp[:, np.r_[0, :nz - 1], :, :] * ((llambda + mu) / (4 * H[0, 2]))
+        temp = u[1][:, :, :, np.r_[1:nx, -1]]
+        dyx1 = temp[:, :, np.r_[1:ny, -1], :] * ((llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[0, :nx - 1]]
+        dyx2 = temp[:, :, np.r_[1:ny, -1], :] * (-(llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[1:nx, -1]]
+        dyx3 = temp[:, :, np.r_[0, :ny - 1], :] * (-(llambda + mu) / (4 * H[1, 2]))
+        temp = u[1][:, :, :, np.r_[0, :nx - 1]]
+        dyx4 = temp[:, :, np.r_[0, :ny - 1], :] * ((llambda + mu) / (4 * H[1, 2]))
         F[2] = d0 + dz1 + dz2 + dy1 + dy2 + dx1 + dx2 + dzx1 + dzx2 + dzx3 + dzx4 + dyx1 + dyx2 + dyx3 + dyx4
 
         u[0].shape = u0_shape
