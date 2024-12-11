@@ -1,4 +1,9 @@
+#
 # muod=multigrid_nonlin_cy
+
+sitepackages := $(shell python -c 'import site; print(site.getsitepackages()[0])')
+pythonincludes := $(shell python -c 'import sysconfig; info=sysconfig.get_paths(); print(info["include"])')
+
 all:	multigrid_nonlin_cy.so multigrid_nonlin_cc.so
 
 #    -fopenmp
@@ -11,18 +16,20 @@ multigrid_nonlin_cy.so:	multigrid_nonlin_cy.c
 	-ffast-math \
 	-march=native \
 	-D NPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION \
-	-I/usr/local/lib/python3.8/dist-packages/numpy/core/include \
-	-I/usr/local/lib/python3.8/dist-packages/numpy \
-	-I/usr/include/python3.8 \
+	-I$(sitepackages)/numpy/core/include \
+	-I$(sitepackages)/numpy/_core/include \
+	-I$(sitepackages)/numpy \
+	-I$(pythonincludes) \
 	-ftree-loop-vectorize -ffast-math -lm -mavx \
 	-o $@ $<
 
 multigrid_nonlin_cy.c:	multigrid_nonlin_cy.pyx
 	python3 -m cython \
-	-I /usr/local/lib/python3.8/dist-packages/numpy \
+	-I$(sitepackages)/numpy \
 	-a \
 	$<
 
+.PHONY = clean
 clean:
 	rm -f multigrid_nonlin_cy.c multigrid_nonlin_cy.so
 	rm -f multigrid_nonlin_cc.c multigrid_nonlin_cc.so
@@ -35,15 +42,15 @@ multigrid_nonlin_cc.so:	multigrid_nonlin_cc.c navlam_nonlinear_cc.o
 	-mavx512f \
 	-march=native \
 	-D NPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION \
-	-I/usr/local/lib/python3.6/dist-packages/numpy \
-	-I/usr/include/python3.6 \
+	-I$(sitepackages)/numpy \
+	-I$(pythonincludes) \
 	-lm \
 	navlam_nonlinear_cc.o \
 	-o $@ $<
 
 multigrid_nonlin_cc.c:	multigrid_nonlin_cc.pyx
 	python3 -m cython \
-	-I /usr/local/lib/python3.6/dist-packages/numpy \
+	-I$(sitepackages)/numpy \
 	-a \
 	$<
 
