@@ -12,19 +12,19 @@ jobs:
         # os: [ubuntu-22.04, windows-2022, macos-11]
 
     steps:
-#      - uses: moonrepo/setup-rust@v1
-#        with:
-#          components: rustfmt
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Checkout imagedata_registration
         uses: actions/checkout@v4
 
-      - name: Add conda to system path
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          echo $CONDA/bin >> $GITHUB_PATH
-          echo CONDA $CONDA
-          echo GITHUB_PATH $GITHUB_PATH
+#      - name: Add conda to system path
+#        run: |
+#          # $CONDA is an environment variable pointing to the root of the miniconda directory
+#          echo $CONDA/bin >> $GITHUB_PATH
+#          echo CONDA $CONDA
+#          echo GITHUB_PATH $GITHUB_PATH
 
       - name: Install dependencies
         run: |
