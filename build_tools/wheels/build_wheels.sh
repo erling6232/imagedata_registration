@@ -3,6 +3,7 @@
 set -e
 set -x
 echo "build_wheels.sh: running"
+echo "PATH $PATH"
 which cargo
 cargo --version
 
