@@ -28,12 +28,15 @@ jobs:
 
       - name: Install dependencies
         run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            export CFLAGS="-Wno-implicit-function-declaration"
+          fi
           echo "CFLAGS $CFLAGS"
-          echo "/usr/bin:"
-          ls /usr/bin
-          echo "Begin env"
-          env | grep mac
-          echo "End env"
+          #echo "/usr/bin:"
+          #ls /usr/bin
+          #echo "Begin env"
+          #env
+          #echo "End env"
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
           pip install -e .
