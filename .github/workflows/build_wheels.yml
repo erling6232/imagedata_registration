@@ -31,7 +31,7 @@ jobs:
         shell: bash
 
       - name: Install Rust and Cargo
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@latest
 
       - name: GitHub
         run: |
