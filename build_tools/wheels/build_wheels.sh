@@ -3,6 +3,8 @@
 set -e
 set -x
 echo "build_wheels.sh: running"
+which cargo
+cargo --version
 
 # The version of the built dependencies are specified
 # in the pyproject.toml file, while the tests are run

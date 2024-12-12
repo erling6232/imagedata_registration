@@ -31,6 +31,7 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
             export CFLAGS="-Wno-implicit-function-declaration"
           fi
+          which cargo
           cargo --version
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
