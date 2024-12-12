@@ -28,6 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo "CFLAGS $CFLAGS"
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
           pip install -e .
