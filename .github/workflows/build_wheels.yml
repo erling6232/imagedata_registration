@@ -32,7 +32,7 @@ jobs:
             export CFLAGS="-Wno-implicit-function-declaration"
           fi
           pip install --upgrade setuptools pip wheel
-          pip install cython numpy flake8 coverage
+          pip install cython numpy flake8 coverage nipype
           pip install -e .
       - name: Lint with flake8
         run: |
