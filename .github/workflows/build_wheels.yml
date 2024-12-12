@@ -26,23 +26,12 @@ jobs:
           echo CONDA $CONDA
           echo GITHUB_PATH $GITHUB_PATH
 
-#      - name: Upgrade bash on macOS
-#        run: |
-#          # The later code uses "newer" bash features, which are not available in the ancient bash 3 (from 2014) of macOS
-#          if [ "$RUNNER_OS" == "macOS" ]; then
-#            brew install bash
-#          fi
-#        shell: bash
-
-      - name: GitHub
-        run: |
-          echo ${{github.event_name}} ${{github.event.action}}
-
       - name: Install dependencies
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
             export CFLAGS="-Wno-implicit-function-declaration"
           fi
+          cargo --version
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
           pip install -e .
@@ -64,6 +53,7 @@ jobs:
         #   output-dir: wheelhouse
         #   config-file: "{package}/pyproject.toml"
         run: |
+          cargo --version
           mkdir -p imagedata_registration/NPreg
           find . -name '*.so' -o -name '*.c' -print
           find . -name '*.so' -o -name '*.c' -print0 | xargs -0 /bin/rm -f
