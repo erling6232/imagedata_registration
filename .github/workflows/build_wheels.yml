@@ -32,7 +32,7 @@ jobs:
           echo "/usr/bin:"
           ls /usr/bin
           echo "Begin env"
-          env
+          env | grep mac
           echo "End env"
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
