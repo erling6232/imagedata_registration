@@ -31,8 +31,8 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
             export CFLAGS="-Wno-implicit-function-declaration"
           fi
-          python3 -m pip install --upgrade setuptools pip wheel
-          python3 -m pip install cython numpy flake8 coverage nipype
+          # python3 -m pip install --upgrade setuptools pip wheel
+          # python3 -m pip install cython numpy flake8 coverage nipype
           python3 -m pip install -e .
       - name: Lint with flake8
         run: |
@@ -67,7 +67,6 @@ jobs:
         #          python3 -m pip install nipype
         #          python3 -m pip install -e .
         run: |
-          python3 -m pip install coverage
           python3 -m coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
         run: |
