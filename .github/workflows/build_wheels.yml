@@ -22,6 +22,9 @@ jobs:
           echo CONDA $CONDA
           echo GITHUB_PATH $GITHUB_PATH
 
+      - name: Install Rust and Cargo
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
       - name: GitHub
         run: |
           echo ${{github.event_name}} ${{github.event.action}}
@@ -31,12 +34,6 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
             export CFLAGS="-Wno-implicit-function-declaration"
           fi
-          echo "CFLAGS $CFLAGS"
-          #echo "/usr/bin:"
-          #ls /usr/bin
-          #echo "Begin env"
-          #env
-          #echo "End env"
           pip install --upgrade setuptools pip wheel
           pip install cython numpy flake8 coverage
           pip install -e .
