@@ -1,6 +1,6 @@
 name: Build
 
-on: [push, pull_request, release]
+on: [ push, pull_request, release ]
 
 jobs:
   build_wheels:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ ubuntu-latest, macos-latest ]
         # os: [ubuntu-22.04, windows-2022, macos-11]
 
     steps:
@@ -21,6 +21,14 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
           echo CONDA $CONDA
           echo GITHUB_PATH $GITHUB_PATH
+
+      - name: Update bash on macOS
+          # The later code uses "newer" bash features, which are not available in the ancient bash 3 (from 2014) of macOS
+          run: |
+            if [ "$RUNNER_OS" == "macOS" ]; then
+              brew install bash
+            fi
+          shell: bash
 
       - name: Install Rust and Cargo
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -95,57 +103,57 @@ jobs:
           slug: erling6232/imagedata_registration
 
 
-#  build_sdist:
-#    name: Build source distribution
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Install dependencies
-#        run: |
-#          pip install --upgrade pip wheel
-#          pip install SimpleITK-SimpleElastix==2.0.0rc2.dev910
-#
-#      - name: Build sdist
-#        run: pipx run build --sdist
-#
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          path: dist/*.tar.gz
+          #  build_sdist:
+          #    name: Build source distribution
+          #    runs-on: ubuntu-latest
+          #    steps:
+          #      - uses: actions/checkout@v4
+          #
+          #      - name: Install dependencies
+          #        run: |
+          #          pip install --upgrade pip wheel
+          #          pip install SimpleITK-SimpleElastix==2.0.0rc2.dev910
+          #
+          #      - name: Build sdist
+          #        run: pipx run build --sdist
+          #
+          #      - uses: actions/upload-artifact@v4
+          #        with:
+          #          path: dist/*.tar.gz
 
 
-#  publish-to-testpypi:
-#    name: Test Publish Python distribution to TestPyPi
-#    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-#    needs: [build_wheels, build_sdist]
-#    runs-on: ubuntu-latest
-#    environment:
-#      name: pypi
-#      url: https://test.pypi.org/legacy
-#    permissions:
-#      id-token: write
-#    # if: github.event_name == 'release' && github.event.action == 'published'
-#    # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
-#    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-#    steps:
-#      - uses: actions/download-artifact@v3
-#        with:
-#          # unpacks default artifact into dist/
-#          # if `name: artifact` is omitted, the action will create extra parent dir
-#          name: artifact
-#          path: dist
-#
-#      - name: Upload
-#        uses: pypa/gh-action-pypi-publish@release/v1
-#        with:
-#          repository-url: https://test.pypi.org/legacy/
+          #  publish-to-testpypi:
+          #    name: Test Publish Python distribution to TestPyPi
+          #    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+          #    needs: [build_wheels, build_sdist]
+          #    runs-on: ubuntu-latest
+          #    environment:
+          #      name: pypi
+          #      url: https://test.pypi.org/legacy
+          #    permissions:
+          #      id-token: write
+          #    # if: github.event_name == 'release' && github.event.action == 'published'
+          #    # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
+          #    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+          #    steps:
+          #      - uses: actions/download-artifact@v3
+          #        with:
+          #          # unpacks default artifact into dist/
+          #          # if `name: artifact` is omitted, the action will create extra parent dir
+          #          name: artifact
+          #          path: dist
+          #
+          #      - name: Upload
+          #        uses: pypa/gh-action-pypi-publish@release/v1
+          #        with:
+          #          repository-url: https://test.pypi.org/legacy/
 
-          
+
   publish-to-pypi:
     name: Publish Python distribution to PyPi
     # if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     # needs: [build_wheels, build_sdist]
-    needs: [build_wheels]
+    needs: [ build_wheels ]
     runs-on: ubuntu-latest
     environment:
       name: pypi
