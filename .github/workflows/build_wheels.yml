@@ -57,16 +57,16 @@ jobs:
           mkdir -p imagedata_registration/NPreg
           find . -name '*.so' -o -name '*.c' -print
           find . -name '*.so' -o -name '*.c' -print0 | xargs -0 /bin/rm -f
-          python setup.py build_ext -i
+          python3 setup.py build_ext -i
           if [[ -f imagedata_registration/NPreg/multigrid_nonlin_cy*.so ]]; then
             mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
           fi
           bash build_tools/wheels/build_wheels.sh
 
       - name: Testing - with Cython
+        #          python3 -m pip install nipype
+        #          python3 -m pip install -e .
         run: |
-          #          python3 -m pip install nipype
-          #          python3 -m pip install -e .
           python3 -m pip install coverage
           python3 -m coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
