@@ -151,20 +151,20 @@ jobs:
     # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
     # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     steps:
-      - name: Download the ubuntu-22.04 dists
+      - name: Download the ubuntu-22.latest dists
         uses: actions/download-artifact@v4
         with:
           # unpacks default artifact into dist/
           # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact.ubuntu-22.04
+          name: artifact.ubuntu-latest
           path: dist
 
-      - name: Download the macos-13 dists
+      - name: Download the macos-latest dists
         uses: actions/download-artifact@v4
         with:
           # unpacks default artifact into dist/
           # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact.macos-13
+          name: artifact.macos-latest
           path: dist
 
       - name: Upload distribution to PyPI
