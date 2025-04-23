@@ -50,7 +50,7 @@ def register_fsl(
         moving.write(tmp_moving, formats=['nifti'])
 
         print('FSL running ...')
-        tmp_out = p / 'out.nii.gz'
+        tmp_out = p / 'out.nii'
 
         reg_method = method()
         reg_method.inputs.in_file = str(tmp_moving)
