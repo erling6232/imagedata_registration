@@ -7,7 +7,7 @@ cimport cython
 cimport numpy as np
 import numpy as np
 import pyximport
-from .cells import print_cell
+# from .cells import print_cell
 from .resize import Resize
 
 DTYPE = np.float64
