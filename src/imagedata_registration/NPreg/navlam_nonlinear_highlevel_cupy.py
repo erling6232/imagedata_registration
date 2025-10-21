@@ -17,9 +17,6 @@ def navlam_nonlinear_highlevel_cupy(forceu_in0, forceu_in1, forceu_in2, u_in0, u
     iterating). See page 100 in 'A multigrid tutorial'
     """
 
-    print("navlam_nonlinear_highlevel_cupy:")
-    print('maxniter: {}'.format(maxniter))
-
     assert nudim == 3
     H = np.zeros((nudim, nudim))
     for j in range(nudim):
