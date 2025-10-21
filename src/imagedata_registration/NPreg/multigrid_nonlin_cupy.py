@@ -16,7 +16,6 @@ DTYPE = np.float64
 
 
 def multigrid_nonlin(forceu, u_in, prm):
-    print('multigrid_nonlin:')
     u = u_in.copy()  # Do not modify input
 
     # prm must contain:
@@ -81,7 +80,6 @@ def multigrid_nonlin(forceu, u_in, prm):
                     v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
                     prmin['maxniter'], prmin['h'], prmin['nudim'],
                     prmin['lambda'], prmin['mu'], prmin['dt'])
-                print('After navlam_nonlinear_highlevel_cupy')
             v[li] = u[li]
 
             # find Av
@@ -165,10 +163,11 @@ def multigrid_nonlin(forceu, u_in, prm):
                 # u[l] = navlam_nonlinear_3(
                 # u[l] = navlam_nonlinear_highlevel_cupy(
                 u[li] = navlam_nonlinear(
-                    forceu[li][0], forceu[li][1], forceu[li][2],
-                    v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
-                    prmin['maxniter'], prmin['h'], prmin['nudim'],
-                    prmin['lambda'], prmin['mu'], prmin['dt'])
+                    forceu[li], v[li], prmin)
+                    # forceu[li][0], forceu[li][1], forceu[li][2],
+                    # v[li][0].copy(), v[li][1].copy(), v[li][2].copy(),
+                    # prmin['maxniter'], prmin['h'], prmin['nudim'],
+                    # prmin['lambda'], prmin['mu'], prmin['dt'])
     return u[0]
 
 
@@ -647,6 +646,12 @@ def navlam_nonlinear(forceu, u_in, prm):
         F2 = cp.zeros_like(u2, dtype=DTYPE)
         temp = cp.zeros_like(u0, dtype=DTYPE)
 
+        for i in range(3):
+            if forceu[i].ndim == 4 and forceu[i].shape[0] == 1:
+                forceu[i].shape = forceu[i].shape[1:]
+        assert forceu[0].ndim == 3, "Shape of forceu[0] is not 3 dim, is {} {}".format(forceu[0].ndim, forceu[0].shape)
+        assert forceu[1].ndim == 3, "Shape of forceu[1] is not 3 dim, is {} {}".format(forceu[1].ndim, forceu[1].shape)
+        assert forceu[2].ndim == 3, "Shape of forceu[2] is not 3 dim, is {} {}".format(forceu[2].ndim, forceu[2].shape)
         forceu0 = cp.asarray(forceu[0])
         forceu1 = cp.asarray(forceu[1])
         forceu2 = cp.asarray(forceu[2])
