@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.3.5] - 2025-10-21
+### Fixed
+* Fixed a problem in multigrid_nonlin_cupy which would not run for CYCLE_V2.
+
 ## [v0.3.4] - 2025-04-23
 * Support imagedata 3.8.
 
