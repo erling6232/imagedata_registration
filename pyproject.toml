@@ -7,13 +7,13 @@ requires = [
     "coverage",
     "flake8",
     "itk-elastix",
-    "imagedata>=3.8.0,<3.9"
+    "imagedata>=3.8.0,<3.10"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata-registration"
-version = "0.3.6"
+version = "0.3.7"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
     {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
@@ -23,7 +23,7 @@ maintainers = [
 ]
 description = "Image registration routines for Imagedata"
 readme = "README.rst"
-requires-python = ">=3.9,<3.14"
+requires-python = ">=3.9,<3.15"
 keywords = [
     "python",
     "medical",
@@ -47,7 +47,7 @@ dependencies = [
     "setuptools",
     "cython",
     "itk-elastix",
-    "imagedata>=3.8.0,<3.9"
+    "imagedata>=3.8.0,<3.10"
 ]
 
 [project.urls]
