@@ -23,7 +23,7 @@ maintainers = [
 ]
 description = "Image registration routines for Imagedata"
 readme = "README.rst"
-requires-python = ">=3.9,<3.15"
+requires-python = ">=3.10,<3.15"
 keywords = [
     "python",
     "medical",
