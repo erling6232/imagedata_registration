@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools>=61.0",
+    "setuptools>=75.6.0",
     "wheel",
     "cython",
     "nipype",
@@ -30,10 +30,10 @@ keywords = [
     "imaging",
     "image registration"
 ]
-# license = "MIT"
-license-files = [
-    "LICENSE",
-]
+license = "MIT"
+#license-files = [
+#    "LICENSE",
+#]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Development Status :: 4 - Beta",
