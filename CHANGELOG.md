@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
-## [v0.3.7] - 2026-05-20
+## [v0.3.8] - 2026-05-20
 * Support imagedata 3.9.
 * Support python 3.14.
 
