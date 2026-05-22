@@ -30,7 +30,7 @@ keywords = [
     "imaging",
     "image registration"
 ]
-license = "MIT License"
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Development Status :: 4 - Beta",
