@@ -30,7 +30,7 @@ keywords = [
     "imaging",
     "image registration"
 ]
-license = "MIT"
+# license = "MIT"
 license-files = [
     "LICENSE",
 ]
