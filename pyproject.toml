@@ -30,8 +30,10 @@ keywords = [
     "imaging",
     "image registration"
 ]
-# license = "License :: OSI Approved :: MIT License"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = [
+    "LICENSE",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Development Status :: 4 - Beta",
