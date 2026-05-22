@@ -72,7 +72,7 @@ jobs:
         #          python3 -m pip install nipype
         #          python3 -m pip install -e .
         run: |
-          python3 -m pip install cython numpy flake8 coverage nipype
+          python3 -m pip install cython numpy flake8 coverage nipype imagedata
           python3 -m coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
         run: |
