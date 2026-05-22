@@ -29,6 +29,7 @@ include *.toml
 include Makefile
 include tox.ini
 exclude .coveragerc
+exclude *.html
 include pylintrc
 include coverage.xml
 global-exclude *.py[cod] *.c *.so *.openmp
