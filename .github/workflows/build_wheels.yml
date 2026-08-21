@@ -20,7 +20,7 @@ jobs:
         with:
           auto-update-conda: true
           python-version: '3.12'
-          channels: https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/, conda-forge
+          channels: https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/, conda-forge, conda-pypi
       - name: Checkout imagedata_registration
         uses: actions/checkout@master
 
@@ -77,9 +77,9 @@ jobs:
         shell: bash
         run: |
           source "$CONDA/etc/profile.d/conda.sh"
-          conda activate test
           conda install fsl-bet2 fsl-eddy fsl-topup fsl-mcflirt
-          python3 -m pip install cython numpy flake8 coverage nipype
+          conda install cython numpy flake8 coverage nipype
+#          python3 -m pip install cython numpy flake8 coverage nipype
           python3 -m pip install -e .
           python3 -m coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
