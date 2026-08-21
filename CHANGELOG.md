@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.4.0.rc0] - 2026-08-21
 * Support imagedata 3.10.
-* Added topup interface to FSL.
+* Added interfaces to FSL topup, bet and eddy functions.
 
 ## [v0.3.8] - 2026-05-20
 * Support imagedata 3.9.
