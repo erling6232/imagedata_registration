@@ -15,8 +15,8 @@ class TestFSLRegistration(unittest.TestCase):
         os.environ['FSLOUTPUTTYPE'] = 'NIFTI_GZ'
 
     def test_register_fsl(self):
-        if os.getenv("GITHUB_ACTION") is not None:
-            return
+        # if os.getenv("GITHUB_ACTION") is not None:
+        #     return
         a = Series('data/time.zip', 'time')
         out = register_fsl(0, a, options={"cost": "corratio"})
         np.testing.assert_array_equal(out.tags[0], a.tags[0])
