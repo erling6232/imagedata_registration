@@ -15,7 +15,7 @@ extensions = [
     #     ["src/pyctmctree/inpyranoid_c.pyx"],
     # ),
     Extension(
-        "imagedata-registration.NPreg.multigrid_nonlin_cy",
+        "imagedata_registration.NPreg.multigrid_nonlin_cy",
         ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"],
         include_dirs=[numpy.get_include()],
         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
@@ -25,7 +25,7 @@ extensions = [
 
 # This is the function that is executed
 setup(
-    name='imagedata-registration',  # Required
+    name='imagedata_registration',  # Required
 
     # A list of compiler Directives is available at
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives

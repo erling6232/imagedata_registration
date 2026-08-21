@@ -13,7 +13,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "imagedata-registration"
+name = "imagedata_registration"
 version = "0.4.0.rc0"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
@@ -64,13 +64,10 @@ package-dir = {"" = "src"}
 # py-modules = ["_custom_build"]
 
 ext-modules = [
-    {
-        name="imagedata-registration.NPreg.multigrid_nonlin_cy",
-        sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"],
-        include_dirs=[numpy.get_include()],
-        define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
-    },
-
+    {name="imagedata_registration.NPreg.multigrid_nonlin_cy",
+     sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"],
+     include_dirs=[numpy.get_include()],
+     define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]}
 ]
 
 # [tool.setuptools.cmdclass]
