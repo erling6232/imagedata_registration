@@ -10,6 +10,10 @@ from imagedata_registration.FSL import register_fsl, topup, apply_topup, bet, ed
 
 
 class TestFSLRegistration(unittest.TestCase):
+
+    def setUp(self) -> None:
+        os.environ['FSLOUTPUTTYPE'] = 'NIFTI_GZ'
+
     def test_register_fsl(self):
         if os.getenv("GITHUB_ACTION") is not None:
             return
