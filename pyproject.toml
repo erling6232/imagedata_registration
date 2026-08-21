@@ -7,13 +7,13 @@ requires = [
     "coverage",
     "flake8",
     "itk-elastix",
-    "imagedata>=3.8.0,<3.10"
+    "imagedata>=3.10.0.rc2,<3.11"
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "imagedata-registration"
-version = "0.3.9"
+version = "0.4.0.rc0"
 authors = [
     {name = "Erling Andersen", email = "Erling.Andersen@Helse-Bergen.NO"},
     {name = "Erlend Hodneland", email = "Erlend.Hodneland@uib.no"}
@@ -50,7 +50,7 @@ dependencies = [
     "setuptools",
     "cython",
     "itk-elastix",
-    "imagedata>=3.8.0,<3.10"
+    "imagedata>=3.10.0.rc2,<3.11"
 ]
 
 [project.urls]
