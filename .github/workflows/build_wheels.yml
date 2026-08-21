@@ -24,21 +24,6 @@ jobs:
       - name: Checkout imagedata_registration
         uses: actions/checkout@master
 
-#      - name: Add conda to system path
-#        run: |
-#          # $CONDA is an environment variable pointing to the root of the miniconda directory
-#          echo $CONDA/bin >> $GITHUB_PATH
-#          echo CONDA $CONDA
-#          echo GITHUB_PATH $GITHUB_PATH
-
-#      - name: Install dependencies
-#        run: |
-#          if [ "$RUNNER_OS" == "macOS" ]; then
-#            export CFLAGS="-Wno-implicit-function-declaration"
-#          fi
-          # python3 -m pip install --upgrade setuptools pip wheel
-          # python3 -m pip install cython numpy flake8 coverage nipype
-          # python3 -m pip install -e .
       - name: Lint with flake8
         run: |
           pip install --upgrade pip flake8
@@ -58,21 +43,6 @@ jobs:
           CIBW_ENVIRONMENT_LINUX: "PATH=$HOME/.cargo/bin:$PATH"
           NPY_NO_DEPRECATED_API: "NPY_1_7_API_VERSION"
 
-        # with:
-        #   package-dir: .
-        #   output-dir: wheelhouse
-        #   config-file: "{package}/pyproject.toml"
-#        run: |
-#          mkdir -p imagedata_registration/NPreg
-#          find . -name '*.so' -o -name '*.c' -print
-#          find . -name '*.so' -o -name '*.c' -print0 | xargs -0 /bin/rm -f
-#          pip install -e .
-#          python3 setup.py build_ext -i
-#          if [[ -f imagedata_registration/NPreg/multigrid_nonlin_cy*.so ]]; then
-#            mv imagedata_registration/NPreg/*.so src/imagedata_registration/NPreg
-#          fi
-#          bash build_tools/wheels/build_wheels.sh
-
       - name: Testing - with Cython
         shell: bash
         run: |
@@ -86,8 +56,6 @@ jobs:
         shell: bash
         run: |
           find . -name '*.so' | xargs rm
-          #          python3 -m pip install nipype
-          #          python3 -m pip install -e .
           python3 -m coverage run -m unittest discover tests -t .
       - uses: actions/upload-artifact@v6
         with:
@@ -100,52 +68,6 @@ jobs:
           flags: unittests
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: erling6232/imagedata_registration
-
-
-          #  build_sdist:
-          #    name: Build source distribution
-          #    runs-on: ubuntu-latest
-          #    steps:
-          #      - uses: actions/checkout@v4
-          #
-          #      - name: Install dependencies
-          #        run: |
-          #          pip install --upgrade pip wheel
-          #          pip install SimpleITK-SimpleElastix==2.0.0rc2.dev910
-          #
-          #      - name: Build sdist
-          #        run: pipx run build --sdist
-          #
-          #      - uses: actions/upload-artifact@v4
-          #        with:
-          #          path: dist/*.tar.gz
-
-
-          #  publish-to-testpypi:
-          #    name: Test Publish Python distribution to TestPyPi
-          #    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-          #    needs: [build_wheels, build_sdist]
-          #    runs-on: ubuntu-latest
-          #    environment:
-          #      name: pypi
-          #      url: https://test.pypi.org/legacy
-          #    permissions:
-          #      id-token: write
-          #    # if: github.event_name == 'release' && github.event.action == 'published'
-          #    # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
-          #    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-          #    steps:
-          #      - uses: actions/download-artifact@v3
-          #        with:
-          #          # unpacks default artifact into dist/
-          #          # if `name: artifact` is omitted, the action will create extra parent dir
-          #          name: artifact
-          #          path: dist
-          #
-          #      - name: Upload
-          #        uses: pypa/gh-action-pypi-publish@release/v1
-          #        with:
-          #          repository-url: https://test.pypi.org/legacy/
 
 
   publish-to-pypi:
