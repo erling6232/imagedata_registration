@@ -49,6 +49,7 @@ classifiers = [
 dependencies = [
     "setuptools",
     "cython",
+    "nipype",
     "itk-elastix",
     "imagedata>=3.8.0,<3.10"
 ]
