@@ -24,7 +24,7 @@ extensions = [
 
 # This is the function that is executed
 setup(
-    name='imagedata_registration',  # Required
+    name='imagedata-registration',  # Required
 
     # A list of compiler Directives is available at
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives
