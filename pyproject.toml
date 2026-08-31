@@ -34,7 +34,7 @@ keywords = [
     "image registration"
 ]
 license = "MIT"
-# license-files = [ "LICEN[CS]E*" ]
+license-files = [ "LICENSE" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Development Status :: 4 - Beta",
