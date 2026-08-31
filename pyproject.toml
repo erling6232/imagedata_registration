@@ -1,6 +1,7 @@
 [build-system]
 requires = [
-    "setuptools>=84.0.0",
+    "uv_build>=0.12.7,<0.13",
+    # "setuptools>=84.0.0",
     "wheel",
     "cython",
     "nipype",
@@ -10,7 +11,8 @@ requires = [
     "itk-elastix",
     "imagedata>=3.10.0.rc2,<3.11"
 ]
-build-backend = "setuptools.build_meta"
+# build-backend = "setuptools.build_meta"
+build-backend = "uv_build"
 
 [project]
 name = "imagedata_registration"
