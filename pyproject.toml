@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-    "uv_build>=0.12.7,<0.13",
-    # "setuptools>=84.0.0",
+    # "uv_build>=0.12.7,<0.13",
+    "setuptools>=84.0.0",
     "wheel",
     "cython",
     "nipype",
@@ -11,8 +11,8 @@ requires = [
     "itk-elastix",
     "imagedata>=3.10.0.rc2,<3.11"
 ]
-# build-backend = "setuptools.build_meta"
-build-backend = "uv_build"
+build-backend = "setuptools.build_meta"
+# build-backend = "uv_build"
 
 [project]
 name = "imagedata_registration"
@@ -62,13 +62,14 @@ Changelog = "https://github.com/erling6232/imagedata_registration/CHANGELOG.rst"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-# packages = ["NPreg"]
-# py-modules = ["_custom_build"]
 
-ext-modules = [
-    # {name="imagedata_registration.NPreg.multigrid_nonlin_cy", sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"], include_dirs=[numpy.get_include()], define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]}
-    {name="imagedata_registration.NPreg.multigrid_nonlin_cy", sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"]}
-]
+[tool.setuptools.packages.find]
+where = ["src"]
+
+#ext-modules = [
+#    # {name="imagedata_registration.NPreg.multigrid_nonlin_cy", sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"], include_dirs=[numpy.get_include()], define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]}
+#    {name="imagedata_registration.NPreg.multigrid_nonlin_cy", sources= ["src/imagedata_registration/NPreg/multigrid_nonlin_cy.pyx"]}
+#]
 
 # [tool.setuptools.cmdclass]
 # build_py = "_custom_build.build_py"
