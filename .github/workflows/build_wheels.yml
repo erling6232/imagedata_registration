@@ -43,7 +43,7 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: curl -sSf https://sh.rustup.rs | sh -s -- -y
           CIBW_ENVIRONMENT_LINUX: "PATH=$HOME/.cargo/bin:$PATH"
           NPY_NO_DEPRECATED_API: "NPY_1_7_API_VERSION"
-          INPUT_EXTRAS: ["uv"]
+          INPUT_EXTRAS: "uv"
 
       - name: Testing - with Cython
         shell: bash
