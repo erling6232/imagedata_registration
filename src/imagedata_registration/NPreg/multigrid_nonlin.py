@@ -154,9 +154,9 @@ def Au(u, h, prm):
         u0_shape = u[0].shape
         u1_shape = u[1].shape
         if len(u0_shape) == 2:
-            u[0].shape = (1, u0_shape[0], u0_shape[1])
+            u[0] = u[0].reshape(1, u0_shape[0], u0_shape[1])
         if len(u1_shape) == 2:
-            u[1].shape = (1, u1_shape[0], u1_shape[1])
+            u[1] = u[1].reshape(1, u1_shape[0], u1_shape[1])
 
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
 
@@ -192,8 +192,8 @@ def Au(u, h, prm):
         dyx4 = temp[:, np.r_[0, :ny - 1], :] * ((llambda + mu) / (4 * H[1, 2]))
         F[1] = d0 + dy1 + dy2 + dx1 + dx2 + dyx1 + dyx2 + dyx3 + dyx4
 
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
+        u[0] = u[0].reshape(u0_shape)
+        u[1] = u[1].reshape(u1_shape)
 
     elif prm['nudim'] == 3:
 
@@ -204,11 +204,11 @@ def Au(u, h, prm):
         u1_shape = u[1].shape
         u2_shape = u[2].shape
         if len(u0_shape) == 3:
-            u[0].shape = (1, u0_shape[0], u0_shape[1], u0_shape[2])
+            u[0] = u[0].reshape(1, u0_shape[0], u0_shape[1], u0_shape[2])
         if len(u1_shape) == 3:
-            u[1].shape = (1, u1_shape[0], u1_shape[1], u1_shape[2])
+            u[1] = u[1].reshape(1, u1_shape[0], u1_shape[1], u1_shape[2])
         if len(u2_shape) == 3:
-            u[2].shape = (1, u2_shape[0], u2_shape[1], u2_shape[2])
+            u[2] = u[2].reshape(1, u2_shape[0], u2_shape[1], u2_shape[2])
 
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
@@ -298,9 +298,9 @@ def Au(u, h, prm):
         dyx4 = temp[:, :, np.r_[0, :ny - 1], :] * ((llambda + mu) / (4 * H[1, 2]))
         F[2] = d0 + dz1 + dz2 + dy1 + dy2 + dx1 + dx2 + dzx1 + dzx2 + dzx3 + dzx4 + dyx1 + dyx2 + dyx3 + dyx4
 
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
-        u[2].shape = u2_shape
+        u[0] = u[0].reshape(u0_shape)
+        u[1] = u[1].reshape(u1_shape)
+        u[2] = u[2].reshape(u2_shape)
 
     else:
         raise ValueError("prm.nudim out of range: %d" % prm['nudim'])
@@ -521,9 +521,9 @@ def navlam_nonlinear(forceu, u_in, prm):
         u0_shape = u[0].shape
         u1_shape = u[1].shape
         if len(u0_shape) == 2:
-            u[0].shape = (1, u0_shape[0], u0_shape[1])
+            u[0] = u[0].reshape(1, u0_shape[0], u0_shape[1])
         if len(u1_shape) == 2:
-            u[1].shape = (1, u1_shape[0], u1_shape[1])
+            u[1] = u[1].reshape(1, u1_shape[0], u1_shape[1])
 
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
 
@@ -568,8 +568,8 @@ def navlam_nonlinear(forceu, u_in, prm):
             u[0] = F[0]
             u[1] = F[1]
 
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
+        u[0] = u[0].reshape(u0_shape)
+        u[1] = u[1].reshape(u1_shape)
 
     elif prm['nudim'] == 3:
 
@@ -581,16 +581,11 @@ def navlam_nonlinear(forceu, u_in, prm):
         u1_shape = u[1].shape
         u2_shape = u[2].shape
         if len(u0_shape) == 3:
-            u[0].shape = (1, u0_shape[0], u0_shape[1], u0_shape[2])
-        # print "navlam_nonlinear: u1_shape", u1_shape
+            u[0] = u[0].reshape(1, u0_shape[0], u0_shape[1], u0_shape[2])
         if len(u1_shape) == 3:
-            # print "navlam_nonlinear: new u1_shape", (1, u1_shape[0], u1_shape[1], u1_shape[2])
-            u[1].shape = (1, u1_shape[0], u1_shape[1], u1_shape[2])
-        # print "navlam_nonlinear: u2_shape", u2_shape
+            u[1] = u[1].reshape(1, u1_shape[0], u1_shape[1], u1_shape[2])
         if len(u2_shape) == 3:
-            # print "navlam_nonlinear: new u2_shape", (1, u2_shape[0], u2_shape[1], u2_shape[2])
-            u[2].shape = (1, u2_shape[0], u2_shape[1], u2_shape[2])
-        # cells.print_cell("navlam_nonlinear: H", H)
+            u[2] = u[2].reshape(1, u2_shape[0], u2_shape[1], u2_shape[2])
 
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
@@ -682,9 +677,9 @@ def navlam_nonlinear(forceu, u_in, prm):
             u[1] = F[1]
             u[2] = F[2]
 
-        u[0].shape = u0_shape
-        u[1].shape = u1_shape
-        u[2].shape = u2_shape
+        u[0] = u[0].reshape(u0_shape)
+        u[1] = u[1].reshape(u1_shape)
+        u[2] = u[2].reshape(u2_shape)
     else:
         raise ValueError("nudim out of range: %d" % prm['nudim'])
 
