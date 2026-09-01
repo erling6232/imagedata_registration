@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.4.0.rc1] - 2026-09-01
+* Finalizied eddy interface.
+* Prepare for deprecated shape in Numpy 2.5.
+
 ## [v0.4.0.rc0] - 2026-08-21
 * Support imagedata 3.10.
 * Added interfaces to FSL topup, bet and eddy functions.
