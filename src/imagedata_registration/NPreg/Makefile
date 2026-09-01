@@ -4,7 +4,7 @@
 sitepackages := $(shell python -c 'import site; print(site.getsitepackages()[0])')
 pythonincludes := $(shell python -c 'import sysconfig; info=sysconfig.get_paths(); print(info["include"])')
 
-all:	multigrid_nonlin_cy.so multigrid_nonlin_cc.so
+all:	multigrid_nonlin_cy.so  # multigrid_nonlin_cc.so
 
 #    -fopenmp
 #	-msse3 -O3 \
