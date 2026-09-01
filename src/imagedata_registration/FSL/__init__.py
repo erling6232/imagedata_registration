@@ -212,7 +212,8 @@ def bet(tmp: str, img: Series | str, frac: float = 0.5, mask: bool = False, skul
 
 
 def eddy(tmp: str, img: Series | str, mask: Series | str,
-         topup: Series | str) -> Series:
+         topup: Series | str,
+         niter: int=5) -> Series:
     """FSL EDDY correction
     """
     if issubclass(type(img), Series):
@@ -264,7 +265,7 @@ def eddy(tmp: str, img: Series | str, mask: Series | str,
     _eddy.inputs.in_bval = in_bvals
     _eddy.inputs.flm = 'quadratic'
     _eddy.inputs.fwhm = 0
-    _eddy.inputs.niter = 5
+    _eddy.inputs.niter = niter
     _eddy.inputs.is_shelled = True
     _eddy.inputs.output_type = 'NIFTI_GZ'
 
@@ -273,4 +274,6 @@ def eddy(tmp: str, img: Series | str, mask: Series | str,
 
     print('FSL EDDY running ...')
     res = _eddy.run(cwd=tmp)
-    pass
+    results = {}
+    results['out_corrected'] = Series(res.outputs.out_corrected, dtype=img.dtype, template=img)
+    return results
