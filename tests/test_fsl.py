@@ -16,8 +16,6 @@ class TestFSLRegistration(unittest.TestCase):
 
     def test_register_fsl(self):
         print('test_register_fsl:')
-        # if os.getenv("GITHUB_ACTION") is not None:
-        #     return
         a = Series('data/time.zip', 'time')
         out = register_fsl(0, a, options={"cost": "corratio"})
         np.testing.assert_array_equal(out.tags[0], a.tags[0])
@@ -49,50 +47,47 @@ class TestFSLDWI(unittest.TestCase):
 
     def test_topup(self):
         print('test_topup:')
-        # if os.getenv("GITHUB_ACTION") is not None:
-        #     return
         pa = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
         ap = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_AP'),
-                    'b,bvector', dtype=float, accept_duplicate_tag=True)
-                    # 'dti', dtype=float, accept_duplicate_tag=True)
+                    # 'b,bvector', dtype=float, accept_duplicate_tag=True)
+                    'dti', dtype=float, accept_duplicate_tag=True)
         ap_b0 = self._calculate_ap_b0(ap)
-        with tempfile.TemporaryDirectory() as tmp:
-            print(f'Working directory: {tmp}')
-            pa.write(os.path.join(tmp, 'pa.nii.gz'), formats=['nifti'])
-            ap.write(os.path.join(tmp, 'ap.nii.gz'), formats=['nifti'])
-            fieldcoef = topup(tmp, ap_b0, pa)
+        with tempfile.TemporaryDirectory() as workdir:
+            print(f'Working directory: {workdir}')
+            pa.write(os.path.join(workdir, 'pa.nii.gz'), formats=['nifti'])
+            ap.write(os.path.join(workdir, 'ap.nii.gz'), formats=['nifti'])
+            fieldcoef = topup(workdir, ap_b0, pa)
 
             self.assertEqual(fieldcoef.shape, (9, 67, 67))
 
-            ap_corrected = apply_topup(tmp, ap)
+            ap_corrected = apply_topup(workdir, ap)
             self.assertEqual(ap_corrected.shape, ap.shape)
 
     def test_bet(self):
         print('test_bet:')
-        if os.getenv("GITHUB_ACTION") is not None:
-            return
         dwi = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
-        with tempfile.TemporaryDirectory() as tmp:
-            bet_dwi = bet(tmp, dwi, mask=True, skull=True)
+        with tempfile.TemporaryDirectory() as workdir:
+            bet_dwi = bet(workdir, dwi, mask=True, skull=True)
         mask = bet_dwi['mask']
         self.assertEqual(mask.shape, dwi.shape)
         np.testing.assert_array_equal(mask.spacing, dwi.spacing)
 
     def test_eddy(self):
         print('test_eddy:')
-        if os.getenv("GITHUB_ACTION") is not None:
-            return
         pa = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
         ap = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_AP'),
                     'dti', dtype=float, accept_duplicate_tag=True)
         ap_b0 = self._calculate_ap_b0(ap)
-        with tempfile.TemporaryDirectory() as tmp:
-            ap_fieldcoef = topup(tmp, ap_b0, pa)
-            ap_corrected = apply_topup(tmp, ap)
-            bet_dwi = bet(tmp, ap_corrected, mask=True, skull=True)
-            eddy_dwi = eddy(tmp, ap_corrected, mask=bet_dwi['mask'],
-                            topup=os.path.join(tmp, 'AP_PA_topup')
+        with tempfile.TemporaryDirectory() as workdir:
+            ap_fieldcoef = topup(workdir, ap_b0, pa)
+            ap_corrected = apply_topup(workdir, ap)
+            bet_dwi = bet(workdir, ap_corrected[0], mask=True, skull=True)
+            eddy_res = eddy(workdir, ap_corrected, mask=bet_dwi['mask'],
+                            topup=os.path.join(workdir, 'AP_PA_topup'),
+                            niter=1
                             )
+            eddy_dwi = eddy_res['out_corrected']
+            self.assertEqual(ap_corrected.shape, eddy_dwi.shape)
         pass
 
 
