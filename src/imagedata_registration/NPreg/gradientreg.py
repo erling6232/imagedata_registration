@@ -54,7 +54,7 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
         raise ValueError("Dimension %d out of bounds." % len(dim))
     # dim3 = dim[1:]
     ntime = dim[0]
-    fu.shape = dim
+    fu = fu.reshape(dim)
 
     #
     # Find the normalized gradients
@@ -350,9 +350,9 @@ def gradientreg(fu, g, dgn, dg, absdgn2, eta, h, prmin, opts):
     end;
     """
 
-    fu.shape = shape  # Restore original shape of fu
+    fu = fu.reshape(shape)  # Restore original shape of fu
     for i in range(nudim):
-        grad[i].shape = shape
+        grad[i] = grad[i].reshape(shape)
     Hfun = None
     prob = None
     return grad, dfu, dfun, Hfun, prob
