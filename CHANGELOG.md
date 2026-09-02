@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.4.0.rc2] - 2026-09-02
+### Fixed
+* Properly initialize FSL environment during testing.
+
 ## [v0.4.0.rc1] - 2026-09-01
 * Finalizied eddy interface.
 * Prepare for deprecated shape in Numpy 2.5.
