@@ -52,8 +52,6 @@ jobs:
           conda install fsl-bet2 fsl-eddy fsl-topup fsl-mcflirt cython numpy flake8 coverage nipype
           export FSLDIR=$CONDA_PREFIX
           source $FSLDIR/etc/fslconf/fsl.sh
-          echo "FSLDIR $FSLDIR"
-          ls "$FSLDIR"
           python3 -m pip install -e .
           python3 -m coverage run -m unittest discover tests -t .
       - name: Testing - without Cython
