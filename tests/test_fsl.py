@@ -86,7 +86,7 @@ class TestFSLDWI(unittest.TestCase):
                             topup=os.path.join(workdir, 'AP_PA_topup'),
                             niter=1,
                             # fwhm=[8,4],
-                            repol=True, mporder=8
+                            # repol=True, mporder=8
                             )
             eddy_corrected = eddy_res['out_corrected']
             self.assertEqual(ap_corrected.shape, eddy_corrected.shape)
