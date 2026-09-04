@@ -213,7 +213,13 @@ def bet(tmp: str, img: Series | str, frac: float = 0.5, mask: bool = False, skul
 
 def eddy(tmp: str, img: Series | str, mask: Series | str,
          topup: Series | str,
-         niter: int=5) -> Series:
+         niter: int=5,
+         use_cuda: bool=False,
+         repol: bool=False,
+         is_shelled: bool=False,
+         mporder: int=0,
+         flm: str='quadratic',
+         fwhm: float | list = 0) -> Series:
     """FSL EDDY correction
     """
     if issubclass(type(img), Series):
@@ -263,10 +269,13 @@ def eddy(tmp: str, img: Series | str, mask: Series | str,
     _eddy.inputs.in_topup_movpar = in_topup + '_movpar.txt'
     _eddy.inputs.in_bvec = in_bvecs
     _eddy.inputs.in_bval = in_bvals
-    _eddy.inputs.flm = 'quadratic'
-    _eddy.inputs.fwhm = 0
+    _eddy.inputs.flm = flm
+    _eddy.inputs.fwhm = fwhm
+    _eddy.inputs.use_cuda = use_cuda
     _eddy.inputs.niter = niter
-    _eddy.inputs.is_shelled = True
+    _eddy.inputs.repol = repol
+    _eddy.inputs.mporder = mporder
+    _eddy.inputs.is_shelled = is_shelled
     _eddy.inputs.output_type = 'NIFTI_GZ'
 
     out_file = os.path.join(tmp, 'eddy_unwarped')
