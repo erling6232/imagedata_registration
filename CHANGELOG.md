@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--next-version-placeholder-->
 
+## [v0.4.0] - 2026-09-04
+### Added
+* Document the FSL eddy interface.
+
 ## [v0.4.0.rc2] - 2026-09-02
 ### Fixed
 * Properly initialize FSL environment during testing.
