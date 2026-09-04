@@ -29,7 +29,7 @@ class Resize(object):
         if f.ndim == 3:
             # f[slice,rows,columns]
             slice, rows, columns = f.shape
-            self.g.shape = (1, slice, rows, columns)
+            self.g = self.g.reshape(1, slice, rows, columns)
         elif f.ndim == 4:
             # f[tag,slice,rows,columns]
             pass
@@ -68,7 +68,7 @@ class Resize(object):
         if len(dim) == 3:
             # Restore original image 3D shape
             nt, nz, ny, nx = zoomed_image.shape
-            zoomed_image.shape = (nz, ny, nx)
+            zoomed_image = zoomed_image.reshape(nz, ny, nx)
         return zoomed_image
 
     def resizeNearest(self, dim):

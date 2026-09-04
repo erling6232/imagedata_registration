@@ -3,18 +3,14 @@
 # cython: language_level=3
 ## cython: language_level=3, boundscheck=False
 
-cimport
-cython
-cimport
-numpy as np
+cimport cython
+cimport numpy as np
 import numpy as np
 from .cells import print_cell
 from .resize import Resize
 
 DTYPE = np.float64
-ctypedef
-np.float64_t
-DTYPE_t
+ctypedef np.float64_t DTYPE_t
 
 
 def multigrid_nonlin(forceu, u_in, prm):
@@ -225,10 +221,6 @@ def Au(u, h, prm):
         assert u[0].shape == u[1].shape, "Shape of u[0] and u[1] differ."
         assert u[0].shape == u[2].shape, "Shape of u[0] and u[2] differ."
 
-        for i in range(3):
-            assert u[i].shape[-3:] == forceu[i].shape[-3:],(
-                "Shape of u[{}] and forceu[{}] differ.".format(i, i))
-
         nt, nz, ny, nx = u[0].shape
 
         d0 = u[0] * (-2 * mu * (1 / H[0, 0] + 1 / H[1, 1] + 1 / H[2, 2]) - 2 * (mu + llambda) / H[0, 0])
@@ -316,24 +308,11 @@ def Au(u, h, prm):
 # ----------------------------------------------------------------
 
 # cdefine the signature of our c function
-cdef
-extern
-from
-
-"navlam_nonlinear_cc.h":
-void
-navlam_nonlinear_cc3(double * forceu0, double * forceu1, double * forceu2,
+cdef extern from "navlam_nonlinear_cc.h":
+    void navlam_nonlinear_cc3(double * forceu0, double * forceu1, double * forceu2,
                      double * u0, double * u1, double * u2,
-                     int
-maxniter, double * h, int
-nudim, double
-llambda, double
-mu, double
-dt,
-size_t
-nz, size_t
-ny, size_t
-nx)
+                     int maxniter, double * h, int nudim, double llambda, double mu, double dt,
+                     size_t nz, size_t ny, size_t nx)
 
 def navlam_nonlinear_cc(forceu, u, prm):
     if prm['nudim'] == 2:
@@ -420,15 +399,9 @@ def navlam_nonlinear2(forceu, u_in, prm):
     u = u_in.copy()  # Do not modify input
 
     # Py_ssize_t is the proper C type for Python array indices.
-    cdef
-    Py_ssize_t
-    ny, nx
-    cdef
-    int
-    maxniter, i
-    cdef
-    size_t
-    j, k
+    cdef Py_ssize_t ny, nx
+    cdef int maxniter, i
+    cdef size_t j, k
 
     # prm must contain
     if type(prm['maxniter']) is tuple:
@@ -436,18 +409,10 @@ def navlam_nonlinear2(forceu, u_in, prm):
     else:
         maxniter = prm['maxniter']
     h = prm['h']
-    cdef
-    int
-    llambda = prm['lambda']
-    cdef
-    int
-    mu = prm['mu']
-    cdef
-    int
-    dt = prm['dt']
-    cdef
-    int
-    nudim = prm['nudim']
+    cdef int llambda = prm['lambda']
+    cdef int mu = prm['mu']
+    cdef int dt = prm['dt']
+    cdef int nudim = prm['nudim']
 
     # F = cell(prm['nudim'],1)
     F = {}
@@ -455,12 +420,8 @@ def navlam_nonlinear2(forceu, u_in, prm):
     # cdef DTYPE_t[:, :] H = np.zeros((prm['nudim'],prm['nudim']))
     # cdef DTYPE_t [:, :] H = np.zeros([prm['nudim'],prm['nudim']], dtype=DTYPE)
     assert prm['nudim'] == 2
-    cdef
-    DTYPE_t
-    Harr[2][2]
-    cdef
-    DTYPE_t[:, :]
-    H = Harr
+    cdef DTYPE_t Harr[2][2]
+    cdef DTYPE_t[:, :] H = Harr
     for j in range(prm['nudim']):
         for k in range(prm['nudim']):
             H[j, k] = h[j] * h[k]
