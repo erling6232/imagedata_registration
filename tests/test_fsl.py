@@ -84,12 +84,20 @@ class TestFSLDWI(unittest.TestCase):
             bet_dwi = bet(workdir, ap_corrected[0], mask=True, skull=True)
             eddy_res = eddy(workdir, ap_corrected, mask=bet_dwi['mask'],
                             topup=os.path.join(workdir, 'AP_PA_topup'),
-                            niter=1
+                            niter=1,
+                            # fwhm=[8,4],
+                            repol=True, mporder=8
                             )
-            eddy_dwi = eddy_res['out_corrected']
-            self.assertEqual(ap_corrected.shape, eddy_dwi.shape)
+            eddy_corrected = eddy_res['out_corrected']
+            self.assertEqual(ap_corrected.shape, eddy_corrected.shape)
         pass
 
+    # def test_spm_smooth(self):
+    #     import nipype.interfaces.spm as spm
+    #     smooth = spm.Smooth()
+    #     # smooth.inputs.fwhm = [8., 4., 2.]
+    #     smooth.inputs.fwhm = 8.
+    #     pass
 
 if __name__ == '__main__':
     unittest.main()
