@@ -1,0 +1,47 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  ci:
+    name: CI on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: conda-incubator/setup-miniconda@v4
+        with:
+          auto-update-conda: true
+          python-version: '3.12'
+          channels: https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/, conda-forge, conda-pypi
+      - name: Checkout imagedata_registration
+        uses: actions/checkout@master
+
+      - name: Lint with flake8
+        run: |
+          pip install --upgrade pip flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      - name: Testing - with Cython
+        shell: bash
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda install cython numpy flake8 coverage nipype
+          conda install fsl-bet2 fsl-eddy fsl-topup fsl-mcflirt
+          export FSLDIR=$CONDA_PREFIX
+          source $FSLDIR/etc/fslconf/fsl.sh
+          python3 -m pip install -e .
+          python3 -m coverage run -m unittest discover tests -t .
+      - name: Testing - without Cython
+        shell: bash
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda install fsl-bet2 fsl-eddy fsl-topup fsl-mcflirt numpy flake8 coverage nipype
+          export FSLDIR=$CONDA_PREFIX
+          source $FSLDIR/etc/fslconf/fsl.sh
+          find . -name '*.so' | xargs rm
+          python3 -m pip install -e .
+          python3 -m coverage run -m unittest discover tests -t .
