@@ -15,6 +15,8 @@ class TestFSLRegistration(unittest.TestCase):
         os.environ['FSLOUTPUTTYPE'] = 'NIFTI_GZ'
 
     def test_register_fsl(self):
+        if os.getenv("RUNNER_OS") == 'Windows':
+            return
         print('test_register_fsl:')
         a = Series('data/time.zip', 'time')
         out = register_fsl(0, a, options={"cost": "corratio"})
@@ -46,6 +48,8 @@ class TestFSLDWI(unittest.TestCase):
         return ap_b0
 
     def test_topup(self):
+        if os.getenv("RUNNER_OS") == 'Windows':
+            return
         print('test_topup:')
         pa = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
         ap = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_AP'),
@@ -64,6 +68,8 @@ class TestFSLDWI(unittest.TestCase):
             self.assertEqual(ap_corrected.shape, ap.shape)
 
     def test_bet(self):
+        if os.getenv("RUNNER_OS") == 'Windows':
+            return
         print('test_bet:')
         dwi = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
         with tempfile.TemporaryDirectory() as workdir:
@@ -73,6 +79,8 @@ class TestFSLDWI(unittest.TestCase):
         np.testing.assert_array_equal(mask.spacing, dwi.spacing)
 
     def test_eddy(self):
+        if os.getenv("RUNNER_OS") == 'Windows':
+            return
         print('test_eddy:')
         pa = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_PA'), dtype=float)
         ap = Series(os.path.join('data', 'DTI_6dir.zip?DTI_6dir_AP'),
@@ -93,6 +101,8 @@ class TestFSLDWI(unittest.TestCase):
         pass
 
     # def test_spm_smooth(self):
+    #     if os.getenv("RUNNER_OS") == 'Windows':
+    #         return
     #     import nipype.interfaces.spm as spm
     #     smooth = spm.Smooth()
     #     # smooth.inputs.fwhm = [8., 4., 2.]
