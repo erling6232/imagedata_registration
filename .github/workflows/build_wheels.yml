@@ -68,7 +68,7 @@ jobs:
     # or, alternatively, upload to PyPI on every tag starting with 'v' (remove on: release above to use this)
     # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     steps:
-      - name: Download the ubuntu-22.latest dists
+      - name: Download the ubuntu-latest dists
         uses: actions/download-artifact@v8
         with:
           # unpacks default artifact into dist/
